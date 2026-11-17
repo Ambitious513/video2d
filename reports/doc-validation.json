@@ -1,0 +1,73 @@
+{
+  "generatedAt": "2026-11-17T23:07:26.632Z",
+  "documents": [
+    "METHOD.md",
+    "STATUS.md"
+  ],
+  "registeredCompositions": [
+    "CelRun",
+    "CelLoop",
+    "RunCycle",
+    "Comparison"
+  ],
+  "externalDocuments": [
+    "VIDEO2D_REPOSITORY_RECONCILIATION_TEST.md"
+  ],
+  "regenerableLocations": [
+    "remotion/out/",
+    "out/",
+    "fullres/",
+    "verify/stills/",
+    "remotion/public/srcframes/",
+    "public/srcframes/",
+    "node_modules/",
+    "tools/node_modules/",
+    "remotion/node_modules/",
+    ".remotion/"
+  ],
+  "pathReferencesChecked": 74,
+  "checks": [
+    {
+      "name": "every documented repository path resolves (or is documented regenerable)",
+      "status": "PASS",
+      "detail": "74 path references checked across METHOD.md, STATUS.md"
+    },
+    {
+      "name": "every documented npm run script exists",
+      "status": "PASS",
+      "detail": "all documented scripts defined"
+    },
+    {
+      "name": "every mentioned composition ID is registered",
+      "status": "PASS",
+      "detail": "registered: CelRun, CelLoop, RunCycle, Comparison"
+    },
+    {
+      "name": "every documented regenerable location is really gitignored",
+      "status": "PASS",
+      "detail": "6 regenerable locations confirmed against .gitignore"
+    },
+    {
+      "name": "METHOD.md deliverables table == registered compositions",
+      "status": "PASS",
+      "detail": "method=[CelRun,CelLoop,RunCycle,Comparison] registered=[CelRun,CelLoop,RunCycle,Comparison]"
+    },
+    {
+      "name": "no document describes CelRun as the 26-cel loop",
+      "status": "PASS",
+      "detail": "CelRun is documented as the exact 94-cel variant"
+    },
+    {
+      "name": "STATUS.md has the required current-handoff sections",
+      "status": "PASS",
+      "detail": "current state / not-in-GitHub / limitations / history / resume all present"
+    },
+    {
+      "name": "no stale unfinished-work claims outside the labelled History section",
+      "status": "PASS",
+      "detail": "historical claims are confined to the History section"
+    }
+  ],
+  "note": "A15 (paths/commands match the implementation) is fully automated here. A16 (no contradictory status) is checked structurally; the prose itself was rewritten and reviewed by the agent — see reports/REPRODUCIBILITY_REPORT.md.",
+  "status": "PASS"
+}

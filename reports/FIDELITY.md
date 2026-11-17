@@ -1,6 +1,6 @@
 # Full-sequence fidelity — all 94 frames at 1920x1080
 
-Generated 2026-11-17T22:32:31.190Z by `tools/score-fidelity.js`. No resampling: rendered frames and source frames are both native 1920x1080.
+Generated 2026-11-17T23:06:33.442Z by `tools/score-fidelity.js`. No resampling: rendered frames and source frames are both native 1920x1080.
 
 ## Metric definitions
 

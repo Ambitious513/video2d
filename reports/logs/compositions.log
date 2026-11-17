@@ -1,11 +1,11 @@
-$ /usr/local/bin/node /tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/remotion/scripts/verify-compositions.mjs
-(cwd=/tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/remotion)
+$ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/scripts/verify-compositions.mjs
+(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion)
 
 bundling remotion entry point...
 [PASS] no duplicate composition IDs — CelRun, CelLoop, RunCycle, Comparison
 [PASS] registry IDs == render manifest IDs — registry=[CelRun,CelLoop,RunCycle,Comparison] jobs=[CelRun,CelLoop,RunCycle,Comparison]
 [PASS] registry IDs == METHOD.md deliverables IDs — registry=[CelRun,CelLoop,RunCycle,Comparison] method=[CelRun,CelLoop,RunCycle,Comparison]
-[PASS] every documented npm run script exists — documented=[render:all:lowram,studio] missing=[]
+[PASS] every documented npm run script exists — documented=[render:all:lowram,extract,trace:all,verify:source,verify:assets,verify:docs,typecheck,verify:motion,studio] missing=[]
 [PASS] typecheck script exists — tsc --noEmit
 [PASS] tools test script is real (not placeholder exit 1) — node --test test/
 [PASS] remotion test script exists — node --import tsx --test test/cels.test.ts

@@ -1,0 +1,12 @@
+$ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-docs.js
+(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo)
+
+[PASS] every documented repository path resolves (or is documented regenerable) — 74 path references checked across METHOD.md, STATUS.md
+[PASS] every documented npm run script exists — all documented scripts defined
+[PASS] every mentioned composition ID is registered — registered: CelRun, CelLoop, RunCycle, Comparison
+[PASS] every documented regenerable location is really gitignored — 6 regenerable locations confirmed against .gitignore
+[PASS] METHOD.md deliverables table == registered compositions — method=[CelRun,CelLoop,RunCycle,Comparison] registered=[CelRun,CelLoop,RunCycle,Comparison]
+[PASS] no document describes CelRun as the 26-cel loop — CelRun is documented as the exact 94-cel variant
+[PASS] STATUS.md has the required current-handoff sections — current state / not-in-GitHub / limitations / history / resume all present
+[PASS] no stale unfinished-work claims outside the labelled History section — historical claims are confined to the History section
+A15/A16 documentation: PASS

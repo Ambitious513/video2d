@@ -1,5 +1,5 @@
 $ npm test
-(cwd=/tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/remotion)
+(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion)
 
 
 > runner-2d-remotion@1.0.0 test
@@ -9,57 +9,57 @@ TAP version 13
 # Subtest: constants match the source timeline
 ok 1 - constants match the source timeline
   ---
-  duration_ms: 0.734774
+  duration_ms: 0.734757
   ...
 # Subtest: frame 0: exact cel 1, loop cel 1
 ok 2 - frame 0: exact cel 1, loop cel 1
   ---
-  duration_ms: 0.171009
+  duration_ms: 0.164423
   ...
 # Subtest: frame 12: exact cel 13, loop cel 13
 ok 3 - frame 12: exact cel 13, loop cel 13
   ---
-  duration_ms: 0.097448
+  duration_ms: 0.08137
   ...
 # Subtest: frame 25: exact cel 26, loop cel 26
 ok 4 - frame 25: exact cel 26, loop cel 26
   ---
-  duration_ms: 0.124571
+  duration_ms: 0.156012
   ...
 # Subtest: frame 26: exact cel 27, loop cel 1
 ok 5 - frame 26: exact cel 27, loop cel 1
   ---
-  duration_ms: 0.076933
+  duration_ms: 0.086068
   ...
 # Subtest: frame 72: exact cel 73, loop cel 21
 ok 6 - frame 72: exact cel 73, loop cel 21
   ---
-  duration_ms: 0.061025
+  duration_ms: 0.065035
   ...
 # Subtest: frame 93: exact cel 94, loop cel 16
 ok 7 - frame 93: exact cel 94, loop cel 16
   ---
-  duration_ms: 0.082485
+  duration_ms: 0.06275
   ...
 # Subtest: exact variant: 94 frames -> 94 unique cels, strictly monotonic, no skips/repeats
 ok 8 - exact variant: 94 frames -> 94 unique cels, strictly monotonic, no skips/repeats
   ---
-  duration_ms: 0.397014
+  duration_ms: 0.327851
   ...
 # Subtest: loop variant: repeats exactly every 26 timeline frames
 ok 9 - loop variant: repeats exactly every 26 timeline frames
   ---
-  duration_ms: 0.241864
+  duration_ms: 0.289488
   ...
 # Subtest: out-of-range and non-integer frames are rejected, not wrapped
 ok 10 - out-of-range and non-integer frames are rejected, not wrapped
   ---
-  duration_ms: 0.68831
+  duration_ms: 0.616694
   ...
 # Subtest: cel paths are zero-padded and point at the right asset directories
 ok 11 - cel paths are zero-padded and point at the right asset directories
   ---
-  duration_ms: 0.973191
+  duration_ms: 0.236665
   ...
 1..11
 # tests 11
@@ -69,4 +69,4 @@ ok 11 - cel paths are zero-padded and point at the right asset directories
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 301.521032
+# duration_ms 307.232874

@@ -132,6 +132,13 @@ step('fidelity', process.execPath, [
 // 12. Motion & continuity (Test I)
 step('motion', NPM, ['run', 'verify:motion'], REMOTION);
 
+// 12b. Documentation-vs-implementation consistency (A15, A16). Pure file/git
+// checks, no browser needed: every documented path resolves (or is a gitignored
+// regenerable location), every documented npm script exists, every mentioned
+// composition ID is registered, and STATUS.md is structured as a current handoff
+// with stale claims quarantined in its History section.
+step('docs', process.execPath, [path.join(TOOLS, 'verify-docs.js')], ROOT);
+
 // 13. Tracked-file audit (A18): nothing regenerable/private may be tracked.
 // Historical binaries that were committed BEFORE this reconciliation stay
 // tracked on purpose (contract rule 6: do not delete original media/frames).
@@ -207,8 +214,9 @@ if (!keepFrames && results.render?.status === 'PASS' && results.fidelity?.status
   console.log('\nPNG sequences kept (fidelity not PASS or --keep-frames)');
 }
 
-// Summary + acceptance-criteria matrix (automatable criteria; documentation
-// review criteria A15/A16 are completed in reports/REPRODUCIBILITY_REPORT.md)
+// Summary + acceptance-criteria matrix. A15/A16 are now mechanically checked by
+// tools/verify-docs.js (the `docs` step); the prose itself is reviewed in
+// reports/REPRODUCIBILITY_REPORT.md.
 const s = (n) => results[n]?.status ?? 'NOT RUN';
 const all = (...ns) => ns.every((n) => s(n) === 'PASS') ? 'PASS' : ns.some((n) => s(n) === 'FAIL') ? 'FAIL' : ns.some((n) => s(n) === 'BLOCKED') ? 'BLOCKED' : 'NOT RUN';
 const installSteps = ['install-tools', 'install-remotion', 'browser'].filter((n) => results[n] && results[n].status !== 'NOT RUN');
@@ -227,6 +235,8 @@ const matrix = {
   A12: {criterion: '26-loop drift measured, described as expected', status: s('fidelity'), evidence: 'reports/fidelity-all-frames.json + reports/FIDELITY.md'},
   A13: {criterion: 'Puppet metrics diagnostic-only', status: s('fidelity'), evidence: 'reports/fidelity-all-frames.json (objective field)'},
   A14: {criterion: 'Comparison composition + proof sheet work', status: all('stills', 'render'), evidence: 'verify/comparison-contact-sheet.png + remotion/out/comparison-source-vs-2d.mp4'},
+  A15: {criterion: 'METHOD.md commands and paths match the implementation', status: s('docs'), evidence: 'reports/doc-validation.json + reports/logs/docs.log'},
+  A16: {criterion: 'STATUS.md has no contradictory historical/current status', status: s('docs'), evidence: 'reports/doc-validation.json (required handoff sections; stale claims confined to History) + reports/REPRODUCIBILITY_REPORT.md'},
   A17: {criterion: 'Clean install + typecheck succeed', status: all('typecheck', 'unit-tools', ...installSteps), evidence: 'reports/logs/typecheck.log + reports/logs/install-*.log (with --install)'},
   A18: {criterion: 'No MP4s/node_modules/temp sequences committed', status: s('tracked-audit'), evidence: 'reports/test-matrix.json (tracked-audit)'},
 };

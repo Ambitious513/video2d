@@ -2,14 +2,18 @@
 
 Source: `source/input_video.mp4` — **3.92 s, 1920×1080, 24 fps, 94 frames + audio** (soft footstep thuds ≈ every 0.54 s). A slate-gray stylized runner with a cream scarf and a light backpack, running in place on white with a soft ground shadow.
 
-Everything below is reproducible from the files in this folder. Two independent recreations were built, both driven by **Remotion** compositions, so the animation is code, not a baked video.
+Everything below is reproducible from a clean clone of this repository. Two independent recreations were built, both driven by **Remotion** compositions, so the animation is code, not a baked video.
 
-| Deliverable | Composition | What it is |
+All four compositions share one timeline: **94 frames @ 24 fps, 1920×1080**, with the original audio attached exactly once at each composition root. MP4s are **not committed** — they are regenerated into `remotion/out/` (gitignored).
+
+| Deliverable (local, regenerated) | Composition | What it is |
 |---|---|---|
-| `out/run-2d-cel.mp4` | `CelRun` | **Faithful flat-2D replica.** One vectorized SVG cel per source frame (94 cels). Mean per-channel error vs source **2.71 / 255**. |
-| `out/run-2d-cel-loop.mp4` | `CelLoop` | Same look, only **26** cels looped (1.7 MB of assets). Error 4.25 — the source gait drifts slightly, so the loop degrades over time. |
-| `out/run-2d-puppet.mp4` | `RunCycle` | **Parametric vector puppet.** No traced artwork at all: skeleton keys + math generate every frame. Fully editable. Error 7.24 (stylized). |
-| `out/comparison-source-vs-2d.mp4` | `Comparison` | Four-panel proof: source / cel / puppet / 50 % overlay, labelled, with original audio. |
+| `out/run-2d-cel.mp4` | `CelRun` | **Exact flat-2D replica — the fidelity deliverable.** One unique vectorized SVG cel per source frame, 94 cels in `public/cel94/`, each played once. All-94-frame MAE vs source **1.046 / 255** at native 1920×1080. |
+| `out/run-2d-cel-loop.mp4` | `CelLoop` | **Lightweight control, NOT the fidelity deliverable.** Only **26** cels in `public/cel/`, selected `(frame % 26) + 1`. All-frame MAE **2.5423** — the source stride is not exactly 26 frames, so the loop drifts out of phase. That drift is expected and measured. |
+| `out/run-2d-puppet.mp4` | `RunCycle` | **Parametric vector puppet.** No traced artwork: skeleton keys + math generate every frame. Fully editable. All-frame MAE **5.6307** — a *diagnostic*, not a fidelity target. |
+| `out/comparison-source-vs-2d.mp4` | `Comparison` | Four-panel proof: source / exact cel / puppet / 50 % overlay, HTML-labelled, original audio. |
+
+Fidelity figures above come from `reports/fidelity-all-frames.json` (all 94 frames, no resampling). The older **2.71 / 4.25 / 7.24** numbers were computed on **16 sampled frames at six-frame intervals at 960×540** and are kept only as a labelled historical reference in `fidelity.json` — see §7.
 
 ---
 
@@ -58,7 +62,7 @@ The source is a *shaded* render: soft gradients and anti-aliasing. Feeding that 
 
 The result is genuine vector artwork with flat 2D fills — not a filtered raster.
 
-**Why 94 cels and not 26.** The 26-frame loop was the original plan and it looks right, but measurement showed the source stride is *almost* — not exactly — 26 frames: playing 26 cels on repeat drifts out of phase, and the error grows through the clip (per-channel mean |Δ| 2.7 for frames 1–25, up to 7.2 by frame 73). A "pick the closest cel per frame" remap was tried and rejected: it only improved the error 12 % and produced non-monotonic jumps (frame 46 → cel 7, frame 48 → cel 22) that read as popping. Tracing all 94 frames removes the assumption entirely and costs 6 MB instead of 1.7 MB. Both variants are kept: `CelRun` (exact) and `CelLoop` (lightweight, loops forever).
+**Why 94 cels and not 26.** The 26-frame loop was the original plan and it looks right, but measurement showed the source stride is *almost* — not exactly — 26 frames: playing 26 cels on repeat drifts out of phase, and the error grows through the clip. Measured over **all 94 frames at 1920×1080**, the loop's per-frame MAE runs from **0.972** (still in phase, early frames) to **6.1712** at frame 34, with the late-clip cluster f73–f75 at 5.43 / 5.51 / 4.88 — the historically worst region. The exact variant stays inside **0.9012 … 1.2085** across the whole clip. A "pick the closest cel per frame" remap was tried and rejected: it only improved the error 12 % and produced non-monotonic jumps (frame 46 → cel 7, frame 48 → cel 22) that read as popping. Tracing all 94 frames removes the assumption entirely and costs 6 MB instead of 1.7 MB. Both variants are kept as **separate compositions**: `CelRun` (exact, monotonic, never repeats) and `CelLoop` (lightweight control, wraps every 26 frames by design).
 
 Bulk tracing writes the debug `_flat.png` only with `--flat` / `FLAT_PNG=1`, so 94 traces don't dump 94 extra 1080p PNGs.
 
@@ -79,68 +83,180 @@ Bulk tracing writes the debug `_flat.png` only with `--flat` / `FLAT_PNG=1`, so 
 ```
 src/index.ts        registerRoot
 src/Root.tsx        4 compositions, all 1920×1080 @ 24 fps, 94 frames
-src/CelRun.tsx      <Img> cel94/f_{frame+1}.svg          (exact)
-src/CelLoop.tsx     <Img> cel/f_{frame%26+1}.svg         (lightweight)
+src/cels.ts         pure cel-index helpers (exactCelIndex / loopCelIndex) + range validation
+src/CelRun.tsx      <Img> cel94/f_{frame+1}.svg          (exact, 94 unique cels)
+src/CelLoop.tsx     <Img> cel/f_{(frame%26)+1}.svg       (lightweight control, wraps)
 src/RunCycle.tsx    <Runner frame={frame}/>              (parametric)
 src/Comparison.tsx  4 labelled panels + 50% overlay
-public/audio.m4a    original audio, attached with <Audio> in every comp
-public/srcframes/   94 source PNGs at 960×540 (comparison panels only)
+public/audio.m4a    original audio, ONE <Audio> per composition root (never nested)
+public/cel94/       94 unique traced cels — committed
+public/cel/         26 loop cels — committed, unchanged legacy assets
+public/srcframes/   94 source PNGs at 960×540 — regenerated, gitignored
 ```
 
-The comparison panels are 960×540 = exactly the extracted source-frame size, so the reference is never resampled. The puppet panel is the same 1920×1080 SVG under `transform: scale(0.5)`, so all four panels share one coordinate system.
+**Composition IDs are the legacy names with corrected semantics.** `CelRun` used to loop 26 cels while the docs claimed 94; it is now genuinely the exact 94-cel variant, and the loop behaviour lives in its own composition `CelLoop`. The mapping is pure logic in `src/cels.ts`, unit-tested at the start, middle, wrap and final frames (`remotion/test/cels.test.ts`), so it is verified without rendering video. Out-of-range or non-integer frames throw instead of silently wrapping.
+
+The comparison panels are 960×540 = exactly the extracted source-frame size, so the reference is never resampled. The puppet panel is the same 1920×1080 SVG under `transform: scale(0.5)`, so all four panels share one coordinate system. `public/srcframes/` is regenerable (`tools/extract-frames.js`) and gitignored, so it must exist before rendering `Comparison`.
 
 **Labels are HTML, not ffmpeg `drawtext`.** The static ffmpeg build ships without libfreetype (`ffmpeg -filters | grep drawtext` → nothing), which is precisely why the previous session's comparison command was never going to work. Doing the labels as Remotion `<div>`s is both a workaround and an improvement: the comparison video is now itself a Remotion composition, fully re-renderable and editable.
 
 ## 6. Rendering inside a ~1 GB sandbox
 
-Remotion's built-in multi-threaded ffmpeg stitch gets OOM-killed here. `render-lowram.mjs` splits the job:
+Remotion's built-in multi-threaded ffmpeg stitch gets OOM-killed here. `render-lowram.mjs` (repository root) splits the job and **works from any current directory** — it resolves the repo root from its own location, runs Remotion with an explicit `cwd` of `remotion/`, and resolves ffmpeg/ffprobe from `tools/node_modules`:
 
 ```bash
-npx remotion render <Comp> out/<name>frames --sequence --concurrency=1
-ffmpeg -framerate 24 -start_number 0 -i out/<name>frames/element-%02d.png \
+node render-lowram.mjs                # all four registered compositions
+node render-lowram.mjs CelRun         # just one
+KEEP_FRAMES=1 node render-lowram.mjs  # keep PNG sequences (needed for scoring)
+# equivalent, from remotion/:
+npm run render:all:lowram
+```
+
+Per job it runs:
+
+```bash
+npx remotion render <Comp> out/<name>frames --sequence --concurrency=1 --log=error
+ffmpeg -framerate 24 -start_number <detected> -i out/<name>frames/<detected>-%0Nd.png \
        -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 \
        -preset medium -c:a aac -b:a 128k -shortest out/<name>.mp4
 ```
 
-It auto-detects the sequence filename/padding rather than assuming it, and deletes the PNG sequence after a successful stitch (`KEEP_FRAMES=1` to keep it) — the sequences are 13–32 MB each and fully regenerable. Timings on 2 cores / 1 GB: **~18 s per 94-frame 1080p composition** (cel), ~24 s for the 4-panel comparison, ~95 s to trace all 94 frames.
+Safety rules it enforces (contract §4.3):
+
+- the sequence filename prefix, zero-padding and start index are **detected**, not assumed;
+- the PNG sequence is validated **before** encoding: exactly 94 frames, contiguous indexes, consistent naming, valid non-empty PNGs, all 1920×1080;
+- the MP4 is ffprobe-validated **after** encoding: 1 video + **exactly 1** audio stream, 1920×1080, `24/1` fps, 94 frames, duration within 0.1 s of 3.9167 s, audio not truncated vs the reference track;
+- every child exit status is checked; a failure keeps its frames and partial MP4 as evidence;
+- PNG frames are deleted **only after all verification passed** (`KEEP_FRAMES=1` overrides). `verify.mjs` additionally keeps them until fidelity scoring has also passed;
+- it writes `reports/render-validation.json` and a summary table (frames, dims, fps, duration, size, render time, status).
+
+Measured timings on 2 cores / 1 GB: **15.7–18.6 s** per single-layer 94-frame 1080p composition, **23.5 s** for the 4-panel comparison, **77 s** to trace all 94 frames.
 
 Chrome-headless-shell needs system libs that aren't in the base image; `apt-get update` first, then:
-`libx11-6 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libasound2 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0 libnspr4 libnss3 libxcb1 libxkbcommon0` (+ `fonts-dejavu-core` for the panel labels).
+`libx11-6 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libasound2 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0 libnspr4 libnss3 libxcb1 libxkbcommon0` (+ `fonts-dejavu-core` for the panel labels, `libcups2 libpango-1.0-0 libcairo2` on Debian 12).
 
 ## 7. Verification
 
-Per-channel mean absolute difference against the source, sampled every 6th frame at 960×540 (`verify/fidelity.json`):
-
-| Version | mean \|Δ\| (0–255) | % pixels with Δ > 40 |
-|---|---|---|
-| `CelRun` — 94 traced cels | **2.71** | **0.54 %** |
-| `CelLoop` — 26 traced cels | 4.25 | 1.67 % |
-| `RunCycle` — parametric puppet | 7.24 | 3.85 % |
-
-For context, 2.71 is essentially the posterization floor — the difference between the source's soft shading and flat 2D fills, not a pose or timing error. The 50 % overlay panel in the comparison video shows a single crisp figure with only faint scarf ghosting, including at frame 73 where the old 26-frame loop was worst. Visual references: `verify/compare.png` (older 3-row sheet), `verify/comparison_f73.png`, `remotion/out/compare-still.png`.
-
-## 8. Reproduce from scratch
+One entry point runs the whole suite from a clean checkout and writes a report per test:
 
 ```bash
-cd video2d/tools   && npm ci          # ffmpeg/ffprobe/pngjs/sharp/vtracer
-cd ../remotion     && npm ci          # remotion 4.0.240 + react 18
-npx remotion browser ensure           # + the apt libs listed in §6
-
-# regenerate assets from the source video (optional — all assets are committed)
-FF=../tools/node_modules/ffmpeg-static/ffmpeg
-$FF -i ../source/input_video.mp4 -vf scale=960:-1 ../frames/f_%03d.png
-$FF -i ../source/input_video.mp4 ../fullres/f_%03d.png
-$FF -i ../source/input_video.mp4 -vn -c:a aac -b:a 128k public/audio.m4a
-for i in $(seq 1 94); do n=$(printf "%03d" $i); \
-  node ../tools/flatrace.js ../fullres/f_$n.png public/cel94/f_$n.svg; done
-
-npm run render:all:lowram             # all four MP4s
-npm run studio                        # interactive editing, 0.0.0.0:3000
+node verify.mjs --install            # npm ci x2 + browser ensure, then Tests A-J
+node verify.mjs                      # same, assuming deps are already installed
+node verify.mjs --force-trace        # also re-trace all 94 cels (determinism proof)
+node verify.mjs --only=stills,render # subset
+node verify.mjs --keep-frames        # keep PNG sequences after scoring
 ```
+
+Statuses are `PASS` / `FAIL` / `BLOCKED` (a dependency failed) / `NOT RUN` (skipped). Every step's full output goes to `reports/logs/<step>.log`, and the acceptance matrix to `reports/test-matrix.json`. A failed step never deletes its own evidence.
+
+| Test | What it checks | Report |
+|---|---|---|
+| A | ffprobe source metadata: 1920x1080, 24/1, 94 frames, 3.92 s, audio present | `reports/source-media.json` |
+| B | Deterministic extraction: 94 contiguous full-res + 94 half-res PNGs, order proofs, byte/pixel identity vs committed assets, audio preserved | `reports/source-frame-validation.json` |
+| C | 94 cel94 + 26 cel SVGs: naming, non-empty, XML parses, root `<svg>`, dimensions/viewBox, no embedded rasters, rasterizes, sha256 uniqueness | `reports/svg-asset-validation.json` |
+| D | Registry vs render manifest vs this document (3-way ID cross-check), dims/fps/duration, documented npm scripts exist, typecheck | `reports/composition-validation.json` |
+| E | Pure frame-index unit tests (11): contract mapping table, monotonic exact, 26-frame period, rejection of out-of-range | `reports/logs/unit-remotion.log` |
+| F | 24 stills (4 compositions x frames 0, 12, 25, 26, 72, 93): renders, 1920x1080, not blank, content present | `reports/still-render-validation.json` |
+| G | Full low-RAM renders: 94 frames each, sequence integrity, MP4 metadata, exactly one audio stream | `reports/render-validation.json` |
+| H | All-94-frame fidelity at native 1920x1080 | `reports/fidelity-all-frames.json`, `reports/FIDELITY.md` |
+| I | Puppet motion: determinism, no NaN, bounds, segment lengths, wrap continuity, pixel continuity | `reports/motion-validation.json` |
+| J | Labelled 4-panel Comparison + proof sheet from real renders | `verify/comparison-contact-sheet.png` |
+| A15/A16 | Docs vs implementation: every documented path resolves (or is gitignored+regenerable), every `npm run` script exists, every composition ID is registered, STATUS.md is a current handoff with stale claims quarantined in History | `reports/doc-validation.json` |
+
+### 7.1 All-frame fidelity (the current measurement)
+
+All **94** frames, rendered frames vs `fullres/` source frames, **both native 1920x1080, no resampling anywhere**. Aggregates are weighted by evaluated channel/pixel counts.
+
+| Variant | Objective | MAE (0-255) | % px any channel > 40 | IoU incl. shadow | IoU character only | Palette exact % |
+|---|---|---|---|---|---|---|
+| cel94 (`CelRun`) | fidelity deliverable | **1.046** | **0.8006** | **0.9756** | **0.9577** | 99.143 |
+| celLoop (`CelLoop`) | control - drift expected | 2.5423 | 1.8057 | 0.8791 | 0.8582 | 99.156 |
+| puppet (`RunCycle`) | diagnostic only | 5.6307 | 4.3798 | 0.6158 | 0.6116 | n/a |
+
+Metric definitions (exactly as implemented in `tools/score-fidelity.js`):
+
+- **MAE** = `sum(|render_channel - source_channel|) / (width x height x 3 x frames)` over R, G, B. Range 0-255, lower is closer.
+- **pct_pixels_any_channel_gt_40** = a pixel counts **once** iff `max(|dR|,|dG|,|dB|) > 40`, divided by total pixels, x100. Channels are never counted as separate pixels.
+- **iou_foreground** = silhouette IoU **including** the ground shadow. Foreground mask: `max(255-R, 255-G, 255-B) > 12`, which captures the `#DCDBDE` shadow and every character colour while excluding white background.
+- **iou_character** = the same masks **minus** shadow-classified pixels (`|R-220|<=14 && |G-219|<=14 && |B-222|<=14`). Soft source shadow gradients make some boundary pixels ambiguous; this is a documented approximation applied identically to both sides.
+- **palette_exact_pct / palette_near_pct** = rendered pixels exactly equal to one of the 11 locked palette colours, or within +/-2 per channel (anti-aliased boundary tolerance). Cel variants only.
+
+Per-frame distribution (min / median / p95 / max MAE): cel94 **0.9012 / 1.0484 / 1.1197 / 1.2085**; celLoop 0.972 / 2.238 / 4.8647 / 6.1712; puppet 4.0723 / 5.533 / 7.2916 / 7.6782. Worst five frames by MAE: cel94 **f41, f12, f14, f26, f27**; celLoop **f34, f74, f73, f33, f75**; puppet f38, f90, f12, f64, f25. Every per-frame value is in `reports/fidelity-all-frames.json`.
+
+1.046 is essentially the posterization floor - the difference between the source's soft shading and flat 2D fills, not a pose or timing error. The 50 % overlay panel shows a single crisp figure with only faint scarf ghosting, including at frame 73 where the 26-frame loop is worst.
+
+### 7.2 Historical reference (a different, weaker measurement)
+
+`fidelity.json` is preserved verbatim with `_meta.samplingMode = "every_6_frames"`: **16 samples at six-frame intervals at 960x540**, giving MAE 2.71 / 4.25 / 7.24 and pct 0.54 / 1.67 / 3.85. The original scorer was never committed, so its exact `pct` formula cannot be re-derived - it must not be mixed with the defined metric above. These figures are a historical reference only and are **superseded** by §7.1.
+
+### 7.3 What the scores do not prove
+
+Pixel agreement measures visual similarity for this one known clip. It does not prove the rig is reusable, that the motion generalizes to new actions, or that a storyboard can be animated automatically. Frame fidelity, motion plausibility, editability, generalization and production repeatability are separate claims.
+
+### 7.4 Visual proof for human review
+
+- `verify/contact-sheet.png` - 4 compositions x frames 0, 12, 25, 26, 72, 93, labelled.
+- `verify/comparison-contact-sheet.png` - the full 4-panel Comparison at the same six frames (Test J).
+- `verify/compare.png` - the older 3-row reference sheet, kept for the record.
+
+Both generated sheets are assembled from **actual rendered and extracted frames** - never from image-generation models.
+
+## 8. Reproduce from a clean clone
+
+Run everything from the **repository root** (the directory containing `METHOD.md`). The scripts resolve their own paths, so no `cd` gymnastics are required.
+
+```bash
+git clone https://github.com/Ambitious513/video2d.git
+cd video2d
+
+# 1. system libraries for chrome-headless-shell (Debian 12; see §6 for the list)
+apt-get update && apt-get install -y libx11-6 libxcomposite1 libxdamage1 libxext6 \
+  libxfixes3 libxrandr2 libasound2 libatk1.0-0 libatk-bridge2.0-0 libatspi2.0-0 \
+  libdbus-1-3 libdrm2 libgbm1 libglib2.0-0 libnspr4 libnss3 libxcb1 libxkbcommon0 \
+  libcups2 libpango-1.0-0 libcairo2 fonts-dejavu-core
+
+# 2. dependencies + browser + the whole test suite, in one command
+node verify.mjs --install --force-trace
+```
+
+`--install` runs and logs `npm ci` in `tools/` and `remotion/` plus `npx remotion browser ensure`. `--force-trace` re-traces all 94 cels from freshly extracted frames; on a correct checkout the regenerated SVGs are **byte-identical** to the committed ones, so `git status` stays clean. Drop `--force-trace` to reuse the committed cels.
+
+Equivalent explicit steps (each is also an npm script):
+
+```bash
+cd tools && npm ci && cd ..                 # ffmpeg/ffprobe/pngjs/sharp/vtracer
+cd remotion && npm ci && npx remotion browser ensure && cd ..
+
+node tools/extract-frames.js                # 94 fullres + 94 srcframes PNGs (npm run extract in tools/)
+node tools/trace-all.js                     # 94 cels -> remotion/public/cel94/ (npm run trace:all)
+node tools/verify-source.js                 # Tests A + B  (npm run verify:source)
+node tools/verify-assets.js                 # Test C       (npm run verify:assets)
+node tools/verify-docs.js                   # A15 + A16    (npm run verify:docs)
+cd remotion && npm test && npm run typecheck && cd ..   # Test E + types
+node remotion/scripts/verify-compositions.mjs           # Test D
+node remotion/scripts/render-stills.mjs                 # Tests F + J sheets
+KEEP_FRAMES=1 node render-lowram.mjs                    # Test G, all four MP4s
+node tools/score-fidelity.js --cel94 remotion/out/celframes \
+  --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes   # Test H
+cd remotion && npm run verify:motion && cd ..           # Test I
+
+cd remotion && npm run studio               # interactive editing, 0.0.0.0:3000
+```
+
+Notes:
+
+- `tools/extract-frames.js` writes `fullres/` (1920x1080) and `remotion/public/srcframes/` (960x540). It **never overwrites** the committed half-resolution `frames/` directory; `tools/verify-source.js` instead proves those 94 PNGs are pixel-identical to a fresh extraction.
+- `public/audio.m4a` is committed, so no audio re-extraction is needed. Its duration (3.926 s) is checked against the source track (3.920 s).
+- Only `fullres/f_001..f_026.png` are tracked (historical assets, verified byte-identical to a fresh extraction). `f_027..f_094.png` are regenerable and gitignored, as are `remotion/public/srcframes/`, `verify/stills/` and `remotion/out/`.
+- MP4 deliverables are intentionally **not committed**; render them locally.
 
 ## 9. Known limits / next steps
 
-- **The puppet is stylized, not exact.** Torso and limbs need more mass, the scarf tail is too ribbon-straight (the source flutters wider and curls), the backpack sits flatter, the feet are cruder. All of it is tuning constants in `keys.ts` / `Runner.tsx` — no re-measuring needed.
+- **The puppet has no bone-length constraint (measured finding, Test I FAIL).** Limb segment lengths vary over the cycle: max/min **2.89x** for knee->ankle against a documented 2.0 tolerance. The origin is measured, not guessed: the raw hand-measured keys already vary **1.96x**, build-time Catmull-Rom resampling into the 26-sample `LEG_CYCLE` amplifies that to 2.89x, and per-frame interpolation adds only **1.19x** overshoot on the maximum. Continuity itself is fine - no joint or pixel pop at the 26-frame wrap. This is a pre-existing property of the unchanged puppet, recorded as future work (bone-length constraints / IK), **not** tuned away to make a test green.
+- **No true IK stance-locking and no measured foot-contact solver exist** in `Runner.tsx` / `keys.ts`. They are future work, never claimed as passing tests.
+- **The puppet is stylized, not exact.** Torso and limbs need more mass, the scarf tail is too ribbon-straight (the source flutters wider and curls), the backpack sits flatter, the feet are cruder. All of it is tuning constants in `keys.ts` / `Runner.tsx` - no re-measuring needed. Its fidelity numbers are diagnostic only.
+- **The 26-cel loop drifts by design.** It is a lightweight control, not a fidelity deliverable; use `CelRun` when frame accuracy matters.
 - **The cel version is not editable artwork.** It is faithful vector output, but the paths are per-frame; changing the character means re-tracing new source frames. The puppet is the version to edit.
+- **The legacy 26 cels have no `viewBox`** (vtracer emitted width/height only). They are left byte-identical on purpose; the new cel94 set gets a `viewBox="0 0 1920 1080"` metadata normalization that does not alter paths or rendering.
 - **Audio is the original track**, not synthesized. Footsteps are already frame-aligned (13-frame period), so it stays in sync for any 26- or 94-frame playback, but a longer loop would need the audio looped too.
-- **Licensing**: vtracer/pngjs/sharp are permissive; the ffmpeg static binaries are GPL-3.0 (fine for rendering, relevant if you redistribute the binaries); **Remotion is source-available, not open source** — free for individuals and small companies, otherwise a company license.
+- **Licensing**: vtracer/pngjs/sharp are permissive; the ffmpeg static binaries are GPL-3.0 (fine for rendering, relevant if you redistribute the binaries); **Remotion is source-available, not open source** - free for individuals and small companies, otherwise a company license.
