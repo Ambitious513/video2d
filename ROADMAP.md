@@ -5,7 +5,7 @@
 **Current status:** IN PROGRESS
 **Last updated:** 2026-11-17T23:55Z (UTC)
 **Last verified remote commit:** 5d4d13ab92ac38be0397bd2b8feb27e19eefdf98 (`origin/main` at bootstrap; feature branch did not exist on the remote yet)
-**Latest pushed roadmap checkpoint:** record in follow-up checkpoint (this bootstrap commit)
+**Latest pushed roadmap checkpoint:** 182dc4d9f4214d2418176fb7dc7cfde4801f929a (bootstrap; verified via `git ls-remote`)
 **Current agent:** Qwen session 2026-11-18 (bootstrap agent, Arena)
 
 ## 1. Mission
@@ -78,12 +78,12 @@ Raw-key variation already present in measurements: hip→knee 1.958×, knee→an
 
 ## 7. Latest checkpoint
 - Session date/time (UTC): 2026-11-17T23:55Z
-- Commit(s) pushed: bootstrap roadmap commit (SHA recorded in follow-up checkpoint per master plan §B4)
+- Commit(s) pushed: `182dc4d9` docs: initialize procedural puppet upgrade roadmap (+ this SHA-recording follow-up)
 - Files changed: `ROADMAP.md` (new)
 - Tests run: none yet this session
 - Evidence added: this file
-- Remote verified: pending push of this commit
-- Worktree clean after push: pending
+- Remote verified: yes — `git ls-remote` returned `182dc4d9f4214d2418176fb7dc7cfde4801f929a`
+- Worktree clean after push: yes (after follow-up)
 
 ## 8. Decisions and conventions (append when established)
 - Coordinate spaces / units: current puppet coordinates are 1920×1080 canvas pixels, y down, 24 fps; character faces +x (right). Root currently fixed (run-in-place); world/root contract formalized in Phase 2.
@@ -106,6 +106,6 @@ Do not silently change a decision. Record rationale and migration impact first.
 
 | Date (UTC) | Agent/session | Phase | Commit(s) pushed | Outcome | Tests | Next agent action |
 |---|---|---|---|---|---|---|
-| 2026-11-17T23:55Z | Qwen bootstrap (Arena) | 0 | (this commit; SHA in follow-up) | Roadmap initialized; remote baseline verified = `5d4d13a`; feature branch created; push access confirmed | none yet | Run full suite, write baseline report, then Milestone 1 |
+| 2026-11-17T23:55Z | Qwen bootstrap (Arena) | 0 | 182dc4d9f4214d2418176fb7dc7cfde4801f929a | Roadmap initialized; remote baseline verified = `5d4d13a`; feature branch created; push access confirmed | none yet | Run full suite, write baseline report, then Milestone 1 |
 
 Never delete earlier rows. If an earlier statement is found to be wrong, append a correction row and update the current state above.
