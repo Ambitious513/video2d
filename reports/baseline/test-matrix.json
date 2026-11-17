@@ -1,0 +1,251 @@
+{
+  "generatedAt": "2026-11-17T23:07:11.589Z",
+  "steps": {
+    "install-tools": {
+      "status": "PASS",
+      "command": "npm ci --no-audit --no-fund",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools",
+      "seconds": 6.1,
+      "log": "reports/logs/install-tools.log",
+      "exitCode": 0
+    },
+    "install-remotion": {
+      "status": "PASS",
+      "command": "npm ci --no-audit --no-fund",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
+      "seconds": 5.8,
+      "log": "reports/logs/install-remotion.log",
+      "exitCode": 0
+    },
+    "browser": {
+      "status": "PASS",
+      "command": "npx remotion browser ensure",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
+      "seconds": 10.3,
+      "log": "reports/logs/browser.log",
+      "exitCode": 0
+    },
+    "extract": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/extract-frames.js",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "seconds": 7.7,
+      "log": "reports/logs/extract.log",
+      "exitCode": 0
+    },
+    "source": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-source.js",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "seconds": 2.8,
+      "log": "reports/logs/source.log",
+      "exitCode": 0
+    },
+    "trace": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/trace-all.js",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "seconds": 74.4,
+      "log": "reports/logs/trace.log",
+      "exitCode": 0
+    },
+    "assets": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-assets.js",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "seconds": 1.4,
+      "log": "reports/logs/assets.log",
+      "exitCode": 0
+    },
+    "unit-remotion": {
+      "status": "PASS",
+      "command": "npm test",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
+      "seconds": 0.5,
+      "log": "reports/logs/unit-remotion.log",
+      "exitCode": 0
+    },
+    "unit-tools": {
+      "status": "PASS",
+      "command": "npm test",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools",
+      "seconds": 0.7,
+      "log": "reports/logs/unit-tools.log",
+      "exitCode": 0
+    },
+    "typecheck": {
+      "status": "PASS",
+      "command": "npm run typecheck",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
+      "seconds": 3.7,
+      "log": "reports/logs/typecheck.log",
+      "exitCode": 0
+    },
+    "compositions": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/scripts/verify-compositions.mjs",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
+      "seconds": 6.4,
+      "log": "reports/logs/compositions.log",
+      "exitCode": 0
+    },
+    "stills": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/scripts/render-stills.mjs",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
+      "seconds": 20.5,
+      "log": "reports/logs/stills.log",
+      "exitCode": 0
+    },
+    "render": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/render-lowram.mjs",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "seconds": 73.1,
+      "log": "reports/logs/render.log",
+      "exitCode": 0
+    },
+    "fidelity": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "seconds": 36.9,
+      "log": "reports/logs/fidelity.log",
+      "exitCode": 0
+    },
+    "motion": {
+      "status": "FAIL",
+      "command": "npm run verify:motion",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
+      "seconds": 1.2,
+      "log": "reports/logs/motion.log",
+      "exitCode": 1
+    },
+    "docs": {
+      "status": "PASS",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-docs.js",
+      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "seconds": 0.1,
+      "log": "reports/logs/docs.log",
+      "exitCode": 0
+    },
+    "tracked-audit": {
+      "status": "PASS",
+      "detail": "356 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
+      "forbiddenTracked": [],
+      "missingRequired": [],
+      "trackedCount": 356,
+      "seconds": 0
+    },
+    "puppet-unchanged": {
+      "status": "PASS",
+      "detail": "remotion/src/puppet/Runner.tsx, remotion/src/puppet/keys.ts, remotion/src/RunCycle.tsx byte-identical to baseline 5ab3d64 (committed + working tree)",
+      "baseline": "5ab3d647050cbc229098ee30b39d36cb3e1fe3fc",
+      "files": [
+        "remotion/src/puppet/Runner.tsx",
+        "remotion/src/puppet/keys.ts",
+        "remotion/src/RunCycle.tsx"
+      ],
+      "seconds": 0
+    }
+  },
+  "acceptanceMatrix": {
+    "A1": {
+      "criterion": "Source media metadata verified",
+      "status": "PASS",
+      "evidence": "reports/source-media.json"
+    },
+    "A2": {
+      "criterion": "All 94 source frames extractable",
+      "status": "PASS",
+      "evidence": "reports/source-frame-validation.json"
+    },
+    "A3": {
+      "criterion": "94 unique exact SVG cels exist and validate",
+      "status": "PASS",
+      "evidence": "reports/svg-asset-validation.json"
+    },
+    "A4": {
+      "criterion": "26 loop cels intact",
+      "status": "PASS",
+      "evidence": "reports/svg-asset-validation.json"
+    },
+    "A5": {
+      "criterion": "Exact/loop compositions distinct, mapping correct",
+      "status": "PASS",
+      "evidence": "reports/logs/unit-remotion.log + reports/composition-validation.json"
+    },
+    "A6": {
+      "criterion": "Every advertised render job registered",
+      "status": "PASS",
+      "evidence": "reports/composition-validation.json"
+    },
+    "A7": {
+      "criterion": "Low-RAM script works from documented invocation",
+      "status": "PASS",
+      "evidence": "reports/render-validation.json + reports/logs/render.log"
+    },
+    "A8": {
+      "criterion": "Puppet present, design unchanged",
+      "status": "PASS",
+      "evidence": "reports/test-matrix.json (puppet-unchanged: git diff vs baseline 5ab3d64) + reports/still-render-validation.json"
+    },
+    "A9": {
+      "criterion": "All required stills render correctly",
+      "status": "PASS",
+      "evidence": "reports/still-render-validation.json + verify/contact-sheet.png"
+    },
+    "A10": {
+      "criterion": "All compositions render 94 frames @24fps 1920x1080",
+      "status": "PASS",
+      "evidence": "reports/render-validation.json"
+    },
+    "A11": {
+      "criterion": "Exact-cel all-frame fidelity measured",
+      "status": "PASS",
+      "evidence": "reports/fidelity-all-frames.json"
+    },
+    "A12": {
+      "criterion": "26-loop drift measured, described as expected",
+      "status": "PASS",
+      "evidence": "reports/fidelity-all-frames.json + reports/FIDELITY.md"
+    },
+    "A13": {
+      "criterion": "Puppet metrics diagnostic-only",
+      "status": "PASS",
+      "evidence": "reports/fidelity-all-frames.json (objective field)"
+    },
+    "A14": {
+      "criterion": "Comparison composition + proof sheet work",
+      "status": "PASS",
+      "evidence": "verify/comparison-contact-sheet.png + remotion/out/comparison-source-vs-2d.mp4"
+    },
+    "A15": {
+      "criterion": "METHOD.md commands and paths match the implementation",
+      "status": "PASS",
+      "evidence": "reports/doc-validation.json + reports/logs/docs.log"
+    },
+    "A16": {
+      "criterion": "STATUS.md has no contradictory historical/current status",
+      "status": "PASS",
+      "evidence": "reports/doc-validation.json (required handoff sections; stale claims confined to History) + reports/REPRODUCIBILITY_REPORT.md"
+    },
+    "A17": {
+      "criterion": "Clean install + typecheck succeed",
+      "status": "PASS",
+      "evidence": "reports/logs/typecheck.log + reports/logs/install-*.log (with --install)"
+    },
+    "A18": {
+      "criterion": "No MP4s/node_modules/temp sequences committed",
+      "status": "PASS",
+      "evidence": "reports/test-matrix.json (tracked-audit)"
+    }
+  },
+  "additionalRequiredTests": {
+    "Test I (motion & continuity)": {
+      "status": "FAIL",
+      "evidence": "reports/motion-validation.json",
+      "note": "See reports/motion-validation.json findings + reports/REPRODUCIBILITY_REPORT.md known limitations. No IK / foot-contact solver exists; limb bone lengths are unconstrained."
+    }
+  }
+}
