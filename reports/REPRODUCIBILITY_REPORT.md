@@ -17,9 +17,9 @@
 | Reconciliation step 4 | `4a01b9c` | Regenerate 94 unique exact cels; verification evidence (Tests A–F PASS) |
 | Defect fixes | `b9d0c03` | Fix three defects found at the end of the previous session |
 | **Start of the final session** | **`7fab95f`** | Complete Tests G/H/I evidence from a clean checkout (16/17 steps PASS) |
-| Reconciliation completion | `PENDING_COMMIT` | Commit the post-push documentation tail, wire in the A15/A16 doc test, add this report |
+| Reconciliation completion | `d2a13f2` | Commit the post-push documentation tail, wire in the A15/A16 doc test, add this report |
 
-The session that produced `7fab95f` ended after pushing the measurement evidence but **before** committing the rewritten `METHOD.md` / `STATUS.md`, the new `tools/verify-docs.js`, or this report. Those three files were recovered from the owner's upload and are committed by the completion commit above. Everything else in the acceptance matrix was already reproducible from `7fab95f`.
+The session that produced `7fab95f` ended after pushing the measurement evidence but **before** committing the rewritten `METHOD.md` / `STATUS.md`, the new `tools/verify-docs.js`, or this report. Those three files were recovered from the owner's upload and are committed by the completion commit `d2a13f2` (`d2a13f2b61007499df4a23d484cc6a8850b71ecd`). A follow-up commit records this SHA in place of the placeholder. Everything else in the acceptance matrix was already reproducible from `7fab95f`.
 
 ## 2. Files changed in the completion commit, and why
 
