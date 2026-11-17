@@ -1,8 +1,8 @@
-$ /usr/local/bin/node /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/tools/extract-frames.js
-(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d)
+$ /usr/local/bin/node /tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/tools/extract-frames.js
+(cwd=/tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d)
 
-$ ffmpeg -v error -y -i /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/source/input_video.mp4 -start_number 1 /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/fullres/f_%03d.png
-$ ffmpeg -v error -y -i /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/source/input_video.mp4 -vf scale=960:-1 -start_number 1 /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/remotion/public/srcframes/f_%03d.png
+$ ffmpeg -v error -y -i /tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/source/input_video.mp4 -start_number 1 /tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/fullres/f_%03d.png
+$ ffmpeg -v error -y -i /tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/source/input_video.mp4 -vf scale=960:-1 -start_number 1 /tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/remotion/public/srcframes/f_%03d.png
 fullres: 94 frames
 srcframes: 94 frames
 extraction OK

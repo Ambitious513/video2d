@@ -1,0 +1,21 @@
+$ npm run verify:motion
+(cwd=/tmp/arena/tenants/6b448fa1-faf0-47ee-b17d-0e64d5b82a0b/sessions/186dd77e-1a8a-59cc-b35d-de909da70ae8/workspace/video2d/remotion)
+
+
+> runner-2d-remotion@1.0.0 verify:motion
+> tsx scripts/motion-check.tsx
+
+[PASS] deterministic SSR: same frame -> identical SVG (94 frames x2) — 94/94 identical
+[PASS] no NaN/Infinity/undefined; shadow+scarf+body present every frame — clean
+[PASS] all joint coordinates finite and inside 1920x1080 — 1410 points in bounds
+[FAIL] limb segment length variation within documented tolerance (max/min <= 2) — near hip->knee: 2.034; near knee->ankle: 2.891; far hip->knee: 2.034; far knee->ankle: 2.891; near elbow->fist: 2.705; far elbow->fist: 2.705
+[PASS] joint motion is smooth at the wrap (accel 276.3px <= 1.5 x p95 298.6px) — accel median=46.65px, p95=298.55px, max=298.55px, wrap=276.29px
+[PASS] no one-frame pop at 26-frame wrap (joint delta 17.2px <= 1.5 x p95 276.1px) — wrap(25->26)=17.18px, adjacent-delta median=73.30px, p95=276.13px, max=276.13px
+[PASS] no pixel pop at wrap (MAD 1.28 <= 1.5 x p95 5.08) — wrap(25->26)=1.278, median=3.254, p95=5.082, max=5.151
+[PASS] character visible (not blank) in every rasterized frame — 94/94 non-blank at 96x54
+
+FINDING: limb segment length variation within documented tolerance (max/min <= 2)
+  PRE-EXISTING DESIGN LIMITATION (not a regression): Runner.tsx / keys.ts are byte-identical to the pre-reconciliation baseline commit 5ab3d64. The puppet has NO bone-length constraint. Three levels are measured separately: the raw hand-measured keys already vary, build-time Catmull-Rom resampling into the 26-sample LEG_CYCLE amplifies that, and per-frame interpolation adds only a small overshoot on top. The dominant source is the unconstrained measured geometry, not a continuity bug.
+  raw keys max/min=1.958, stored track max/min=2.89, interpolated max/min=2.89, frame-interp overshoot=1.19x
+
+Test I motion: FAIL (7/8 checks pass)

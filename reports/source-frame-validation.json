@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T21:40:03.396Z",
+  "generatedAt": "2026-11-17T22:29:22.052Z",
   "extractionCommands": [
     "ffmpeg -v error -y -i source/input_video.mp4 -start_number 1 fullres/f_%03d.png",
     "ffmpeg -v error -y -i source/input_video.mp4 -vf scale=960:-1 -start_number 1 remotion/public/srcframes/f_%03d.png"

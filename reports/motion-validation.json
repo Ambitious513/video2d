@@ -1,0 +1,280 @@
+{
+  "generatedAt": "2026-11-17T22:33:11.039Z",
+  "scope": "RunCycle procedural puppet, frames 0..93; cel selection monotonicity covered by remotion/test/cels.test.ts",
+  "tolerances": {
+    "segmentLengthMaxOverMin": 2,
+    "wrapPopFactor": 1.5,
+    "pixelThumb": "96x54 grayscale-free RGB MAD"
+  },
+  "checks": [
+    {
+      "name": "deterministic SSR: same frame -> identical SVG (94 frames x2)",
+      "status": "PASS",
+      "detail": "94/94 identical"
+    },
+    {
+      "name": "no NaN/Infinity/undefined; shadow+scarf+body present every frame",
+      "status": "PASS",
+      "detail": "clean"
+    },
+    {
+      "name": "all joint coordinates finite and inside 1920x1080",
+      "status": "PASS",
+      "detail": "1410 points in bounds"
+    },
+    {
+      "name": "limb segment length variation within documented tolerance (max/min <= 2)",
+      "status": "FAIL",
+      "detail": "near hip->knee: 2.034; near knee->ankle: 2.891; far hip->knee: 2.034; far knee->ankle: 2.891; near elbow->fist: 2.705; far elbow->fist: 2.705"
+    },
+    {
+      "name": "joint motion is smooth at the wrap (accel 276.3px <= 1.5 x p95 298.6px)",
+      "status": "PASS",
+      "detail": "accel median=46.65px, p95=298.55px, max=298.55px, wrap=276.29px"
+    },
+    {
+      "name": "no one-frame pop at 26-frame wrap (joint delta 17.2px <= 1.5 x p95 276.1px)",
+      "status": "PASS",
+      "detail": "wrap(25->26)=17.18px, adjacent-delta median=73.30px, p95=276.13px, max=276.13px"
+    },
+    {
+      "name": "no pixel pop at wrap (MAD 1.28 <= 1.5 x p95 5.08)",
+      "status": "PASS",
+      "detail": "wrap(25->26)=1.278, median=3.254, p95=5.082, max=5.151"
+    },
+    {
+      "name": "character visible (not blank) in every rasterized frame",
+      "status": "PASS",
+      "detail": "94/94 non-blank at 96x54"
+    }
+  ],
+  "segmentLengthStats": [
+    {
+      "segment": "near hip->knee",
+      "min": 117.1,
+      "max": 238.2,
+      "mean": 163,
+      "maxOverMin": 2.034
+    },
+    {
+      "segment": "near knee->ankle",
+      "min": 73.5,
+      "max": 212.4,
+      "mean": 161.4,
+      "maxOverMin": 2.891
+    },
+    {
+      "segment": "near ankle->toe",
+      "min": 51,
+      "max": 94.3,
+      "mean": 81.5,
+      "maxOverMin": 1.849
+    },
+    {
+      "segment": "far hip->knee",
+      "min": 117.1,
+      "max": 238.2,
+      "mean": 164.3,
+      "maxOverMin": 2.034
+    },
+    {
+      "segment": "far knee->ankle",
+      "min": 73.5,
+      "max": 212.4,
+      "mean": 160.2,
+      "maxOverMin": 2.891
+    },
+    {
+      "segment": "far ankle->toe",
+      "min": 51,
+      "max": 94.3,
+      "mean": 81.5,
+      "maxOverMin": 1.849
+    },
+    {
+      "segment": "near shoulder->elbow",
+      "min": 114.6,
+      "max": 139.7,
+      "mean": 127,
+      "maxOverMin": 1.219
+    },
+    {
+      "segment": "near elbow->fist",
+      "min": 48.5,
+      "max": 131.1,
+      "mean": 82.4,
+      "maxOverMin": 2.705
+    },
+    {
+      "segment": "far shoulder->elbow",
+      "min": 114.6,
+      "max": 139.7,
+      "mean": 127.1,
+      "maxOverMin": 1.219
+    },
+    {
+      "segment": "far elbow->fist",
+      "min": 48.5,
+      "max": 131.1,
+      "mean": 83.1,
+      "maxOverMin": 2.705
+    }
+  ],
+  "segmentLengthOrigin": {
+    "note": "Three levels, measured separately: rawMeasuredKeys (7 hand-measured poses per leg, read read-only from keys.ts) -> storedTrack (26-sample LEG_CYCLE after build-time Catmull-Rom) -> interpolatedFrames (all 94). interpolationOvershoot = interpolated max / stored max. Diagnostic only — the tolerance above and the puppet itself are unchanged.",
+    "rawMeasuredKeys": [
+      {
+        "segment": "hip->knee",
+        "rawKeyMin": 121.7,
+        "rawKeyMax": 238.2,
+        "rawKeyMaxOverMin": 1.958
+      },
+      {
+        "segment": "knee->ankle",
+        "rawKeyMin": 111.1,
+        "rawKeyMax": 210.1,
+        "rawKeyMaxOverMin": 1.89
+      },
+      {
+        "segment": "ankle->toe",
+        "rawKeyMin": 69.2,
+        "rawKeyMax": 91.6,
+        "rawKeyMaxOverMin": 1.324
+      }
+    ],
+    "worstRawMeasuredKeyMaxOverMin": 1.958,
+    "perSegment": [
+      {
+        "segment": "near hip->knee",
+        "storedMin": 117.1,
+        "storedMax": 238.2,
+        "storedMaxOverMin": 2.034,
+        "interpolatedMaxOverMin": 2.034,
+        "interpolationOvershoot": 1
+      },
+      {
+        "segment": "near knee->ankle",
+        "storedMin": 73.5,
+        "storedMax": 212.4,
+        "storedMaxOverMin": 2.891,
+        "interpolatedMaxOverMin": 2.891,
+        "interpolationOvershoot": 1
+      },
+      {
+        "segment": "near ankle->toe",
+        "storedMin": 51,
+        "storedMax": 94.3,
+        "storedMaxOverMin": 1.849,
+        "interpolatedMaxOverMin": 1.849,
+        "interpolationOvershoot": 1
+      },
+      {
+        "segment": "far hip->knee",
+        "storedMin": 117.1,
+        "storedMax": 238.2,
+        "storedMaxOverMin": 2.034,
+        "interpolatedMaxOverMin": 2.034,
+        "interpolationOvershoot": 1
+      },
+      {
+        "segment": "far knee->ankle",
+        "storedMin": 73.5,
+        "storedMax": 212.4,
+        "storedMaxOverMin": 2.891,
+        "interpolatedMaxOverMin": 2.891,
+        "interpolationOvershoot": 1
+      },
+      {
+        "segment": "far ankle->toe",
+        "storedMin": 51,
+        "storedMax": 94.3,
+        "storedMaxOverMin": 1.849,
+        "interpolatedMaxOverMin": 1.849,
+        "interpolationOvershoot": 1
+      },
+      {
+        "segment": "near shoulder->elbow",
+        "storedMin": 114.6,
+        "storedMax": 117.2,
+        "storedMaxOverMin": 1.023,
+        "interpolatedMaxOverMin": 1.219,
+        "interpolationOvershoot": 1.192
+      },
+      {
+        "segment": "near elbow->fist",
+        "storedMin": 92,
+        "storedMax": 131.1,
+        "storedMaxOverMin": 1.425,
+        "interpolatedMaxOverMin": 2.705,
+        "interpolationOvershoot": 1
+      },
+      {
+        "segment": "far shoulder->elbow",
+        "storedMin": 114.6,
+        "storedMax": 117.2,
+        "storedMaxOverMin": 1.023,
+        "interpolatedMaxOverMin": 1.219,
+        "interpolationOvershoot": 1.192
+      },
+      {
+        "segment": "far elbow->fist",
+        "storedMin": 92,
+        "storedMax": 131.1,
+        "storedMaxOverMin": 1.425,
+        "interpolatedMaxOverMin": 2.705,
+        "interpolationOvershoot": 1
+      }
+    ],
+    "worstStoredMaxOverMin": 2.891,
+    "worstInterpolatedMaxOverMin": 2.891,
+    "worstInterpolationOvershoot": 1.192
+  },
+  "adjacentJointDeltaPx": {
+    "median": 73.3,
+    "p95": 276.13,
+    "max": 276.13,
+    "wrap25to26": 17.18
+  },
+  "jointAccelerationPx": {
+    "median": 46.65,
+    "p95": 298.55,
+    "max": 298.55,
+    "wrap25to26": 276.29
+  },
+  "adjacentPixelMad": {
+    "median": 3.254,
+    "p95": 5.082,
+    "max": 5.151,
+    "wrap25to26": 1.278
+  },
+  "notPresent_futureWork": [
+    "true IK stance-locking (not implemented in Runner.tsx / keys.ts)",
+    "measured foot-contact solver (not implemented)",
+    "bone-length constraints on the limb segments (lengths are unconstrained by design)"
+  ],
+  "findings": [
+    {
+      "check": "limb segment length variation within documented tolerance (max/min <= 2)",
+      "detail": "near hip->knee: 2.034; near knee->ankle: 2.891; far hip->knee: 2.034; far knee->ankle: 2.891; near elbow->fist: 2.705; far elbow->fist: 2.705",
+      "classification": "PRE-EXISTING DESIGN LIMITATION (not a regression): Runner.tsx / keys.ts are byte-identical to the pre-reconciliation baseline commit 5ab3d64. The puppet has NO bone-length constraint. Three levels are measured separately: the raw hand-measured keys already vary, build-time Catmull-Rom resampling into the 26-sample LEG_CYCLE amplifies that, and per-frame interpolation adds only a small overshoot on top. The dominant source is the unconstrained measured geometry, not a continuity bug.",
+      "regression": false,
+      "evidence": {
+        "rawMeasuredKeyMaxOverMin": 1.958,
+        "storedTrackSampleMaxOverMin": 2.891,
+        "interpolatedFrameMaxOverMin": 2.891,
+        "maxInterpolationOvershoot": 1.192,
+        "tolerance": 2
+      },
+      "action": "Recorded as future work. NOT tuned and NOT re-thresholded as part of this reconciliation (contract rules 1 and 3)."
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 7,
+    "failed": 1,
+    "failedChecks": [
+      "limb segment length variation within documented tolerance (max/min <= 2)"
+    ]
+  },
+  "status": "FAIL"
+}

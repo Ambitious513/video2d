@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T21:41:58.685Z",
+  "generatedAt": "2026-11-17T22:31:14.891Z",
   "framesTested": [
     0,
     12,
@@ -837,11 +837,11 @@
       "file": "verify/stills/Comparison_f00.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 329977,
-      "meanLuminance": 238.45,
-      "nonWhiteFraction": 0.11084,
-      "darkFraction": 0.09304,
-      "distinctColorsSampled": 5535,
+      "bytes": 332184,
+      "meanLuminance": 238.52,
+      "nonWhiteFraction": 0.11065,
+      "darkFraction": 0.09263,
+      "distinctColorsSampled": 5545,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -851,27 +851,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "329977 bytes"
+          "detail": "332184 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=238.45"
+          "detail": "meanLum=238.52"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.11084"
+          "detail": "nonWhite=0.11065"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09304"
+          "detail": "dark=0.09263"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5535 colors"
+          "detail": "5545 colors"
         }
       ],
       "status": "PASS"
@@ -882,11 +882,11 @@
       "file": "verify/stills/Comparison_f12.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 350418,
-      "meanLuminance": 237.83,
-      "nonWhiteFraction": 0.11403,
-      "darkFraction": 0.09677,
-      "distinctColorsSampled": 5572,
+      "bytes": 353257,
+      "meanLuminance": 237.9,
+      "nonWhiteFraction": 0.11382,
+      "darkFraction": 0.09634,
+      "distinctColorsSampled": 5577,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -896,27 +896,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "350418 bytes"
+          "detail": "353257 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=237.83"
+          "detail": "meanLum=237.9"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.11403"
+          "detail": "nonWhite=0.11382"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09677"
+          "detail": "dark=0.09634"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5572 colors"
+          "detail": "5577 colors"
         }
       ],
       "status": "PASS"
@@ -927,11 +927,11 @@
       "file": "verify/stills/Comparison_f25.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 344390,
-      "meanLuminance": 238.23,
-      "nonWhiteFraction": 0.11242,
-      "darkFraction": 0.09407,
-      "distinctColorsSampled": 5564,
+      "bytes": 347460,
+      "meanLuminance": 238.29,
+      "nonWhiteFraction": 0.11221,
+      "darkFraction": 0.09362,
+      "distinctColorsSampled": 5573,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -941,27 +941,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "344390 bytes"
+          "detail": "347460 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=238.23"
+          "detail": "meanLum=238.29"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.11242"
+          "detail": "nonWhite=0.11221"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09407"
+          "detail": "dark=0.09362"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5564 colors"
+          "detail": "5573 colors"
         }
       ],
       "status": "PASS"
@@ -972,11 +972,11 @@
       "file": "verify/stills/Comparison_f26.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 341341,
-      "meanLuminance": 238.23,
-      "nonWhiteFraction": 0.11241,
-      "darkFraction": 0.09424,
-      "distinctColorsSampled": 5621,
+      "bytes": 344144,
+      "meanLuminance": 238.3,
+      "nonWhiteFraction": 0.1122,
+      "darkFraction": 0.09379,
+      "distinctColorsSampled": 5630,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -986,27 +986,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "341341 bytes"
+          "detail": "344144 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=238.23"
+          "detail": "meanLum=238.3"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.11241"
+          "detail": "nonWhite=0.1122"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09424"
+          "detail": "dark=0.09379"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5621 colors"
+          "detail": "5630 colors"
         }
       ],
       "status": "PASS"
@@ -1017,11 +1017,11 @@
       "file": "verify/stills/Comparison_f72.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 319303,
-      "meanLuminance": 239.13,
-      "nonWhiteFraction": 0.10401,
-      "darkFraction": 0.08903,
-      "distinctColorsSampled": 5473,
+      "bytes": 322077,
+      "meanLuminance": 239.2,
+      "nonWhiteFraction": 0.1038,
+      "darkFraction": 0.08859,
+      "distinctColorsSampled": 5477,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -1031,27 +1031,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "319303 bytes"
+          "detail": "322077 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=239.13"
+          "detail": "meanLum=239.2"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.10401"
+          "detail": "nonWhite=0.1038"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.08903"
+          "detail": "dark=0.08859"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5473 colors"
+          "detail": "5477 colors"
         }
       ],
       "status": "PASS"
@@ -1062,11 +1062,11 @@
       "file": "verify/stills/Comparison_f93.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 345130,
-      "meanLuminance": 238,
-      "nonWhiteFraction": 0.1119,
-      "darkFraction": 0.09595,
-      "distinctColorsSampled": 5828,
+      "bytes": 348369,
+      "meanLuminance": 238.06,
+      "nonWhiteFraction": 0.11171,
+      "darkFraction": 0.09553,
+      "distinctColorsSampled": 5834,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -1076,27 +1076,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "345130 bytes"
+          "detail": "348369 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=238"
+          "detail": "meanLum=238.06"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.1119"
+          "detail": "nonWhite=0.11171"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09595"
+          "detail": "dark=0.09553"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5828 colors"
+          "detail": "5834 colors"
         }
       ],
       "status": "PASS"
