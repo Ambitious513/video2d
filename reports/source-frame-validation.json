@@ -1,0 +1,187 @@
+{
+  "generatedAt": "2026-11-17T21:40:03.396Z",
+  "extractionCommands": [
+    "ffmpeg -v error -y -i source/input_video.mp4 -start_number 1 fullres/f_%03d.png",
+    "ffmpeg -v error -y -i source/input_video.mp4 -vf scale=960:-1 -start_number 1 remotion/public/srcframes/f_%03d.png"
+  ],
+  "directories": [
+    {
+      "dir": "fullres",
+      "expectedCount": 94,
+      "actualCount": 94,
+      "expectedDims": "1920x1080",
+      "status": "PASS",
+      "problems": []
+    },
+    {
+      "dir": "remotion/public/srcframes",
+      "expectedCount": 94,
+      "actualCount": 94,
+      "expectedDims": "960x540",
+      "status": "PASS",
+      "problems": []
+    },
+    {
+      "dir": "frames",
+      "expectedCount": 94,
+      "actualCount": 94,
+      "expectedDims": "960x540",
+      "status": "PASS",
+      "problems": []
+    }
+  ],
+  "committedFullresDeterminism": [
+    {
+      "frame": "001",
+      "byteIdentical": true
+    },
+    {
+      "frame": "002",
+      "byteIdentical": true
+    },
+    {
+      "frame": "003",
+      "byteIdentical": true
+    },
+    {
+      "frame": "004",
+      "byteIdentical": true
+    },
+    {
+      "frame": "005",
+      "byteIdentical": true
+    },
+    {
+      "frame": "006",
+      "byteIdentical": true
+    },
+    {
+      "frame": "007",
+      "byteIdentical": true
+    },
+    {
+      "frame": "008",
+      "byteIdentical": true
+    },
+    {
+      "frame": "009",
+      "byteIdentical": true
+    },
+    {
+      "frame": "010",
+      "byteIdentical": true
+    },
+    {
+      "frame": "011",
+      "byteIdentical": true
+    },
+    {
+      "frame": "012",
+      "byteIdentical": true
+    },
+    {
+      "frame": "013",
+      "byteIdentical": true
+    },
+    {
+      "frame": "014",
+      "byteIdentical": true
+    },
+    {
+      "frame": "015",
+      "byteIdentical": true
+    },
+    {
+      "frame": "016",
+      "byteIdentical": true
+    },
+    {
+      "frame": "017",
+      "byteIdentical": true
+    },
+    {
+      "frame": "018",
+      "byteIdentical": true
+    },
+    {
+      "frame": "019",
+      "byteIdentical": true
+    },
+    {
+      "frame": "020",
+      "byteIdentical": true
+    },
+    {
+      "frame": "021",
+      "byteIdentical": true
+    },
+    {
+      "frame": "022",
+      "byteIdentical": true
+    },
+    {
+      "frame": "023",
+      "byteIdentical": true
+    },
+    {
+      "frame": "024",
+      "byteIdentical": true
+    },
+    {
+      "frame": "025",
+      "byteIdentical": true
+    },
+    {
+      "frame": "026",
+      "byteIdentical": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "fullres/ 94 contiguous 1920x1080 valid PNGs",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "srcframes/ 94 contiguous 960x540 valid PNGs",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "committed frames/ 94 contiguous 960x540 valid PNGs",
+      "status": "PASS",
+      "detail": "[]"
+    },
+    {
+      "name": "source frame n=0 pixel-matches fullres/f_001.png",
+      "status": "PASS",
+      "detail": "identical pixels"
+    },
+    {
+      "name": "source frame n=46 pixel-matches fullres/f_047.png",
+      "status": "PASS",
+      "detail": "identical pixels"
+    },
+    {
+      "name": "source frame n=93 pixel-matches fullres/f_094.png",
+      "status": "PASS",
+      "detail": "identical pixels"
+    },
+    {
+      "name": "committed frames/ pixel-identical to fresh 960x540 extraction (all 94)",
+      "status": "PASS",
+      "detail": "94/94 identical"
+    },
+    {
+      "name": "26 committed fullres PNGs byte-identical to fresh extraction",
+      "status": "PASS",
+      "detail": "26/26 identical"
+    },
+    {
+      "name": "public/audio.m4a preserves source audio duration (±0.1s)",
+      "status": "PASS",
+      "detail": "public=3.926000s source=3.920000s"
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,16 @@
+$ /usr/local/bin/node /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/remotion/scripts/verify-compositions.mjs
+(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/remotion)
+
+bundling remotion entry point...
+[PASS] no duplicate composition IDs — CelRun, CelLoop, RunCycle, Comparison
+[PASS] registry IDs == render manifest IDs — registry=[CelRun,CelLoop,RunCycle,Comparison] jobs=[CelRun,CelLoop,RunCycle,Comparison]
+[PASS] registry IDs == METHOD.md deliverables IDs — registry=[CelRun,CelLoop,RunCycle,Comparison] method=[CelRun,CelLoop,RunCycle,Comparison]
+[PASS] every documented npm run script exists — documented=[render:all:lowram,studio] missing=[]
+[PASS] typecheck script exists — tsc --noEmit
+[PASS] tools test script is real (not placeholder exit 1) — node --test test/
+[PASS] remotion test script exists — node --import tsx --test test/cels.test.ts
+[PASS] CelRun: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
+[PASS] CelLoop: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
+[PASS] RunCycle: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
+[PASS] Comparison: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
+Test D compositions: PASS

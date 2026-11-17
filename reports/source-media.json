@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-11-17T21:40:00.808Z",
+  "source": "source/input_video.mp4",
+  "measured": {
+    "width": 1920,
+    "height": 1080,
+    "rFrameRate": "24/1",
+    "avgFrameRate": "24/1",
+    "nbFrames": 94,
+    "durationSec": 3.92,
+    "videoCodec": "h264",
+    "audio": {
+      "codec": "aac",
+      "channels": 2,
+      "sampleRate": "48000",
+      "durationSec": 3.92
+    },
+    "formatName": "mov,mp4,m4a,3gp,3g2,mj2",
+    "sizeBytes": 1216728
+  },
+  "checks": [
+    {
+      "name": "video stream exists",
+      "status": "PASS",
+      "detail": "codec=h264"
+    },
+    {
+      "name": "width=1920",
+      "status": "PASS",
+      "detail": "measured 1920"
+    },
+    {
+      "name": "height=1080",
+      "status": "PASS",
+      "detail": "measured 1080"
+    },
+    {
+      "name": "fps=24/1",
+      "status": "PASS",
+      "detail": "r_frame_rate=24/1, avg_frame_rate=24/1"
+    },
+    {
+      "name": "frame count=94",
+      "status": "PASS",
+      "detail": "nb_frames=94, duration*fps=94.080"
+    },
+    {
+      "name": "audio stream exists",
+      "status": "PASS",
+      "detail": "codec=aac, channels=2, duration=3.920000s"
+    },
+    {
+      "name": "duration ~3.92s",
+      "status": "PASS",
+      "detail": "format.duration=3.92s (94/24 = 3.9167s)"
+    }
+  ],
+  "status": "PASS"
+}

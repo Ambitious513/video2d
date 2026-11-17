@@ -1,0 +1,128 @@
+{
+  "generatedAt": "2026-11-17T21:41:31.865Z",
+  "remotionVersion": "4.0.240",
+  "registry": [
+    {
+      "id": "CelRun",
+      "width": 1920,
+      "height": 1080,
+      "fps": 24,
+      "durationInFrames": 94
+    },
+    {
+      "id": "CelLoop",
+      "width": 1920,
+      "height": 1080,
+      "fps": 24,
+      "durationInFrames": 94
+    },
+    {
+      "id": "RunCycle",
+      "width": 1920,
+      "height": 1080,
+      "fps": 24,
+      "durationInFrames": 94
+    },
+    {
+      "id": "Comparison",
+      "width": 1920,
+      "height": 1080,
+      "fps": 24,
+      "durationInFrames": 94
+    }
+  ],
+  "renderManifest": [
+    {
+      "id": "CelRun",
+      "seq": "out/celframes",
+      "mp4": "out/run-2d-cel.mp4",
+      "semantics": "exact 94 unique traced cels"
+    },
+    {
+      "id": "CelLoop",
+      "seq": "out/celloopframes",
+      "mp4": "out/run-2d-cel-loop.mp4",
+      "semantics": "26-cel loop (expected drift)"
+    },
+    {
+      "id": "RunCycle",
+      "seq": "out/puppetframes",
+      "mp4": "out/run-2d-puppet.mp4",
+      "semantics": "procedural puppet"
+    },
+    {
+      "id": "Comparison",
+      "seq": "out/compareframes",
+      "mp4": "out/comparison-source-vs-2d.mp4",
+      "semantics": "labelled 4-panel proof"
+    }
+  ],
+  "methodDocumentedIds": [
+    "CelRun",
+    "CelLoop",
+    "RunCycle",
+    "Comparison"
+  ],
+  "documentedNpmScripts": [
+    "render:all:lowram",
+    "studio"
+  ],
+  "checks": [
+    {
+      "name": "no duplicate composition IDs",
+      "status": "PASS",
+      "detail": "CelRun, CelLoop, RunCycle, Comparison"
+    },
+    {
+      "name": "registry IDs == render manifest IDs",
+      "status": "PASS",
+      "detail": "registry=[CelRun,CelLoop,RunCycle,Comparison] jobs=[CelRun,CelLoop,RunCycle,Comparison]"
+    },
+    {
+      "name": "registry IDs == METHOD.md deliverables IDs",
+      "status": "PASS",
+      "detail": "registry=[CelRun,CelLoop,RunCycle,Comparison] method=[CelRun,CelLoop,RunCycle,Comparison]"
+    },
+    {
+      "name": "every documented npm run script exists",
+      "status": "PASS",
+      "detail": "documented=[render:all:lowram,studio] missing=[]"
+    },
+    {
+      "name": "typecheck script exists",
+      "status": "PASS",
+      "detail": "tsc --noEmit"
+    },
+    {
+      "name": "tools test script is real (not placeholder exit 1)",
+      "status": "PASS",
+      "detail": "node --test test/"
+    },
+    {
+      "name": "remotion test script exists",
+      "status": "PASS",
+      "detail": "node --import tsx --test test/cels.test.ts"
+    },
+    {
+      "name": "CelRun: 1920x1080 @ 24fps, 94 frames",
+      "status": "PASS",
+      "detail": "1920x1080 @ 24fps, 94 frames"
+    },
+    {
+      "name": "CelLoop: 1920x1080 @ 24fps, 94 frames",
+      "status": "PASS",
+      "detail": "1920x1080 @ 24fps, 94 frames"
+    },
+    {
+      "name": "RunCycle: 1920x1080 @ 24fps, 94 frames",
+      "status": "PASS",
+      "detail": "1920x1080 @ 24fps, 94 frames"
+    },
+    {
+      "name": "Comparison: 1920x1080 @ 24fps, 94 frames",
+      "status": "PASS",
+      "detail": "1920x1080 @ 24fps, 94 frames"
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,6 @@
+$ /usr/local/bin/node /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/tools/verify-assets.js
+(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d)
+
+cel94: 94/94 files, 94 unique — PASS
+cel:   26/26 files, 26 unique — PASS_WITH_NOTES
+  NOTE (x26): no viewBox (legacy vtracer output; width/height present)

@@ -1,4 +1,29 @@
 {
+ "_meta": {
+  "samplingMode": "every_6_frames",
+  "sampledFrames": 16,
+  "sampledFrameNumbers": [
+   1,
+   7,
+   13,
+   19,
+   25,
+   31,
+   37,
+   43,
+   49,
+   55,
+   61,
+   67,
+   73,
+   79,
+   85,
+   91
+  ],
+  "dimensions": "960x540",
+  "metricNotes": "Historical report. 'mad' = per-channel mean absolute difference (0-255). 'pct' was described in METHOD.md as '% pixels with delta > 40' at 960x540; the original scorer script was never committed, so the exact old pct formula cannot be re-derived. These 16-sample figures are a historical reference only.",
+  "supersededBy": "reports/fidelity-all-frames.json (all 94 frames, 1920x1080, explicitly defined metrics)"
+ },
  "cel94": {
   "mad": 2.71,
   "pct": 0.54,

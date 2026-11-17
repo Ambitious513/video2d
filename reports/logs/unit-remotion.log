@@ -1,0 +1,72 @@
+$ npm test
+(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/remotion)
+
+
+> runner-2d-remotion@1.0.0 test
+> node --import tsx --test test/cels.test.ts
+
+TAP version 13
+# Subtest: constants match the source timeline
+ok 1 - constants match the source timeline
+  ---
+  duration_ms: 0.690771
+  ...
+# Subtest: frame 0: exact cel 1, loop cel 1
+ok 2 - frame 0: exact cel 1, loop cel 1
+  ---
+  duration_ms: 0.215495
+  ...
+# Subtest: frame 12: exact cel 13, loop cel 13
+ok 3 - frame 12: exact cel 13, loop cel 13
+  ---
+  duration_ms: 0.114171
+  ...
+# Subtest: frame 25: exact cel 26, loop cel 26
+ok 4 - frame 25: exact cel 26, loop cel 26
+  ---
+  duration_ms: 0.125401
+  ...
+# Subtest: frame 26: exact cel 27, loop cel 1
+ok 5 - frame 26: exact cel 27, loop cel 1
+  ---
+  duration_ms: 0.124637
+  ...
+# Subtest: frame 72: exact cel 73, loop cel 21
+ok 6 - frame 72: exact cel 73, loop cel 21
+  ---
+  duration_ms: 0.067289
+  ...
+# Subtest: frame 93: exact cel 94, loop cel 16
+ok 7 - frame 93: exact cel 94, loop cel 16
+  ---
+  duration_ms: 0.061784
+  ...
+# Subtest: exact variant: 94 frames -> 94 unique cels, strictly monotonic, no skips/repeats
+ok 8 - exact variant: 94 frames -> 94 unique cels, strictly monotonic, no skips/repeats
+  ---
+  duration_ms: 0.311607
+  ...
+# Subtest: loop variant: repeats exactly every 26 timeline frames
+ok 9 - loop variant: repeats exactly every 26 timeline frames
+  ---
+  duration_ms: 0.247604
+  ...
+# Subtest: out-of-range and non-integer frames are rejected, not wrapped
+ok 10 - out-of-range and non-integer frames are rejected, not wrapped
+  ---
+  duration_ms: 0.574094
+  ...
+# Subtest: cel paths are zero-padded and point at the right asset directories
+ok 11 - cel paths are zero-padded and point at the right asset directories
+  ---
+  duration_ms: 0.87865
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 321.456334

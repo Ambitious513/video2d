@@ -1,0 +1,14 @@
+$ /usr/local/bin/node /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/tools/verify-source.js
+(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d)
+
+Test A source media: PASS
+Test B source frames: PASS
+  [PASS] fullres/ 94 contiguous 1920x1080 valid PNGs — []
+  [PASS] srcframes/ 94 contiguous 960x540 valid PNGs — []
+  [PASS] committed frames/ 94 contiguous 960x540 valid PNGs — []
+  [PASS] source frame n=0 pixel-matches fullres/f_001.png — identical pixels
+  [PASS] source frame n=46 pixel-matches fullres/f_047.png — identical pixels
+  [PASS] source frame n=93 pixel-matches fullres/f_094.png — identical pixels
+  [PASS] committed frames/ pixel-identical to fresh 960x540 extraction (all 94) — 94/94 identical
+  [PASS] 26 committed fullres PNGs byte-identical to fresh extraction — 26/26 identical
+  [PASS] public/audio.m4a preserves source audio duration (±0.1s) — public=3.926000s source=3.920000s

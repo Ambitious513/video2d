@@ -1,0 +1,14 @@
+$ /usr/local/bin/node /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/tools/trace-all.js
+(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d)
+
+traced 10/94 (8s)
+traced 20/94 (16s)
+traced 30/94 (24s)
+traced 40/94 (32s)
+traced 50/94 (40s)
+traced 60/94 (48s)
+traced 70/94 (56s)
+traced 80/94 (64s)
+traced 90/94 (72s)
+traced 94/94 (75s)
+cel94 complete: 94 SVGs, debug PNGs: none (75s)

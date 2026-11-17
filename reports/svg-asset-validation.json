@@ -1,0 +1,1023 @@
+{
+  "generatedAt": "2026-11-17T21:41:19.981Z",
+  "checks": [
+    "contiguous naming",
+    "non-empty",
+    "svg root",
+    "1920x1080 width/height",
+    "viewBox recorded",
+    "no embedded raster",
+    "librsvg parse+render",
+    "pairwise unique (sha256)"
+  ],
+  "cel94": {
+    "dir": "remotion/public/cel94",
+    "expectedCount": 94,
+    "files": [
+      {
+        "name": "f_001.svg",
+        "bytes": 55972,
+        "paths": 130,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "2f23032dfd23e4cd",
+        "rasterizes": true
+      },
+      {
+        "name": "f_002.svg",
+        "bytes": 58300,
+        "paths": 130,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "dad53652b2ef10a2",
+        "rasterizes": true
+      },
+      {
+        "name": "f_003.svg",
+        "bytes": 62395,
+        "paths": 163,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "89bb10f57aeb0d95",
+        "rasterizes": true
+      },
+      {
+        "name": "f_004.svg",
+        "bytes": 54145,
+        "paths": 136,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "726eaa5ce2b1b583",
+        "rasterizes": true
+      },
+      {
+        "name": "f_005.svg",
+        "bytes": 53596,
+        "paths": 134,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "12e34c3930d7b1ac",
+        "rasterizes": true
+      },
+      {
+        "name": "f_006.svg",
+        "bytes": 54566,
+        "paths": 145,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "b6aee611a96f5a85",
+        "rasterizes": true
+      },
+      {
+        "name": "f_007.svg",
+        "bytes": 59273,
+        "paths": 152,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "aedd6fd8578bbd57",
+        "rasterizes": true
+      },
+      {
+        "name": "f_008.svg",
+        "bytes": 66125,
+        "paths": 159,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "35b5c3427cd296c5",
+        "rasterizes": true
+      },
+      {
+        "name": "f_009.svg",
+        "bytes": 68456,
+        "paths": 161,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "357d5c18f2b100a2",
+        "rasterizes": true
+      },
+      {
+        "name": "f_010.svg",
+        "bytes": 79313,
+        "paths": 164,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "cc62c55bb12b5716",
+        "rasterizes": true
+      },
+      {
+        "name": "f_011.svg",
+        "bytes": 62177,
+        "paths": 163,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "3320c906a2bb1753",
+        "rasterizes": true
+      },
+      {
+        "name": "f_012.svg",
+        "bytes": 62539,
+        "paths": 158,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "c04c2c3ff035925d",
+        "rasterizes": true
+      },
+      {
+        "name": "f_013.svg",
+        "bytes": 60260,
+        "paths": 137,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "511cabb1e512a543",
+        "rasterizes": true
+      },
+      {
+        "name": "f_014.svg",
+        "bytes": 64457,
+        "paths": 146,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "234b92cfc34dfae3",
+        "rasterizes": true
+      },
+      {
+        "name": "f_015.svg",
+        "bytes": 64037,
+        "paths": 161,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "cca98eb89be2143b",
+        "rasterizes": true
+      },
+      {
+        "name": "f_016.svg",
+        "bytes": 59327,
+        "paths": 159,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "aea5dd5fe7bb94d6",
+        "rasterizes": true
+      },
+      {
+        "name": "f_017.svg",
+        "bytes": 73815,
+        "paths": 165,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "26f0166e9d929442",
+        "rasterizes": true
+      },
+      {
+        "name": "f_018.svg",
+        "bytes": 57213,
+        "paths": 152,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "b81229d3ee4771bb",
+        "rasterizes": true
+      },
+      {
+        "name": "f_019.svg",
+        "bytes": 62563,
+        "paths": 160,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "10478c624de48bb8",
+        "rasterizes": true
+      },
+      {
+        "name": "f_020.svg",
+        "bytes": 57719,
+        "paths": 150,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "11db91007d501537",
+        "rasterizes": true
+      },
+      {
+        "name": "f_021.svg",
+        "bytes": 62517,
+        "paths": 146,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "ad6e2d0b63daf31e",
+        "rasterizes": true
+      },
+      {
+        "name": "f_022.svg",
+        "bytes": 67508,
+        "paths": 151,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "dfa7da30a3ea3b04",
+        "rasterizes": true
+      },
+      {
+        "name": "f_023.svg",
+        "bytes": 60340,
+        "paths": 145,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "7fc7e07cb49e67e8",
+        "rasterizes": true
+      },
+      {
+        "name": "f_024.svg",
+        "bytes": 61852,
+        "paths": 152,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "a58937bc91ccd6ae",
+        "rasterizes": true
+      },
+      {
+        "name": "f_025.svg",
+        "bytes": 57373,
+        "paths": 132,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "4af371c1c1ff9a25",
+        "rasterizes": true
+      },
+      {
+        "name": "f_026.svg",
+        "bytes": 65138,
+        "paths": 162,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "649f1d3622a1db7b",
+        "rasterizes": true
+      },
+      {
+        "name": "f_027.svg",
+        "bytes": 67705,
+        "paths": 151,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "55a3141fd65ae7b4",
+        "rasterizes": true
+      },
+      {
+        "name": "f_028.svg",
+        "bytes": 63537,
+        "paths": 152,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "c2776d705f93fba8",
+        "rasterizes": true
+      },
+      {
+        "name": "f_029.svg",
+        "bytes": 61994,
+        "paths": 153,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "a984398109b949d2",
+        "rasterizes": true
+      },
+      {
+        "name": "f_030.svg",
+        "bytes": 48574,
+        "paths": 135,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "4116d1e443457652",
+        "rasterizes": true
+      },
+      {
+        "name": "f_031.svg",
+        "bytes": 56233,
+        "paths": 135,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "dfaf5745e49a496d",
+        "rasterizes": true
+      },
+      {
+        "name": "f_032.svg",
+        "bytes": 61073,
+        "paths": 164,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "8e78db67adb54444",
+        "rasterizes": true
+      },
+      {
+        "name": "f_033.svg",
+        "bytes": 62033,
+        "paths": 172,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "953092b4b2611553",
+        "rasterizes": true
+      },
+      {
+        "name": "f_034.svg",
+        "bytes": 71661,
+        "paths": 170,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "62b25cda0a2a664d",
+        "rasterizes": true
+      },
+      {
+        "name": "f_035.svg",
+        "bytes": 64123,
+        "paths": 155,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "4505854b3622f1be",
+        "rasterizes": true
+      },
+      {
+        "name": "f_036.svg",
+        "bytes": 69237,
+        "paths": 166,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "a54549456a1a8556",
+        "rasterizes": true
+      },
+      {
+        "name": "f_037.svg",
+        "bytes": 72767,
+        "paths": 148,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "1ba268d0b12a63d4",
+        "rasterizes": true
+      },
+      {
+        "name": "f_038.svg",
+        "bytes": 60410,
+        "paths": 159,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "55bc3337db08da1a",
+        "rasterizes": true
+      },
+      {
+        "name": "f_039.svg",
+        "bytes": 64187,
+        "paths": 156,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "12c7a8b0fe574af6",
+        "rasterizes": true
+      },
+      {
+        "name": "f_040.svg",
+        "bytes": 71547,
+        "paths": 151,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "153ef2f49dc69ba1",
+        "rasterizes": true
+      },
+      {
+        "name": "f_041.svg",
+        "bytes": 70194,
+        "paths": 163,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "a2409528961b24ed",
+        "rasterizes": true
+      },
+      {
+        "name": "f_042.svg",
+        "bytes": 68561,
+        "paths": 166,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "6851146b5026ec18",
+        "rasterizes": true
+      },
+      {
+        "name": "f_043.svg",
+        "bytes": 70132,
+        "paths": 159,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "1586d23770714350",
+        "rasterizes": true
+      },
+      {
+        "name": "f_044.svg",
+        "bytes": 56679,
+        "paths": 165,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "7f672294e510ce71",
+        "rasterizes": true
+      },
+      {
+        "name": "f_045.svg",
+        "bytes": 60979,
+        "paths": 132,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "68bac307fa86bdba",
+        "rasterizes": true
+      },
+      {
+        "name": "f_046.svg",
+        "bytes": 57987,
+        "paths": 136,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "a50def2ebb469ed3",
+        "rasterizes": true
+      },
+      {
+        "name": "f_047.svg",
+        "bytes": 58181,
+        "paths": 155,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "5e0c8ec623c4cdf0",
+        "rasterizes": true
+      },
+      {
+        "name": "f_048.svg",
+        "bytes": 63791,
+        "paths": 157,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "3835b9ca6c913746",
+        "rasterizes": true
+      },
+      {
+        "name": "f_049.svg",
+        "bytes": 69489,
+        "paths": 153,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "43aef7c4c2a85adc",
+        "rasterizes": true
+      },
+      {
+        "name": "f_050.svg",
+        "bytes": 71708,
+        "paths": 153,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "a0f4cc9fd313afe3",
+        "rasterizes": true
+      },
+      {
+        "name": "f_051.svg",
+        "bytes": 67186,
+        "paths": 145,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "82edc29010bd759a",
+        "rasterizes": true
+      },
+      {
+        "name": "f_052.svg",
+        "bytes": 60852,
+        "paths": 147,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "15bd976479709dcc",
+        "rasterizes": true
+      },
+      {
+        "name": "f_053.svg",
+        "bytes": 66252,
+        "paths": 147,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "1b2d24e671ca4fc3",
+        "rasterizes": true
+      },
+      {
+        "name": "f_054.svg",
+        "bytes": 63048,
+        "paths": 129,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "56fab49bee2d266a",
+        "rasterizes": true
+      },
+      {
+        "name": "f_055.svg",
+        "bytes": 58793,
+        "paths": 134,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "cb7549ea52c7c19a",
+        "rasterizes": true
+      },
+      {
+        "name": "f_056.svg",
+        "bytes": 51580,
+        "paths": 143,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "3a0d75a6e7aa5002",
+        "rasterizes": true
+      },
+      {
+        "name": "f_057.svg",
+        "bytes": 55327,
+        "paths": 142,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "1576ee132549a2e6",
+        "rasterizes": true
+      },
+      {
+        "name": "f_058.svg",
+        "bytes": 55657,
+        "paths": 144,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "5a18c2527cf65429",
+        "rasterizes": true
+      },
+      {
+        "name": "f_059.svg",
+        "bytes": 62276,
+        "paths": 153,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "fb77b80ab17fc47b",
+        "rasterizes": true
+      },
+      {
+        "name": "f_060.svg",
+        "bytes": 77047,
+        "paths": 163,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "cff38108b7ee250e",
+        "rasterizes": true
+      },
+      {
+        "name": "f_061.svg",
+        "bytes": 65861,
+        "paths": 140,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "f865a001145fdf60",
+        "rasterizes": true
+      },
+      {
+        "name": "f_062.svg",
+        "bytes": 66825,
+        "paths": 182,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "0adccdd836658f8e",
+        "rasterizes": true
+      },
+      {
+        "name": "f_063.svg",
+        "bytes": 72329,
+        "paths": 172,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "74d5b92336f4f3f1",
+        "rasterizes": true
+      },
+      {
+        "name": "f_064.svg",
+        "bytes": 62503,
+        "paths": 152,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "be03a1597b93d5c8",
+        "rasterizes": true
+      },
+      {
+        "name": "f_065.svg",
+        "bytes": 72356,
+        "paths": 176,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "7d8336c9391191c9",
+        "rasterizes": true
+      },
+      {
+        "name": "f_066.svg",
+        "bytes": 67001,
+        "paths": 168,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "f0a75c670c1ca047",
+        "rasterizes": true
+      },
+      {
+        "name": "f_067.svg",
+        "bytes": 68476,
+        "paths": 174,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "8693509bb0cfd9fb",
+        "rasterizes": true
+      },
+      {
+        "name": "f_068.svg",
+        "bytes": 60793,
+        "paths": 172,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "19466b720f47abb8",
+        "rasterizes": true
+      },
+      {
+        "name": "f_069.svg",
+        "bytes": 69578,
+        "paths": 169,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "99855e0692ac544c",
+        "rasterizes": true
+      },
+      {
+        "name": "f_070.svg",
+        "bytes": 62892,
+        "paths": 148,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "1a890ee88705c060",
+        "rasterizes": true
+      },
+      {
+        "name": "f_071.svg",
+        "bytes": 61128,
+        "paths": 167,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "9156e201460acaed",
+        "rasterizes": true
+      },
+      {
+        "name": "f_072.svg",
+        "bytes": 64558,
+        "paths": 163,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "b63bd56779ef1562",
+        "rasterizes": true
+      },
+      {
+        "name": "f_073.svg",
+        "bytes": 56490,
+        "paths": 159,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "9b510fe75d66b9de",
+        "rasterizes": true
+      },
+      {
+        "name": "f_074.svg",
+        "bytes": 71291,
+        "paths": 167,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "5ca49366edba4e5f",
+        "rasterizes": true
+      },
+      {
+        "name": "f_075.svg",
+        "bytes": 65594,
+        "paths": 166,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "76ba60375e5a6098",
+        "rasterizes": true
+      },
+      {
+        "name": "f_076.svg",
+        "bytes": 62207,
+        "paths": 162,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "9f223aa9a5e2a0c6",
+        "rasterizes": true
+      },
+      {
+        "name": "f_077.svg",
+        "bytes": 64352,
+        "paths": 160,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "34700047d445ec42",
+        "rasterizes": true
+      },
+      {
+        "name": "f_078.svg",
+        "bytes": 62248,
+        "paths": 164,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "0746a3481bc50975",
+        "rasterizes": true
+      },
+      {
+        "name": "f_079.svg",
+        "bytes": 61836,
+        "paths": 163,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "9bd5a098a5095fd0",
+        "rasterizes": true
+      },
+      {
+        "name": "f_080.svg",
+        "bytes": 65407,
+        "paths": 155,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "fa452e221ab084e4",
+        "rasterizes": true
+      },
+      {
+        "name": "f_081.svg",
+        "bytes": 62393,
+        "paths": 149,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "2f4ed8ffec6707ae",
+        "rasterizes": true
+      },
+      {
+        "name": "f_082.svg",
+        "bytes": 60409,
+        "paths": 165,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "30a1c29500b48b48",
+        "rasterizes": true
+      },
+      {
+        "name": "f_083.svg",
+        "bytes": 58076,
+        "paths": 168,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "18bca7820f75ca66",
+        "rasterizes": true
+      },
+      {
+        "name": "f_084.svg",
+        "bytes": 65635,
+        "paths": 169,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "3f310e9394f65bcc",
+        "rasterizes": true
+      },
+      {
+        "name": "f_085.svg",
+        "bytes": 64700,
+        "paths": 170,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "e25322cd3ade8a94",
+        "rasterizes": true
+      },
+      {
+        "name": "f_086.svg",
+        "bytes": 72350,
+        "paths": 161,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "18f5e033095f2282",
+        "rasterizes": true
+      },
+      {
+        "name": "f_087.svg",
+        "bytes": 69837,
+        "paths": 165,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "79e46ebe47066538",
+        "rasterizes": true
+      },
+      {
+        "name": "f_088.svg",
+        "bytes": 79141,
+        "paths": 181,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "f3c6e6dd931991aa",
+        "rasterizes": true
+      },
+      {
+        "name": "f_089.svg",
+        "bytes": 68642,
+        "paths": 184,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "44c510ee7588c2f5",
+        "rasterizes": true
+      },
+      {
+        "name": "f_090.svg",
+        "bytes": 69113,
+        "paths": 182,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "529007d9fb5950b8",
+        "rasterizes": true
+      },
+      {
+        "name": "f_091.svg",
+        "bytes": 73217,
+        "paths": 170,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "e337eb97f30ffc26",
+        "rasterizes": true
+      },
+      {
+        "name": "f_092.svg",
+        "bytes": 76034,
+        "paths": 193,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "8cbcee66c4fe02ba",
+        "rasterizes": true
+      },
+      {
+        "name": "f_093.svg",
+        "bytes": 75042,
+        "paths": 169,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "8e41b9c7d84b351b",
+        "rasterizes": true
+      },
+      {
+        "name": "f_094.svg",
+        "bytes": 66985,
+        "paths": 168,
+        "viewBox": "0 0 1920 1080",
+        "sha256": "c6a3f805949866c2",
+        "rasterizes": true
+      }
+    ],
+    "problems": [],
+    "deviations": [],
+    "actualCount": 94,
+    "uniqueHashes": 94,
+    "status": "PASS"
+  },
+  "cel": {
+    "dir": "remotion/public/cel",
+    "expectedCount": 26,
+    "files": [
+      {
+        "name": "f_001.svg",
+        "bytes": 55948,
+        "paths": 130,
+        "viewBox": null,
+        "sha256": "8f035d366fa7036c",
+        "rasterizes": true
+      },
+      {
+        "name": "f_002.svg",
+        "bytes": 58276,
+        "paths": 130,
+        "viewBox": null,
+        "sha256": "c8e7c6e27c2df267",
+        "rasterizes": true
+      },
+      {
+        "name": "f_003.svg",
+        "bytes": 62371,
+        "paths": 163,
+        "viewBox": null,
+        "sha256": "82829051d50f7b55",
+        "rasterizes": true
+      },
+      {
+        "name": "f_004.svg",
+        "bytes": 54121,
+        "paths": 136,
+        "viewBox": null,
+        "sha256": "ef3bf93047e73eb0",
+        "rasterizes": true
+      },
+      {
+        "name": "f_005.svg",
+        "bytes": 53572,
+        "paths": 134,
+        "viewBox": null,
+        "sha256": "a306fef7e7febc37",
+        "rasterizes": true
+      },
+      {
+        "name": "f_006.svg",
+        "bytes": 54542,
+        "paths": 145,
+        "viewBox": null,
+        "sha256": "cfaf44e9a31bbdf9",
+        "rasterizes": true
+      },
+      {
+        "name": "f_007.svg",
+        "bytes": 59249,
+        "paths": 152,
+        "viewBox": null,
+        "sha256": "2ecc1a4d524671e3",
+        "rasterizes": true
+      },
+      {
+        "name": "f_008.svg",
+        "bytes": 66101,
+        "paths": 159,
+        "viewBox": null,
+        "sha256": "e72ea505b49134bc",
+        "rasterizes": true
+      },
+      {
+        "name": "f_009.svg",
+        "bytes": 68432,
+        "paths": 161,
+        "viewBox": null,
+        "sha256": "08b036f72f2b13a0",
+        "rasterizes": true
+      },
+      {
+        "name": "f_010.svg",
+        "bytes": 79289,
+        "paths": 164,
+        "viewBox": null,
+        "sha256": "23f49e8bad21d95b",
+        "rasterizes": true
+      },
+      {
+        "name": "f_011.svg",
+        "bytes": 62153,
+        "paths": 163,
+        "viewBox": null,
+        "sha256": "28f0e19ef6e8086a",
+        "rasterizes": true
+      },
+      {
+        "name": "f_012.svg",
+        "bytes": 62515,
+        "paths": 158,
+        "viewBox": null,
+        "sha256": "b65f850f346b8f5f",
+        "rasterizes": true
+      },
+      {
+        "name": "f_013.svg",
+        "bytes": 60236,
+        "paths": 137,
+        "viewBox": null,
+        "sha256": "412a3871f06aa78e",
+        "rasterizes": true
+      },
+      {
+        "name": "f_014.svg",
+        "bytes": 64433,
+        "paths": 146,
+        "viewBox": null,
+        "sha256": "050f798b62e3aec8",
+        "rasterizes": true
+      },
+      {
+        "name": "f_015.svg",
+        "bytes": 64013,
+        "paths": 161,
+        "viewBox": null,
+        "sha256": "679c24b5878f3437",
+        "rasterizes": true
+      },
+      {
+        "name": "f_016.svg",
+        "bytes": 59303,
+        "paths": 159,
+        "viewBox": null,
+        "sha256": "e2c37223c9845544",
+        "rasterizes": true
+      },
+      {
+        "name": "f_017.svg",
+        "bytes": 73791,
+        "paths": 165,
+        "viewBox": null,
+        "sha256": "5c9c99247ba8a2ad",
+        "rasterizes": true
+      },
+      {
+        "name": "f_018.svg",
+        "bytes": 57189,
+        "paths": 152,
+        "viewBox": null,
+        "sha256": "bc179ec48e40d57b",
+        "rasterizes": true
+      },
+      {
+        "name": "f_019.svg",
+        "bytes": 62539,
+        "paths": 160,
+        "viewBox": null,
+        "sha256": "065d53488542586a",
+        "rasterizes": true
+      },
+      {
+        "name": "f_020.svg",
+        "bytes": 57695,
+        "paths": 150,
+        "viewBox": null,
+        "sha256": "03577b3ed9e32952",
+        "rasterizes": true
+      },
+      {
+        "name": "f_021.svg",
+        "bytes": 62493,
+        "paths": 146,
+        "viewBox": null,
+        "sha256": "58d8a6ec5d7b0354",
+        "rasterizes": true
+      },
+      {
+        "name": "f_022.svg",
+        "bytes": 67484,
+        "paths": 151,
+        "viewBox": null,
+        "sha256": "5f91956e563c1d85",
+        "rasterizes": true
+      },
+      {
+        "name": "f_023.svg",
+        "bytes": 60316,
+        "paths": 145,
+        "viewBox": null,
+        "sha256": "5d528803af5121c4",
+        "rasterizes": true
+      },
+      {
+        "name": "f_024.svg",
+        "bytes": 61828,
+        "paths": 152,
+        "viewBox": null,
+        "sha256": "fd6abe26b9664860",
+        "rasterizes": true
+      },
+      {
+        "name": "f_025.svg",
+        "bytes": 57349,
+        "paths": 132,
+        "viewBox": null,
+        "sha256": "1149e77d0ceb8f44",
+        "rasterizes": true
+      },
+      {
+        "name": "f_026.svg",
+        "bytes": 65114,
+        "paths": 162,
+        "viewBox": null,
+        "sha256": "bc8c548cff4629b6",
+        "rasterizes": true
+      }
+    ],
+    "problems": [],
+    "deviations": [
+      "f_001.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_002.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_003.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_004.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_005.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_006.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_007.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_008.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_009.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_010.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_011.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_012.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_013.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_014.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_015.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_016.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_017.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_018.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_019.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_020.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_021.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_022.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_023.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_024.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_025.svg: no viewBox (legacy vtracer output; width/height present)",
+      "f_026.svg: no viewBox (legacy vtracer output; width/height present)"
+    ],
+    "actualCount": 26,
+    "uniqueHashes": 26,
+    "status": "PASS_WITH_NOTES"
+  },
+  "status": "PASS"
+}

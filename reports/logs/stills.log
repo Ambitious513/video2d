@@ -1,0 +1,32 @@
+$ /usr/local/bin/node /tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/remotion/scripts/render-stills.mjs
+(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/remotion)
+
+bundling remotion entry point...
+[PASS] CelRun_f00.png
+[PASS] CelRun_f12.png
+[PASS] CelRun_f25.png
+[PASS] CelRun_f26.png
+[PASS] CelRun_f72.png
+[PASS] CelRun_f93.png
+[PASS] CelLoop_f00.png
+[PASS] CelLoop_f12.png
+[PASS] CelLoop_f25.png
+[PASS] CelLoop_f26.png
+[PASS] CelLoop_f72.png
+[PASS] CelLoop_f93.png
+[PASS] RunCycle_f00.png
+[PASS] RunCycle_f12.png
+[PASS] RunCycle_f25.png
+[PASS] RunCycle_f26.png
+[PASS] RunCycle_f72.png
+[PASS] RunCycle_f93.png
+[PASS] Comparison_f00.png
+[PASS] Comparison_f12.png
+[PASS] Comparison_f25.png
+[PASS] Comparison_f26.png
+[PASS] Comparison_f72.png
+[PASS] Comparison_f93.png
+wrote verify/contact-sheet.png
+wrote verify/comparison-contact-sheet.png
+Test F stills: PASS
+Fontconfig error: Cannot load default config file: File not found

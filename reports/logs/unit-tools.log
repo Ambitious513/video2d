@@ -1,0 +1,42 @@
+$ npm test
+(cwd=/tmp/arena/tenants/bef88e84-7144-4f1d-9552-009255b57a76/sessions/455500b4-b768-5115-9cdb-c53f9e32915a/workspace/video2d/tools)
+
+
+> tools@1.0.0 test
+> node --test test/
+
+TAP version 13
+# Subtest: palette is the locked 11-color set with matching hex list
+ok 1 - palette is the locked 11-color set with matching hex list
+  ---
+  duration_ms: 1.089182
+  ...
+# Subtest: quantize maps every pixel to an exact palette color
+ok 2 - quantize maps every pixel to an exact palette color
+  ---
+  duration_ms: 1.717967
+  ...
+# Subtest: despeckle preserves multi-pixel features (the eye survives)
+ok 3 - despeckle preserves multi-pixel features (the eye survives)
+  ---
+  duration_ms: 1.128922
+  ...
+# Subtest: despeckle removes a fully isolated single pixel
+ok 4 - despeckle removes a fully isolated single pixel
+  ---
+  duration_ms: 0.614527
+  ...
+# Subtest: CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only
+ok 5 - CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only
+  ---
+  duration_ms: 386.193762
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 490.656418
