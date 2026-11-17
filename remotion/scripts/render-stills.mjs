@@ -129,19 +129,30 @@ async function contactSheet() {
 }
 
 // ---- Test J proof sheet: Comparison composition at the 6 review frames ----
+// Each tile is a FULL 1920x1080 Comparison still (all four labelled panels),
+// downscaled to PW x PH. The resize is mandatory: sharp.composite() CLIPS an
+// oversized input to the tile box instead of scaling it, which would show only
+// the top-left SOURCE quadrant (the bug this sheet originally shipped with).
 async function comparisonSheet() {
-  const PW = 960, PH = 540, HEADER = 44, COLS = 3;
+  const PW = 1440, PH = 810, HEADER = 44, COLS = 2;
   const rows = Math.ceil(FRAMES.length / COLS);
-  const width = PW * COLS, height = HEADER * rows + PH * rows;
+  const width = PW * COLS, height = (HEADER + PH) * rows;
   const composites = [];
   for (let i = 0; i < FRAMES.length; i++) {
     const still = path.join(STILLS, `Comparison_f${String(FRAMES[i]).padStart(2, '0')}.png`);
     if (!fs.existsSync(still)) continue;
     const r = Math.floor(i / COLS), c = i % COLS;
-    composites.push({input: await labelSvg(`Comparison — timeline frame ${FRAMES[i]} / source frame ${FRAMES[i] + 1}`, PW, HEADER, 24), left: c * PW, top: r * (PH + HEADER)});
-    composites.push({input: await sharp(still).png().toBuffer(), left: c * PW, top: r * (PH + HEADER) + HEADER});
+    composites.push({input: await labelSvg(`Comparison — timeline frame ${FRAMES[i]} / source frame ${FRAMES[i] + 1}`, PW, HEADER, 26), left: c * PW, top: r * (PH + HEADER)});
+    const tile = await sharp(still).resize(PW, PH, {fit: 'fill', kernel: 'lanczos3'}).png().toBuffer();
+    const meta = await sharp(tile).metadata();
+    if (meta.width !== PW || meta.height !== PH) throw new Error(`comparison tile not downscaled: ${meta.width}x${meta.height}`);
+    composites.push({input: tile, left: c * PW, top: r * (PH + HEADER) + HEADER});
   }
-  await sharp({create: {width, height, channels: 3, background: '#FFFFFF'}}).composite(composites).png().toFile(path.join(ROOT, 'verify', 'comparison-contact-sheet.png'));
+  if (composites.length !== FRAMES.length * 2) throw new Error(`comparison sheet incomplete: ${composites.length / 2}/${FRAMES.length} tiles`);
+  await sharp({create: {width, height, channels: 3, background: '#FFFFFF'}})
+    .composite(composites)
+    .png({compressionLevel: 9, effort: 10})
+    .toFile(path.join(ROOT, 'verify', 'comparison-contact-sheet.png'));
 }
 
 let sheetsOk = true;

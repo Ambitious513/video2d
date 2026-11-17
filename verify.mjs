@@ -4,9 +4,10 @@
  * suite (Tests A–J) from a clean checkout, in dependency order.
  *
  *   node verify.mjs                     # everything (assumes npm ci done)
+ *   node verify.mjs --install           # also run+log npm ci x2 and browser ensure
  *   node verify.mjs --only=stills,render
  *   node verify.mjs --skip=trace        # cel94 already present
- *   node verify.mjs --force-trace       # re-trace all 94 cels
+ *   node verify.mjs --force-trace       # re-trace all 94 cels (determinism proof)
  *   node verify.mjs --keep-frames       # keep PNG sequences after scoring
  *
  * Prerequisites (documented in METHOD.md §8):
@@ -67,11 +68,25 @@ function step(name, cmd, args, cwd, {dependsOn = [], env = {}} = {}) {
   console.log(`=== ${name}: ${status} (${seconds}s) ===`);
 }
 
-// 0. deps present? (npm ci itself is a documented prerequisite; logged separately)
+// 0. Optional clean install (A17). Without --install, `npm ci` in tools/ and
+// remotion/ is a documented prerequisite (METHOD.md §8) and is reported as
+// NOT RUN here rather than silently assumed.
+const doInstall = argv.includes('--install');
+if (doInstall) {
+  step('install-tools', NPM, ['ci', '--no-audit', '--no-fund'], TOOLS);
+  step('install-remotion', NPM, ['ci', '--no-audit', '--no-fund'], REMOTION, {dependsOn: ['install-tools']});
+  step('browser', 'npx', ['remotion', 'browser', 'ensure'], REMOTION, {dependsOn: ['install-remotion']});
+} else {
+  for (const n of ['install-tools', 'install-remotion', 'browser']) {
+    results[n] = {status: 'NOT RUN', reason: 'prerequisite; pass --install to run and log npm ci + browser ensure'};
+  }
+}
+
+// deps present?
 const depsOk = fs.existsSync(path.join(TOOLS, 'node_modules', 'ffmpeg-static')) &&
   fs.existsSync(path.join(REMOTION, 'node_modules', 'remotion'));
 if (!depsOk) {
-  console.error('dependencies missing — run `npm ci` in tools/ and remotion/ first (see METHOD.md §8)');
+  console.error('dependencies missing — run `npm ci` in tools/ and remotion/ first, or use `node verify.mjs --install` (see METHOD.md §8)');
   process.exit(1);
 }
 
@@ -117,18 +132,68 @@ step('fidelity', process.execPath, [
 // 12. Motion & continuity (Test I)
 step('motion', NPM, ['run', 'verify:motion'], REMOTION);
 
-// 13. Tracked-file audit (A18): nothing regenerable/private may be tracked
+// 13. Tracked-file audit (A18): nothing regenerable/private may be tracked.
+// Historical binaries that were committed BEFORE this reconciliation stay
+// tracked on purpose (contract rule 6: do not delete original media/frames).
+// They are an explicit allowlist, so the audit still catches any NEW dump of
+// the same kind of file (e.g. fullres/f_027..094.png or a fresh *_flat.png).
 {
   const r = spawnSync('git', ['-C', ROOT, 'ls-files'], {encoding: 'utf8'});
-  const tracked = r.stdout.trim().split('\n');
-  const bad = tracked.filter((f) =>
-    f.includes('node_modules/') || f.startsWith('remotion/out/') || f.endsWith('.mp4') && !f.startsWith('source/') ||
+  const tracked = r.stdout.trim().split('\n').filter(Boolean);
+  const legacy = new Set([
+    // 26 historically committed full-resolution frames (verified byte-identical
+    // to a fresh extraction by tools/verify-source.js)
+    ...Array.from({length: 26}, (_, i) => `fullres/f_${String(i + 1).padStart(3, '0')}.png`),
+    // single-frame legacy tracing debug artefacts
+    'traced/f_001_flat.png', 'traced/f_001_preview.png',
+    // ground-truth media (must stay tracked)
+    'source/input_video.mp4', 'source/audio.aac', 'source/audio.wav',
+  ]);
+  const forbidden = (f) =>
+    f.includes('node_modules/') || f.startsWith('remotion/out/') || f.startsWith('.remotion/') ||
+    (f.endsWith('.mp4') && !f.startsWith('source/')) ||
     f.startsWith('verify/stills/') || f.startsWith('remotion/public/srcframes/') ||
-    /^fullres\/f_(0(2[7-9]|[3-9]\d)|\d{3,})\.png$/.test(f) || f.endsWith('_flat.png'));
-  // source/input_video.mp4 is the ground-truth media and MUST stay tracked
-  const status = bad.length === 0 && tracked.includes('source/input_video.mp4') ? 'PASS' : 'FAIL';
-  results['tracked-audit'] = {status, detail: bad.length ? `forbidden tracked files: ${bad.join(', ')}` : `${tracked.length} tracked files, none forbidden`, seconds: 0};
-  console.log(`\n=== tracked-audit: ${status} — ${results['tracked-audit'].detail} ===`);
+    /^fullres\/f_\d{3}\.png$/.test(f) || f.endsWith('_flat.png');
+  const bad = tracked.filter((f) => !legacy.has(f) && forbidden(f));
+  // Required assets must be present AND tracked (reproducibility from a clone).
+  const required = [
+    'source/input_video.mp4', 'remotion/public/audio.m4a',
+    ...Array.from({length: 94}, (_, i) => `remotion/public/cel94/f_${String(i + 1).padStart(3, '0')}.svg`),
+    ...Array.from({length: 26}, (_, i) => `remotion/public/cel/f_${String(i + 1).padStart(3, '0')}.svg`),
+    ...Array.from({length: 94}, (_, i) => `frames/f_${String(i + 1).padStart(3, '0')}.png`),
+  ];
+  const missing = required.filter((f) => !tracked.includes(f));
+  const status = bad.length === 0 && missing.length === 0 ? 'PASS' : 'FAIL';
+  const detail = [
+    `${tracked.length} tracked files`,
+    `${legacy.size} allowed historical binaries`,
+    bad.length ? `forbidden tracked files: ${bad.join(', ')}` : 'no forbidden tracked files',
+    missing.length ? `missing required tracked assets: ${missing.join(', ')}` : `all ${required.length} required assets tracked`,
+  ].join('; ');
+  results['tracked-audit'] = {status, detail, forbiddenTracked: bad, missingRequired: missing, trackedCount: tracked.length, seconds: 0};
+  console.log(`\n=== tracked-audit: ${status} — ${detail} ===`);
+}
+
+// 13b. Puppet-unchanged proof (A8): the procedural puppet must be byte-identical
+// to the pre-reconciliation baseline commit. This is the evidence that the
+// reconciliation did not silently redesign or re-tune the character.
+{
+  const BASELINE = '5ab3d647050cbc229098ee30b39d36cb3e1fe3fc';
+  const files = ['remotion/src/puppet/Runner.tsx', 'remotion/src/puppet/keys.ts', 'remotion/src/RunCycle.tsx'];
+  const r = spawnSync('git', ['-C', ROOT, 'diff', '--stat', BASELINE, 'HEAD', '--', ...files], {encoding: 'utf8'});
+  const clean = r.status === 0 && r.stdout.trim() === '';
+  // also compare the working tree (uncommitted edits would count as a change)
+  const w = spawnSync('git', ['-C', ROOT, 'diff', '--stat', BASELINE, '--', ...files], {encoding: 'utf8'});
+  const wtClean = w.status === 0 && w.stdout.trim() === '';
+  const status = clean && wtClean ? 'PASS' : 'FAIL';
+  results['puppet-unchanged'] = {
+    status,
+    detail: status === 'PASS'
+      ? `${files.join(', ')} byte-identical to baseline ${BASELINE.slice(0, 7)} (committed + working tree)`
+      : `puppet differs from baseline:\n${r.stdout}${w.stdout}`,
+    baseline: BASELINE, files, seconds: 0,
+  };
+  console.log(`\n=== puppet-unchanged: ${status} — ${results['puppet-unchanged'].detail} ===`);
 }
 
 // 14. Cleanup regenerable sequences ONLY after render+frame verification AND
@@ -146,6 +211,7 @@ if (!keepFrames && results.render?.status === 'PASS' && results.fidelity?.status
 // review criteria A15/A16 are completed in reports/REPRODUCIBILITY_REPORT.md)
 const s = (n) => results[n]?.status ?? 'NOT RUN';
 const all = (...ns) => ns.every((n) => s(n) === 'PASS') ? 'PASS' : ns.some((n) => s(n) === 'FAIL') ? 'FAIL' : ns.some((n) => s(n) === 'BLOCKED') ? 'BLOCKED' : 'NOT RUN';
+const installSteps = ['install-tools', 'install-remotion', 'browser'].filter((n) => results[n] && results[n].status !== 'NOT RUN');
 const matrix = {
   A1: {criterion: 'Source media metadata verified', status: s('source'), evidence: 'reports/source-media.json'},
   A2: {criterion: 'All 94 source frames extractable', status: s('source'), evidence: 'reports/source-frame-validation.json'},
@@ -154,20 +220,34 @@ const matrix = {
   A5: {criterion: 'Exact/loop compositions distinct, mapping correct', status: all('unit-remotion', 'compositions'), evidence: 'reports/logs/unit-remotion.log + reports/composition-validation.json'},
   A6: {criterion: 'Every advertised render job registered', status: s('compositions'), evidence: 'reports/composition-validation.json'},
   A7: {criterion: 'Low-RAM script works from documented invocation', status: s('render'), evidence: 'reports/render-validation.json + reports/logs/render.log'},
-  A8: {criterion: 'Puppet present, design unchanged', status: all('motion', 'stills'), evidence: 'git diff (puppet files untouched) + reports/motion-validation.json'},
+  A8: {criterion: 'Puppet present, design unchanged', status: all('puppet-unchanged', 'stills'), evidence: 'reports/test-matrix.json (puppet-unchanged: git diff vs baseline 5ab3d64) + reports/still-render-validation.json'},
   A9: {criterion: 'All required stills render correctly', status: s('stills'), evidence: 'reports/still-render-validation.json + verify/contact-sheet.png'},
   A10: {criterion: 'All compositions render 94 frames @24fps 1920x1080', status: s('render'), evidence: 'reports/render-validation.json'},
   A11: {criterion: 'Exact-cel all-frame fidelity measured', status: s('fidelity'), evidence: 'reports/fidelity-all-frames.json'},
   A12: {criterion: '26-loop drift measured, described as expected', status: s('fidelity'), evidence: 'reports/fidelity-all-frames.json + reports/FIDELITY.md'},
   A13: {criterion: 'Puppet metrics diagnostic-only', status: s('fidelity'), evidence: 'reports/fidelity-all-frames.json (objective field)'},
   A14: {criterion: 'Comparison composition + proof sheet work', status: all('stills', 'render'), evidence: 'verify/comparison-contact-sheet.png + remotion/out/comparison-source-vs-2d.mp4'},
-  A17: {criterion: 'Clean install + typecheck succeed', status: all('typecheck', 'unit-tools'), evidence: 'reports/logs/typecheck.log + npm ci logs'},
+  A17: {criterion: 'Clean install + typecheck succeed', status: all('typecheck', 'unit-tools', ...installSteps), evidence: 'reports/logs/typecheck.log + reports/logs/install-*.log (with --install)'},
   A18: {criterion: 'No MP4s/node_modules/temp sequences committed', status: s('tracked-audit'), evidence: 'reports/test-matrix.json (tracked-audit)'},
 };
-const out = {generatedAt: new Date().toISOString(), steps: results, acceptanceMatrix: matrix};
+// Test I is a required test but is NOT an A1-A18 acceptance gate: A8 gates the
+// puppet's design being unchanged, not its motion quality. Its result is
+// reported separately and honestly (a pre-existing limb-length finding is a
+// documented limitation, never a silently tuned PASS).
+const extraChecks = {
+  'Test I (motion & continuity)': {
+    status: s('motion'),
+    evidence: 'reports/motion-validation.json',
+    note: 'See reports/motion-validation.json findings + reports/REPRODUCIBILITY_REPORT.md known limitations. No IK / foot-contact solver exists; limb bone lengths are unconstrained.',
+  },
+};
+const out = {generatedAt: new Date().toISOString(), steps: results, acceptanceMatrix: matrix, additionalRequiredTests: extraChecks};
 fs.writeFileSync(path.join(ROOT, 'reports', 'test-matrix.json'), JSON.stringify(out, null, 2));
 console.log('\n=== verification summary ===');
 for (const [n, r] of Object.entries(results)) console.log(`${n.padEnd(16)} ${r.status}${r.reason ? ' — ' + r.reason : ''}`);
+console.log('\n=== acceptance matrix (A1-A18) ===');
+for (const [id, m] of Object.entries(matrix)) console.log(`${id.padEnd(4)} ${m.status.padEnd(8)} ${m.criterion}`);
+for (const [id, m] of Object.entries(extraChecks)) console.log(`${id}: ${m.status} (required test, not an A-gate)`);
 const failed = Object.values(results).some((r) => r.status === 'FAIL' || r.status === 'BLOCKED');
 console.log(`\nmatrix: reports/test-matrix.json — overall ${failed ? 'FAIL/BLOCKED present' : 'PASS'}`);
 process.exit(failed ? 1 : 0);
