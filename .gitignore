@@ -1,0 +1,23 @@
+# Dependencies (reproduce with `npm ci` in tools/ and remotion/)
+node_modules/
+
+# Local render outputs: MP4s + PNG sequences are regenerable, never committed
+remotion/out/
+
+# Regenerable full-resolution source extraction (tools/extract-frames.js).
+# The 26 historically committed fullres/f_001..f_026.png remain tracked;
+# newly extracted f_027..f_094 are ignored on purpose (see METHOD.md §8).
+fullres/
+
+# Regenerable 960x540 source frames for the Comparison composition
+remotion/public/srcframes/
+
+# Full-resolution still renders (local evidence; contact sheets are committed)
+verify/stills/
+
+# Remotion browser download cache
+.remotion/
+
+# OS / editor noise
+.DS_Store
+*.log.tmp

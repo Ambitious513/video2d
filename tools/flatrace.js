@@ -51,14 +51,32 @@ function quantize(img){
   return img;
 }
 
-const [,,inp,out] = process.argv;
-const img = quantize(PNG.sync.read(fs.readFileSync(inp)));
-const flatPng = PNG.sync.write(img);
-fs.writeFileSync(out.replace('.svg','_flat.png'), flatPng);
-const svg = vtracer.convertPixels(new Uint8Array(img.data), img.width, img.height, {
-  mode:'spline', hierarchical:'stacked', clustering:'color-cluster',
-  filterSpeckle:7, colorPrecision:6, cornerThreshold:75, lengthThreshold:5,
-  spliceThreshold:45, simplify:2, pathPrecision:2, optimize:2, palette:hex,
-});
-fs.writeFileSync(out, svg);
-console.log(out, (svg.length/1024).toFixed(0)+'KB', 'paths:', (svg.match(/<path/g)||[]).length);
+// CLI: node flatrace.js <input.png> <output.svg> [--flat]
+// Debug raster output is OPT-IN: pass --flat or set FLAT_PNG=1. Default bulk
+// tracing emits the SVG only (94 traces must not dump 94 extra 1080p PNGs).
+// Palette and vtracer parameters are unchanged from the verified experiment.
+function trace(inp, out, {flat = false} = {}) {
+  const img = quantize(PNG.sync.read(fs.readFileSync(inp)));
+  if (flat) fs.writeFileSync(out.replace('.svg', '_flat.png'), PNG.sync.write(img));
+  const svg = vtracer.convertPixels(new Uint8Array(img.data), img.width, img.height, {
+    mode:'spline', hierarchical:'stacked', clustering:'color-cluster',
+    filterSpeckle:7, colorPrecision:6, cornerThreshold:75, lengthThreshold:5,
+    spliceThreshold:45, simplify:2, pathPrecision:2, optimize:2, palette:hex,
+  });
+  fs.writeFileSync(out, svg);
+  return svg;
+}
+
+module.exports = {PALETTE, hex, quantize, trace};
+
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  const flat = args.includes('--flat') || process.env.FLAT_PNG === '1';
+  const [inp, out] = args.filter((a) => !a.startsWith('--'));
+  if (!inp || !out) {
+    console.error('usage: node flatrace.js <input.png> <output.svg> [--flat]  (or FLAT_PNG=1)');
+    process.exit(1);
+  }
+  const svg = trace(inp, out, {flat});
+  console.log(out, (svg.length/1024).toFixed(0)+'KB', 'paths:', (svg.match(/<path/g)||[]).length);
+}
