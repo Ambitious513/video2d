@@ -3,7 +3,7 @@
 **Repository:** `Ambitious513/video2d`
 **Active branch:** `feat/constrained-puppet-rig` (the upgraded procedural-puppet work)
 **Baseline branch:** `main` @ `5d4d13ab92ac38be0397bd2b8feb27e19eefdf98` — the unchanged reconciliation experiment (do not modify directly)
-**Current phase:** Phase 5 (final verification + docs) — **IN PROGRESS**; Phases 0–4 COMPLETE (Phase 3 owner-approved)
+**Current phase:** **ALL PHASES COMPLETE (0–5)** — Phases 0–5 done; Phase 3 owner-approved; ready for owner merge/PR review (not merged to main)
 **Single source of truth:** `ROADMAP.md` (this file is a concise pointer/summary only)
 **Detailed technical history:** `reports/PROCEDURAL_RIG_UPGRADE_REPORT.md`
 **Machine-readable evidence:** `reports/test-matrix.json` (A1–A18), `reports/fidelity-all-frames.json`
@@ -42,9 +42,9 @@ The `feat/constrained-puppet-rig` branch upgrades **only** the procedural puppet
 | 3b | Deterministic scarf + backpack | **COMPLETE** — fixed-length scarf chain, backpack bob/lag |
 | 3c | Visual comparison evidence + closeout | **COMPLETE** — `reports/phase3-final-polish-sheet.png`; **owner-approved 2026-11-18** |
 | 4 | Reusable second character variant | **COMPLETE** — teal variant on the shared rig/solver/motion; `reports/phase4-variant-comparison.png` |
-| 5 | Final verification + docs | **IN PROGRESS** — clean gate + METHOD/STATUS/report updates |
+| 5 | Final verification + docs | **COMPLETE** — clean gate A1–A18 PASS, 84/84 unit, METHOD/STATUS/report updated |
 
-**Phase 3 is OWNER-APPROVED (2026-11-18). Phase 4 (second variant) is COMPLETE.** Phases 0–4 are done; Phase 5 (final verification + docs) is in progress. The owner reviews visual evidence (contact sheets) — the agent cannot view images.
+**ALL PHASES (0–5) COMPLETE.** Phases 0–4 done (Phase 3 owner-approved); Phase 5 final verification + docs complete. The branch `feat/constrained-puppet-rig` is ready for owner merge/PR review (not merged to main). The owner reviews visual evidence (contact sheets) — the agent cannot view images.
 
 ### 2.2 Reconciled baseline detail (main)
 

@@ -387,3 +387,22 @@ Owner visual sign-off of `reports/phase3-final-polish-sheet.png` + the final `Ru
 ### Next
 
 Confirm the gate, then commit + push Phase 4 and await owner review of `reports/phase4-variant-comparison.png` before Phase 5.
+
+## Phase 5 — Final Verification + Documentation (COMPLETE)
+
+**Date:** 2026-11-18T22:00Z  **Status:** COMPLETE — all phases (0–5) done; ready for owner merge/PR review (not merged to main).
+
+### Final clean verification
+
+`node verify.mjs --install --force-trace` from the repo root (Windows, Node v25.2.1): **ALL 19 steps PASS; A1–A18 PASS; Test I 12/12; IK 7/7 gates + 14/14 cases; overall PASS (exit 0).** cel94 re-trace and frame extraction are byte-identical to the protected baseline `5d4d13a`; protected-asset scope-audit PASS. Unit tests: **84/84**.
+
+### Documentation updated
+
+- `METHOD.md` — §4 puppet pipeline rewritten (constrained rig + IK, cohesive geometry, deterministic scarf, backpack, Phase 4 variants); §5 wiring; §7.1 fidelity (puppet now 5.849 / 0.583 Phase 3 diagnostic); §9 limits (bone-length RESOLVED, contact/stance = diagnostic, cohesive-but-approximate, variants).
+- `STATUS.md` — current state = all phases complete; points to `ROADMAP.md`; stance qualification.
+- `ROADMAP.md` — Phase 5 COMPLETE, all phases COMPLETE, final SHA.
+- `reports/PROCEDURAL_RIG_UPGRADE_REPORT.md` — Phase 4 + Phase 5 sections.
+
+### Final state
+
+All phases COMPLETE on `feat/constrained-puppet-rig`; the owner reviews the branch/PR and merges to `main` (the agent does not merge). The full evidence is in `reports/` (test-matrix, fidelity, motion, ik, stance, contact sheets) and the logs in `reports/logs/`.
