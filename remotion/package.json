@@ -19,7 +19,10 @@
     "puppet:baseline": "tsx scripts/puppet-baseline.ts",
     "puppet:sheet": "node scripts/puppet-contact-sheet.mjs",
     "verify:ik": "tsx scripts/ik-validate.ts",
-    "verify:contacts": "tsx scripts/contact-candidates.ts"
+    "verify:contacts": "tsx scripts/contact-candidates.ts",
+    "verify:contact-evidence": "tsx scripts/contact-evidence.ts",
+    "verify:source-root": "node scripts/source-root-stability.mjs",
+    "contact:timeline": "node scripts/contact-timeline.mjs"
   },
   "dependencies": {
     "@remotion/cli": "4.0.240",
