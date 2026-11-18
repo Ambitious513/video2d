@@ -5,20 +5,20 @@
 **Current status:** IN PROGRESS (Phase 0 COMPLETE; Phase 1 next)
 **Last updated:** 2026-11-18T00:10Z (UTC)
 **Last verified remote commit:** see §7 (verified via `git ls-remote` after every push)
-**Latest pushed roadmap checkpoint:** Phase 0 completion commit — completion SHA: record in follow-up checkpoint
+**Latest pushed roadmap checkpoint:** 1dd5600dd2503942aca43fe24ae01fc222fb9f50 (Phase 0 completion; verified via `git ls-remote`)
 **Current agent:** Qwen session 2026-11-18 (bootstrap agent, Arena)
 
 ## 1. Mission
 Upgrade only the existing procedural puppet into a constrained, reusable 2D character rig. Preserve the reconciled exact-cel and loop experiments. A new Qwen session must be able to continue from this file without prior chat history. Master requirements: owner-supplied `QWEN_VIDEO2D_MULTI_AGENT_HANDOFF_AND_ROADMAP.md` (not committed; this file + `reports/` carry the durable state).
 
 ## 2. Current state — read this first
-- **Active phase:** Phase 1 (fixed-length skeleton + two-bone IK) — NOT STARTED yet
-- **Phase status:** Phase 0 COMPLETE; Phases 1–5 NOT STARTED
+- **Active phase:** Phase 1 (fixed-length skeleton + two-bone IK) — IN PROGRESS
+- **Phase status:** Phase 0 COMPLETE; Phase 1 IN PROGRESS; Phases 2–5 NOT STARTED
 - **What is already complete:**
   - Remote baseline verified: `origin/main` = `5d4d13ab92ac38be0397bd2b8feb27e19eefdf98` (documented reconciled baseline, not advanced). Feature branch created from it and pushed.
   - Full suite reproduced in a fresh sandbox (Debian 12, 2 cores, 1.09 GB, Node v20.20.2): `node verify.mjs --install --force-trace` → **A1–A18 all PASS; Test I FAIL 7/8 (pre-existing segment-length defect, exit code 1)**. All 94 re-traced cel94 SVGs byte-identical; cel/ untouched; both committed contact sheets byte-identical; fidelity aggregates reproduce exactly (1.046 / 2.5423 / 5.6307 MAE).
   - Pre-change baseline frozen: `reports/puppet-upgrade-baseline.json` (per-frame segment lengths ×94, lowest-point trajectories, ankle/toe velocities, contact candidates, palette/geometry, SSR hashes) + `reports/puppet-upgrade-baseline-contact-sheet.png` (actual Remotion renders at 0,12,25,26,34,72,93) + verbatim committed-report copies in `reports/baseline/`.
-- **What is currently being changed:** nothing in the puppet yet. Phase 1 will add `remotion/src/puppet/rig.ts`, `ik.ts`, `pose.ts`, unit tests, and rewire `Runner.tsx` to solved joints (geometry/draw order unchanged until Phase 3).
+- **What is currently being changed (Phase 1, IN PROGRESS):** new `remotion/src/puppet/rig.ts` (rig definition + calibrated bone lengths), `remotion/src/puppet/ik.ts` (generic two-bone solver), `remotion/src/puppet/pose.ts` (raw targets vs solved joints + diagnostics); `Runner.tsx` rewired to solved joints (geometry/draw order unchanged until Phase 3); `remotion/test/ik.test.ts` + `rig.test.ts` + `pose.test.ts`; `motion-check.tsx` Test I split; `verify.mjs` §10 scope-audit replacing puppet-unchanged. Test commands: `cd remotion && npm test && npm run typecheck && npm run verify:motion`, then `node verify.mjs`.
 - **What is not yet done:** Phases 1–5 entirely.
 - **Current blocker:** NONE. Push access works (owner-provided token stored outside the repo, never committed).
 
@@ -36,8 +36,8 @@ Do not modify: `remotion/public/cel94/`, `remotion/public/cel/`, `tools/flatrace
 
 | Phase | Objective | Status | Completion commit | Evidence | Next gate |
 |---|---|---|---|---|---|
-| 0. Bootstrap/baseline | Initialize this roadmap; confirm remote baseline and reproduce existing state | COMPLETE | completion SHA: record in follow-up checkpoint | `reports/puppet-upgrade-baseline.json`, `reports/puppet-upgrade-baseline-contact-sheet.png`, `reports/baseline/`, regenerated `reports/test-matrix.json` + logs | done |
-| 1. Fixed-length skeleton + IK | Rig definitions, generic two-bone solver, raw vs solved targets | NOT STARTED | — | — | All configured bones within ±0.5 px; IK edge tests pass |
+| 0. Bootstrap/baseline | Initialize this roadmap; confirm remote baseline and reproduce existing state | COMPLETE | 1dd5600dd2503942aca43fe24ae01fc222fb9f50 | `reports/puppet-upgrade-baseline.json`, `reports/puppet-upgrade-baseline-contact-sheet.png`, `reports/baseline/`, regenerated `reports/test-matrix.json` + logs | done |
+| 1. Fixed-length skeleton + IK | Rig definitions, generic two-bone solver, raw vs solved targets | IN PROGRESS | — | — | All configured bones within ±0.5 px; IK edge tests pass |
 | 2. Foot contacts + stance locking | Contact track, world-space anchors, root modes, foot-slip tests | NOT STARTED | — | — | Stance velocity <0.5 px/frame; drift ≤1.5 px |
 | 3. Visual construction + secondary motion | Cohesive silhouettes, torso/feet, backpack, deterministic scarf | NOT STARTED | — | — | Visual review + no regressions; IoU ≥0.68 target, MAE ≤5.6307 |
 | 4. Reusable second character | Second appearance/rig profile uses shared solver and motion | NOT STARTED | — | — | Both variants pass same tests without duplicated gait |
@@ -111,6 +111,6 @@ Do not silently change a decision. Record rationale and migration impact first.
 | Date (UTC) | Agent/session | Phase | Commit(s) pushed | Outcome | Tests | Next agent action |
 |---|---|---|---|---|---|---|
 | 2026-11-17T23:55Z | Qwen bootstrap (Arena) | 0 | 182dc4d9f4214d2418176fb7dc7cfde4801f929a | Roadmap initialized; remote baseline verified = `5d4d13a`; feature branch created; push access confirmed | none yet | Run full suite, write baseline report, then Milestone 1 |
-| 2026-11-18T00:10Z | Qwen bootstrap (Arena) | 0 | completion SHA: record in follow-up checkpoint | Phase 0 COMPLETE: suite reproduced (A1–A18 PASS, Test I pre-existing FAIL 7/8), baseline frozen (JSON + contact sheet + preserved reports), cel94/sheets byte-identical after force-trace | `node verify.mjs --install --force-trace` (exit 1, Test I only); baseline capture scripts PASS | Begin Milestone 1 per §2 NEXT AGENT START HERE |
+| 2026-11-18T00:10Z | Qwen bootstrap (Arena) | 0 | 1dd5600dd2503942aca43fe24ae01fc222fb9f50 | Phase 0 COMPLETE: suite reproduced (A1–A18 PASS, Test I pre-existing FAIL 7/8), baseline frozen (JSON + contact sheet + preserved reports), cel94/sheets byte-identical after force-trace | `node verify.mjs --install --force-trace` (exit 1, Test I only); baseline capture scripts PASS | Begin Milestone 1 per §2 NEXT AGENT START HERE |
 
 Never delete earlier rows. If an earlier statement is found to be wrong, append a correction row and update the current state above.
