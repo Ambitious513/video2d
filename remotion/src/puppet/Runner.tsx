@@ -1,7 +1,25 @@
 import React from 'react';
 import {C, HEAD_R, shadow, Pt, STEP} from './keys';
 import {solvePose} from './pose';
-import {scarfNodes, backpackBob, backpackLagX, backpackTransform, strapBackpackAnchor} from './secondary';
+import {RUNNER_RIG, type RigDefinition} from './rig';
+import {scarfNodes, backpackBob, backpackLagX, strapBackpackAnchor} from './secondary';
+
+/** Character appearance (Phase 4) — palette + optional wardrobe/accessory flags. */
+export interface Appearance {
+  bg: string; body: string; bodyLt: string; far: string; line: string;
+  scarf: string; scarfSh: string; pack: string; packLt: string; packDk: string;
+  eye: string; shadow: string;
+  /** Accessory toggles (default true = the original runner's scarf + backpack). */
+  hasScarf?: boolean;
+  hasBackpack?: boolean;
+}
+
+export const RUNNER_APPEARANCE: Appearance = {
+  bg: C.bg, body: C.body, bodyLt: C.bodyLt, far: C.far, line: C.line,
+  scarf: C.scarf, scarfSh: C.scarfSh, pack: C.pack, packLt: C.packLt, packDk: C.packDk,
+  eye: C.eye, shadow: C.shadow,
+  hasScarf: true, hasBackpack: true,
+};
 
 /**
  * Phase 3a — visual construction. All limb joints still come from the
@@ -87,14 +105,16 @@ function taperedLimbPath(nodes: { x: number; y: number; w: number }[]): string {
 }
 
 /** Outlined rounded segment (kept for the short neck; limbs use tapered outlines). */
-const Seg: React.FC<{ a: Pt; b: Pt; w: number; fill: string }> = ({ a, b, w, fill }) => (
+const Seg: React.FC<{ a: Pt; b: Pt; w: number; fill: string; line: string }> = ({ a, b, w, fill, line }) => (
   <>
-    <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={C.line} strokeWidth={w + 9} strokeLinecap="round" />
+    <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={line} strokeWidth={w + 9} strokeLinecap="round" />
     <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={fill} strokeWidth={w} strokeLinecap="round" />
   </>
 );
 
-const Leg: React.FC<{ hip: Pt; knee: Pt; ankle: Pt; toe: Pt; fill: string }> = ({ hip, knee, ankle, toe, fill }) => {
+type Palette = Appearance;
+
+const Leg: React.FC<{ hip: Pt; knee: Pt; ankle: Pt; toe: Pt; fill: string; line: string }> = ({ hip, knee, ankle, toe, fill, line }) => {
   // Cohesive thigh+calf silhouette: one tapered outline, no exposed knee ball.
   const leg = taperedLimbPath([
     { x: hip[0], y: hip[1], w: 50 },
@@ -114,13 +134,13 @@ const Leg: React.FC<{ hip: Pt; knee: Pt; ankle: Pt; toe: Pt; fill: string }> = (
     `Q ${P(len * 0.84, -9).join(' ')} ${P(len * 0.5, -10).join(' ')} Z`;
   return (
     <g>
-      <path d={leg} fill={fill} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
-      <path d={foot} fill={fill} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
+      <path d={leg} fill={fill} stroke={line} strokeWidth={5} strokeLinejoin="round" />
+      <path d={foot} fill={fill} stroke={line} strokeWidth={5} strokeLinejoin="round" />
     </g>
   );
 };
 
-const Arm: React.FC<{ sh: Pt; elbow: Pt; fist: Pt; fill: string }> = ({ sh, elbow, fist, fill }) => {
+const Arm: React.FC<{ sh: Pt; elbow: Pt; fist: Pt; fill: string; line: string }> = ({ sh, elbow, fist, fill, line }) => {
   // Cohesive upper-arm+forearm silhouette ending at the fist center.
   const arm = taperedLimbPath([
     { x: sh[0], y: sh[1], w: 34 },
@@ -129,15 +149,15 @@ const Arm: React.FC<{ sh: Pt; elbow: Pt; fist: Pt; fill: string }> = ({ sh, elbo
   ]);
   return (
     <g>
-      <path d={arm} fill={fill} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
-      <circle cx={fist[0]} cy={fist[1]} r={23} fill={C.line} />
+      <path d={arm} fill={fill} stroke={line} strokeWidth={5} strokeLinejoin="round" />
+      <circle cx={fist[0]} cy={fist[1]} r={23} fill={line} />
       <circle cx={fist[0]} cy={fist[1]} r={19} fill={fill} />
     </g>
   );
 };
 
 /** Scarf ribbon built from the deterministic chain (secondary.ts). */
-const ScarfTail: React.FC<{ knot: Pt; f: number }> = ({ knot, f }) => {
+const ScarfTail: React.FC<{ knot: Pt; f: number; pal: Palette }> = ({ knot, f, pal }) => {
   const center = scarfNodes(knot, f).map((p): Pt => [p[0], p[1]]);
   const widths = center.map((_, i) => 40 - i * 2.4); // taper 40 -> 28; tip flares a touch at the end
   widths[widths.length - 1] = 30;
@@ -155,18 +175,26 @@ const ScarfTail: React.FC<{ knot: Pt; f: number }> = ({ knot, f }) => {
   const shade = smoothPath(bot.map((p, i) => [p[0], p[1] - widths[i] * 0.18]));
   return (
     <g>
-      <path d={outline} fill={C.scarf} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
-      <path d={shade} fill="none" stroke={C.scarfSh} strokeWidth={9} strokeLinecap="round" />
+      <path d={outline} fill={pal.scarf} stroke={pal.line} strokeWidth={5} strokeLinejoin="round" />
+      <path d={shade} fill="none" stroke={pal.scarfSh} strokeWidth={9} strokeLinecap="round" />
     </g>
   );
 };
 
-export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
+export interface RunnerProps {
+  frame: number;
+  rig?: RigDefinition;
+  appearance?: Appearance;
+}
+
+export const Runner: React.FC<RunnerProps> = ({ frame, rig = RUNNER_RIG, appearance = RUNNER_APPEARANCE }) => {
   const f = frame;
+  const pal = appearance;
+  const line = pal.line;
   // Constrained pose: pure function of (rig, motion keys, frame). Solved
   // joints have fixed bone lengths; raw targets are preserved inside the
   // pose object for diagnostics (never rendered directly).
-  const pose = solvePose(f);
+  const pose = solvePose(f, rig);
   const hip: Pt = pose.hip;
   const head: Pt = pose.head;
   const sh: Pt = pose.shoulder;
@@ -174,6 +202,7 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
   const pack: Pt = pose.pack;
   const neckTop: Pt = pose.neckTop;
   const shd = shadow(f);
+  const headR = rig.anchors.headR;
 
   // Fuller torso: shoulder taper -> chest -> waist -> pelvis.
   const torso = `M ${sh[0] - 32} ${sh[1] - 8}
@@ -183,53 +212,95 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
     C ${hip[0] + 42} ${hip[1] + 2}, ${hip[0] + 44} ${hip[1] - 24}, ${hip[0] + 34} ${hip[1] - 58}
     C ${sh[0] + 54} ${sh[1] + 100}, ${sh[0] + 56} ${sh[1] + 40}, ${sh[0] + 36} ${sh[1] - 4} Z`;
 
+  const hasScarf = pal.hasScarf !== false;
+  const hasBackpack = pal.hasBackpack !== false;
+
   return (
-    <svg width={1920} height={1080} viewBox="0 0 1920 1080" style={{ background: C.bg }}>
+    <svg width={1920} height={1080} viewBox="0 0 1920 1080" style={{ background: pal.bg }}>
       {/* ground shadow */}
-      <ellipse cx={880} cy={972} rx={shd.rx} ry={shd.ry} fill={C.shadow} opacity={shd.opacity} />
+      <ellipse cx={880} cy={972} rx={shd.rx} ry={shd.ry} fill={pal.shadow} opacity={shd.opacity} />
 
       {/* far limbs (behind) */}
-      <Leg hip={pose.farLeg.hip} knee={pose.farLeg.knee} ankle={pose.farLeg.ankle} toe={pose.farLeg.toe} fill={C.far} />
-      <Arm sh={sh} elbow={pose.farArm.elbow} fist={pose.farArm.fist} fill={C.far} />
+      <Leg hip={pose.farLeg.hip} knee={pose.farLeg.knee} ankle={pose.farLeg.ankle} toe={pose.farLeg.toe} fill={pal.far} line={line} />
+      <Arm sh={sh} elbow={pose.farArm.elbow} fist={pose.farArm.fist} fill={pal.far} line={line} />
 
       {/* scarf tail behind pack */}
-      <ScarfTail knot={knot} f={f} />
+      {hasScarf && <ScarfTail knot={knot} f={f} pal={pal} />}
 
       {/* backpack (torso attachment + deterministic bob/lag, Phase 3b) */}
-      <g transform={`translate(${pack[0] + backpackLagX(f)} ${pack[1] + backpackBob(f)}) rotate(-12)`}>
-        <rect x={-70} y={-95} width={140} height={185} rx={30} fill={C.pack} stroke={C.line} strokeWidth={5} />
-        <path d="M -70 -55 Q -70 -95 -40 -95 L 40 -95 Q 70 -95 70 -55 L 70 -30 L -70 -30 Z" fill={C.packLt} stroke={C.line} strokeWidth={5} />
-        <rect x={-46} y={-8} width={92} height={72} rx={18} fill={C.packLt} stroke={C.line} strokeWidth={4} />
-        <circle cx={0} cy={28} r={5} fill={C.line} />
-        <rect x={-58} y={72} width={116} height={26} rx={12} fill={C.packDk} />
-      </g>
-      {/* strap over shoulder: backpack end follows the transformed pack; shoulder end stays anchored */}
-      <line x1={strapBackpackAnchor(pack, f)[0]} y1={strapBackpackAnchor(pack, f)[1]} x2={sh[0] + 16} y2={sh[1] - 4} stroke={C.line} strokeWidth={22} strokeLinecap="round" />
-      <line x1={strapBackpackAnchor(pack, f)[0]} y1={strapBackpackAnchor(pack, f)[1]} x2={sh[0] + 16} y2={sh[1] - 4} stroke={C.packLt} strokeWidth={15} strokeLinecap="round" />
+      {hasBackpack && (
+        <g>
+          <g transform={`translate(${pack[0] + backpackLagX(f)} ${pack[1] + backpackBob(f)}) rotate(-12)`}>
+            <rect x={-70} y={-95} width={140} height={185} rx={30} fill={pal.pack} stroke={line} strokeWidth={5} />
+            <path d="M -70 -55 Q -70 -95 -40 -95 L 40 -95 Q 70 -95 70 -55 L 70 -30 L -70 -30 Z" fill={pal.packLt} stroke={line} strokeWidth={5} />
+            <rect x={-46} y={-8} width={92} height={72} rx={18} fill={pal.packLt} stroke={line} strokeWidth={4} />
+            <circle cx={0} cy={28} r={5} fill={line} />
+            <rect x={-58} y={72} width={116} height={26} rx={12} fill={pal.packDk} />
+          </g>
+          {/* strap over shoulder: backpack end follows the transformed pack; shoulder end stays anchored */}
+          <line x1={strapBackpackAnchor(pack, f)[0]} y1={strapBackpackAnchor(pack, f)[1]} x2={sh[0] + 16} y2={sh[1] - 4} stroke={line} strokeWidth={22} strokeLinecap="round" />
+          <line x1={strapBackpackAnchor(pack, f)[0]} y1={strapBackpackAnchor(pack, f)[1]} x2={sh[0] + 16} y2={sh[1] - 4} stroke={pal.packLt} strokeWidth={15} strokeLinecap="round" />
+        </g>
+      )}
 
       {/* torso + neck */}
-      <path d={torso} fill={C.body} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
-      <Seg a={neckTop} b={sh} w={40} fill={C.body} />
+      <path d={torso} fill={pal.body} stroke={line} strokeWidth={5} strokeLinejoin="round" />
+      <Seg a={neckTop} b={sh} w={40} fill={pal.body} line={line} />
 
       {/* near leg (in front of torso bottom) */}
-      <Leg hip={pose.nearLeg.hip} knee={pose.nearLeg.knee} ankle={pose.nearLeg.ankle} toe={pose.nearLeg.toe} fill={C.body} />
+      <Leg hip={pose.nearLeg.hip} knee={pose.nearLeg.knee} ankle={pose.nearLeg.ankle} toe={pose.nearLeg.toe} fill={pal.body} line={line} />
 
       {/* scarf knot */}
-      <g transform={`translate(${knot[0]} ${knot[1]}) rotate(-14)`}>
-        <ellipse cx={0} cy={0} rx={56} ry={34} fill={C.scarf} stroke={C.line} strokeWidth={5} />
-        <ellipse cx={14} cy={12} rx={40} ry={20} fill={C.scarfSh} />
-        <ellipse cx={-6} cy={-8} rx={44} ry={22} fill={C.scarf} />
-      </g>
+      {hasScarf && (
+        <g transform={`translate(${knot[0]} ${knot[1]}) rotate(-14)`}>
+          <ellipse cx={0} cy={0} rx={56} ry={34} fill={pal.scarf} stroke={line} strokeWidth={5} />
+          <ellipse cx={14} cy={12} rx={40} ry={20} fill={pal.scarfSh} />
+          <ellipse cx={-6} cy={-8} rx={44} ry={22} fill={pal.scarf} />
+        </g>
+      )}
 
       {/* head */}
-      <circle cx={head[0]} cy={head[1]} r={HEAD_R} fill={C.body} stroke={C.line} strokeWidth={5} />
-      <path d={`M ${head[0] - 60} ${head[1] - 40} A ${HEAD_R - 8} ${HEAD_R - 8} 0 0 1 ${head[0] + 30} ${head[1] - 74}`} fill="none" stroke={C.bodyLt} strokeWidth={14} strokeLinecap="round" opacity={0.7} />
-      <ellipse cx={head[0] + 60} cy={head[1] + 12} rx={8} ry={13} fill={C.eye} />
-      <path d={`M ${head[0] + 48} ${head[1] - 22} q 14 -10 26 -2`} fill="none" stroke={C.eye} strokeWidth={4} strokeLinecap="round" />
-      <path d={`M ${head[0] + 44} ${head[1] + 48} q 16 12 32 0`} fill="none" stroke={C.eye} strokeWidth={4} strokeLinecap="round" />
+      <circle cx={head[0]} cy={head[1]} r={headR} fill={pal.body} stroke={line} strokeWidth={5} />
+      <path d={`M ${head[0] - 60} ${head[1] - 40} A ${headR - 8} ${headR - 8} 0 0 1 ${head[0] + 30} ${head[1] - 74}`} fill="none" stroke={pal.bodyLt} strokeWidth={14} strokeLinecap="round" opacity={0.7} />
+      <ellipse cx={head[0] + 60} cy={head[1] + 12} rx={8} ry={13} fill={pal.eye} />
+      <path d={`M ${head[0] + 48} ${head[1] - 22} q 14 -10 26 -2`} fill="none" stroke={pal.eye} strokeWidth={4} strokeLinecap="round" />
+      <path d={`M ${head[0] + 44} ${head[1] + 48} q 16 12 32 0`} fill="none" stroke={pal.eye} strokeWidth={4} strokeLinecap="round" />
 
       {/* near arm (front) */}
-      <Arm sh={sh} elbow={pose.nearArm.elbow} fist={pose.nearArm.fist} fill={C.body} />
+      <Arm sh={sh} elbow={pose.nearArm.elbow} fist={pose.nearArm.fist} fill={pal.body} line={line} />
     </svg>
   );
+};
+
+// --- Phase 4: second character variant (same rig/solver/motion) -------------
+
+/** A second, visually distinct character: teal body, maroon scarf, gold pack,
+ *  no hat; a distinct proportion profile (shorter thigh, longer calf). It uses
+ *  the SAME solver/motion as the runner — no duplicated gait. */
+export const VARIANT_RIG: RigDefinition = {
+  ...RUNNER_RIG,
+  id: 'variant-teal',
+  legs: {
+    near: {upper: 172.0, lower: 191.82, bendSign: -1},
+    far: {upper: 172.0, lower: 191.82, bendSign: -1},
+  },
+  arms: {
+    near: {upper: 108.0, lower: 98.88, bendSign: 1},
+    far: {upper: 108.0, lower: 98.88, bendSign: 1},
+  },
+  footLen: 82.0,
+};
+
+export const VARIANT_APPEARANCE: Appearance = {
+  bg: '#FFFFFF',
+  body: '#2F7E78', bodyLt: '#3E9A92', far: '#256660', line: '#1E2A32',
+  scarf: '#7A2230', scarfSh: '#5E1A26',
+  pack: '#D8A94E', packLt: '#E7C476', packDk: '#4A3A18',
+  eye: '#1A2430', shadow: '#DCDBDE',
+  hasScarf: true, hasBackpack: true,
+};
+
+export const PuppetVariant: React.FC<{ frame: number; variant?: 'runner' | 'teal' }> = ({ frame, variant = 'runner' }) => {
+  if (variant === 'teal') return <Runner frame={frame} rig={VARIANT_RIG} appearance={VARIANT_APPEARANCE} />;
+  return <Runner frame={frame} />;
 };

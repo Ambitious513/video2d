@@ -365,3 +365,25 @@ The contact/stance work is a **data model + diagnostic/anchor contract**. `Runne
 ### Next
 
 Owner visual sign-off of `reports/phase3-final-polish-sheet.png` + the final `RunCycle` MP4. Only after approval: **Phase 4 — reusable second character variant** (separate owner authorization required). Phase 5 (final verification + docs) after that.
+
+## Phase 4 — Reusable Second Character Variant (IN PROGRESS)
+
+**Date:** 2026-11-18T20:40Z  **Status:** implementation + tests COMPLETE; gate pending.
+
+### What changed
+
+- `remotion/src/puppet/Runner.tsx`: `Runner` now takes `{frame, rig?, appearance?}`; the palette is injected via `Appearance` (default `RUNNER_APPEARANCE` = the original). Added `VARIANT_RIG` (a distinct proportion profile: thigh 172 / calf 191.82 / upper arm 108 / forearm 98.88 / footLen 82), `VARIANT_APPEARANCE` (teal body, maroon scarf, gold pack), and `PuppetVariant` (`variant='runner'|'teal'`). **No duplicated gait/IK** — both use the same `solvePose`/`solveTwoBone`.
+- `remotion/src/VariantShowcase.tsx` + `Root.tsx`: registered a `PuppetVariant` composition (default runner; `--props={"variant":"teal"}` selects the variant) for deterministic stills.
+- `remotion/test/variant.test.ts`: 9 tests — fixed bone lengths (all 94 frames, both rigs), distinct proportions, shared motion clip, appearance independence, deterministic render, bend sides, PuppetVariant renders both, palette injection.
+- `tools/compare-variants.mjs` + `reports/phase4-variant-comparison.png`: side-by-side runner vs teal at frames 0/12/25/26/34/72/93.
+
+### Verification
+
+- `npm run typecheck`: clean.
+- `npm test`: **84/84 PASS** (75 + 9 variant).
+- `node verify.mjs --install`: A1–A18 PASS, Test I 12/12, IK 7/7+14/14 (pending confirmation).
+- Both variants render deterministically on the shared rig/solver/motion; appearance is data-driven and does not affect motion.
+
+### Next
+
+Confirm the gate, then commit + push Phase 4 and await owner review of `reports/phase4-variant-comparison.png` before Phase 5.

@@ -224,8 +224,11 @@ step('docs', process.execPath, [path.join(TOOLS, 'verify-docs.js')], ROOT);
     /^tools\/score-puppet-fast\.js$/,
     /^tools\/compare-phase3\.mjs$/,
     /^tools\/compare-final-polish\.mjs$/,
+    /^tools\/compare-variants\.mjs$/,
     // Ignored regenerable dirs (Phase 3c/3f comparison stills).
     /^\.gitignore$/,
+    // Build cache (gitignored; Remotion/webpack).
+    /^\.cache\//,
     // Regenerable verification proof sheets (render-stills.mjs output); the
     // frozen verify/ comparison frames (cel_*/pup_*/compare) stay protected.
     /^verify\/(contact-sheet|comparison-contact-sheet)\.png$/,
