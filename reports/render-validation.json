@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T23:06:33.374Z",
+  "generatedAt": "2026-11-17T23:57:52.076Z",
   "script": "render-lowram.mjs",
   "settings": {
     "sequence": true,
@@ -33,7 +33,7 @@
       "audioCodec": "aac",
       "audioDurationSec": 3.904,
       "sizeBytes": 1390475,
-      "renderSeconds": 17.2
+      "renderSeconds": 18
     },
     {
       "id": "CelLoop",
@@ -52,7 +52,7 @@
       "audioCodec": "aac",
       "audioDurationSec": 3.904,
       "sizeBytes": 1382406,
-      "renderSeconds": 17.7
+      "renderSeconds": 17.8
     },
     {
       "id": "RunCycle",
@@ -71,7 +71,7 @@
       "audioCodec": "aac",
       "audioDurationSec": 3.904,
       "sizeBytes": 654591,
-      "renderSeconds": 15
+      "renderSeconds": 14.8
     },
     {
       "id": "Comparison",
@@ -90,7 +90,7 @@
       "audioCodec": "aac",
       "audioDurationSec": 3.904,
       "sizeBytes": 1912189,
-      "renderSeconds": 23.1
+      "renderSeconds": 23.2
     }
   ]
 }

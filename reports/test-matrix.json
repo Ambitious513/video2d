@@ -1,58 +1,58 @@
 {
-  "generatedAt": "2026-11-17T23:07:11.589Z",
+  "generatedAt": "2026-11-17T23:58:31.401Z",
   "steps": {
     "install-tools": {
       "status": "PASS",
       "command": "npm ci --no-audit --no-fund",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools",
-      "seconds": 6.1,
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools",
+      "seconds": 10.9,
       "log": "reports/logs/install-tools.log",
       "exitCode": 0
     },
     "install-remotion": {
       "status": "PASS",
       "command": "npm ci --no-audit --no-fund",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
-      "seconds": 5.8,
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
+      "seconds": 6.7,
       "log": "reports/logs/install-remotion.log",
       "exitCode": 0
     },
     "browser": {
       "status": "PASS",
       "command": "npx remotion browser ensure",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
-      "seconds": 10.3,
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
+      "seconds": 11.1,
       "log": "reports/logs/browser.log",
       "exitCode": 0
     },
     "extract": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/extract-frames.js",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
-      "seconds": 7.7,
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/extract-frames.js",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
+      "seconds": 7.5,
       "log": "reports/logs/extract.log",
       "exitCode": 0
     },
     "source": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-source.js",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-source.js",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
       "seconds": 2.8,
       "log": "reports/logs/source.log",
       "exitCode": 0
     },
     "trace": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/trace-all.js",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
-      "seconds": 74.4,
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/trace-all.js",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
+      "seconds": 75.2,
       "log": "reports/logs/trace.log",
       "exitCode": 0
     },
     "assets": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-assets.js",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-assets.js",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
       "seconds": 1.4,
       "log": "reports/logs/assets.log",
       "exitCode": 0
@@ -60,15 +60,15 @@
     "unit-remotion": {
       "status": "PASS",
       "command": "npm test",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
-      "seconds": 0.5,
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
+      "seconds": 0.6,
       "log": "reports/logs/unit-remotion.log",
       "exitCode": 0
     },
     "unit-tools": {
       "status": "PASS",
       "command": "npm test",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools",
       "seconds": 0.7,
       "log": "reports/logs/unit-tools.log",
       "exitCode": 0
@@ -76,65 +76,65 @@
     "typecheck": {
       "status": "PASS",
       "command": "npm run typecheck",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
-      "seconds": 3.7,
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
+      "seconds": 4,
       "log": "reports/logs/typecheck.log",
       "exitCode": 0
     },
     "compositions": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/scripts/verify-compositions.mjs",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
-      "seconds": 6.4,
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion/scripts/verify-compositions.mjs",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
+      "seconds": 6.6,
       "log": "reports/logs/compositions.log",
       "exitCode": 0
     },
     "stills": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/scripts/render-stills.mjs",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
-      "seconds": 20.5,
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion/scripts/render-stills.mjs",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
+      "seconds": 20.3,
       "log": "reports/logs/stills.log",
       "exitCode": 0
     },
     "render": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/render-lowram.mjs",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
-      "seconds": 73.1,
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/render-lowram.mjs",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
+      "seconds": 73.8,
       "log": "reports/logs/render.log",
       "exitCode": 0
     },
     "fidelity": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
-      "seconds": 36.9,
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
+      "seconds": 37.8,
       "log": "reports/logs/fidelity.log",
       "exitCode": 0
     },
     "motion": {
       "status": "FAIL",
       "command": "npm run verify:motion",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion",
-      "seconds": 1.2,
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
+      "seconds": 1.4,
       "log": "reports/logs/motion.log",
       "exitCode": 1
     },
     "docs": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-docs.js",
-      "cwd": "/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo",
+      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-docs.js",
+      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
       "seconds": 0.1,
       "log": "reports/logs/docs.log",
       "exitCode": 0
     },
     "tracked-audit": {
       "status": "PASS",
-      "detail": "356 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
+      "detail": "361 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
       "forbiddenTracked": [],
       "missingRequired": [],
-      "trackedCount": 356,
+      "trackedCount": 361,
       "seconds": 0
     },
     "puppet-unchanged": {

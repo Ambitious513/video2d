@@ -1,5 +1,5 @@
 $ npm test
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools)
+(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools)
 
 
 > tools@1.0.0 test
@@ -9,27 +9,27 @@ TAP version 13
 # Subtest: palette is the locked 11-color set with matching hex list
 ok 1 - palette is the locked 11-color set with matching hex list
   ---
-  duration_ms: 1.153629
+  duration_ms: 1.19548
   ...
 # Subtest: quantize maps every pixel to an exact palette color
 ok 2 - quantize maps every pixel to an exact palette color
   ---
-  duration_ms: 1.898542
+  duration_ms: 1.806708
   ...
 # Subtest: despeckle preserves multi-pixel features (the eye survives)
 ok 3 - despeckle preserves multi-pixel features (the eye survives)
   ---
-  duration_ms: 1.343381
+  duration_ms: 1.266488
   ...
 # Subtest: despeckle removes a fully isolated single pixel
 ok 4 - despeckle removes a fully isolated single pixel
   ---
-  duration_ms: 0.737212
+  duration_ms: 0.676009
   ...
 # Subtest: CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only
 ok 5 - CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only
   ---
-  duration_ms: 409.67796
+  duration_ms: 403.224536
   ...
 1..5
 # tests 5
@@ -39,4 +39,4 @@ ok 5 - CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG o
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 517.678016
+# duration_ms 496.887478

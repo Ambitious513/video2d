@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T23:07:11.467Z",
+  "generatedAt": "2026-11-17T23:58:31.254Z",
   "scope": "RunCycle procedural puppet, frames 0..93; cel selection monotonicity covered by remotion/test/cels.test.ts",
   "tolerances": {
     "segmentLengthMaxOverMin": 2,

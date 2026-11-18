@@ -1,5 +1,5 @@
 $ npx remotion browser ensure
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion)
+(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion)
 
 Downloading Chrome Headless Shell https://www.remotion.dev/chrome-headless-shell
 Getting Headless Shell - 9.5 Mb/88.2 Mb
@@ -12,4 +12,4 @@ Getting Headless Shell - 66.8 Mb/88.2 Mb
 Getting Headless Shell - 76.4 Mb/88.2 Mb
 Getting Headless Shell - 85.9 Mb/88.2 Mb
 Got Headless Shell
-Has browser at /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/node_modules/.remotion/chrome-headless-shell/linux64/chrome-headless-shell-linux64/chrome-headless-shell
+Has browser at /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion/node_modules/.remotion/chrome-headless-shell/linux64/chrome-headless-shell-linux64/chrome-headless-shell

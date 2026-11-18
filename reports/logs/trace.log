@@ -1,14 +1,14 @@
-$ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/trace-all.js
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo)
+$ /usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/trace-all.js
+(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d)
 
 traced 10/94 (8s)
 traced 20/94 (16s)
 traced 30/94 (24s)
 traced 40/94 (32s)
-traced 50/94 (39s)
-traced 60/94 (47s)
-traced 70/94 (55s)
-traced 80/94 (63s)
-traced 90/94 (71s)
-traced 94/94 (74s)
-cel94 complete: 94 SVGs, debug PNGs: none (74s)
+traced 50/94 (40s)
+traced 60/94 (48s)
+traced 70/94 (56s)
+traced 80/94 (64s)
+traced 90/94 (72s)
+traced 94/94 (75s)
+cel94 complete: 94 SVGs, debug PNGs: none (75s)
