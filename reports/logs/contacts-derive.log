@@ -1,3 +1,7 @@
-groundY= 974.92 belt= -64.91 staticStance= [33m0[39m
+
+> runner-2d-remotion@1.0.0 verify:contacts
+> tsx scripts/contact-candidates.ts
+
+groundY= 974.92 belt= -64.91 staticStance= 0
 near windows: [{"start":17,"end":19},{"start":43,"end":45},{"start":69,"end":71}]
 far windows: [{"start":4,"end":6},{"start":30,"end":32},{"start":56,"end":58},{"start":82,"end":84}]

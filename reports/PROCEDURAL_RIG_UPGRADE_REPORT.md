@@ -60,5 +60,22 @@ Ground estimate (max solved toe Y) = **974.92 px**. Static-ground stance candida
 ### Checkpoint correction note
 A lean tsx-only run (`fff46c4`) pushed FAIL logs because `node --import tsx` could not resolve tsx via NODE_PATH — an environment/tooling artifact, not a schema defect (schema/test logic identical to verified `e7b35f7`). This commit restores the verified full-deps logs and consolidates duplicated docs. Fresh full re-run in the current sandbox is BLOCKED by repeated recycling during npm install; reproduce with `cd remotion && npm install && npm test`.
 
+### Fresh re-verification (workspace) — sub-task 2.2a, 2026-11-18T13:55Z
+The BLOCKED caveat above is now CLOSED. All Phase 2.1 gates were freshly re-run with full dependencies in a stable workspace (Debian 12, 2 cores, ~1.09 GB RAM, Node v20.20.2, npm 10.8.2; `remotion/` npm install 179 packages exit 0). Results, exactly as expected:
+
+| Command (cwd `remotion/`) | Exit | Result | Fresh log |
+|---|---|---|---|
+| `npm run verify:contacts` | 0 | groundY 974.916180333009 (≈974.92), beltVxEstimate −64.90774054581459 (≈−64.91), staticGroundStanceCandidateCount 0; windows near [17–19],[43–45],[69–71], far [4–6],[30–32],[56–58],[82–84] | `reports/logs/contacts-derive.log` |
+| `npm run typecheck` (full-project tsc --noEmit) | 0 | clean; log byte-identical to restored 2.1 log | `reports/logs/contacts-typecheck.log` |
+| `npm test` (node --import tsx --test, 5 files) | 0 | **54 tests / 54 pass / 0 fail** (45 prior + 9 contacts; TAP: cels 11 + ik 13 + rig 10 + pose 11 + contacts 9) | `reports/logs/contacts-unit.log` |
+| `npm run verify:motion` | 0 | **12/12 PASS** (Phase 1 regression gate; no regression) | `reports/logs/motion-reverify.log` |
+| `npm run verify:ik` | 0 | **7/7 gates + 14/14 cases PASS**; worst bone error 1.4210854715202004e-13 px; residual 0 px, 0 clamped frames | `reports/logs/ik-reverify.log` |
+
+Reproducibility: regenerated `reports/foot-contact-candidates.json`, `reports/motion-validation.json`, `reports/ik-validation.json` are **byte-identical to the committed versions except `generatedAt`** — the restored `e7b35f7` evidence reproduces bit-exactly. Protected assets vs `5d4d13a` and frozen Phase 0 records vs `1dd5600d`: 0 changed files (manual git-diff audit; formal scope-audit runs with the 2.4 full suite).
+
+Environment correction for future agents: `verify:motion` loads `sharp` from **tools/** node_modules (`createRequire` in `scripts/motion-check.tsx`). The first attempt exited 1 with `Cannot find module 'sharp'` until `cd tools && npm install --no-audit --no-fund` (34 packages, exit 0). This is an environment requirement, not a code defect — tools deps are needed for verify:motion, not only for the 2.4 full suite. The historical pre-upgrade `reports/logs/motion.log` (7/8 FAIL) is preserved untouched; fresh runs use the `-reverify` log names.
+
+No source/test code was changed in 2.2a. The key finding stands: no static-ground stance in the raw run-in-place track; treadmill hypothesis (worldY ≈ 974.92, belt ≈ −64.91 px/frame) remains verified:false; all windows remain 'uncertain' pending 2.2b review.
+
 ### Next (Phase 2.2)
 Validate treadmill-belt vs root_motion against source shadow/contact evidence; render a labelled contact timeline; manually review; finalize labels; write `reports/foot-contact-validation.json`. Stance locking is Phase 2.3.
