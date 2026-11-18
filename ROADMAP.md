@@ -4,7 +4,7 @@
 **Shared branch:** feat/constrained-puppet-rig
 **Current status:** IN PROGRESS (Phase 0 COMPLETE; Phase 1 implementation verified, gate evidence being finalized)
 **Last updated:** 2026-11-18T09:30Z (UTC)
-**Last verified remote commit:** see §7 (verified via `git ls-remote` after every push)
+**Last verified remote commit:** `4a080e75e96f75ccba7ac1e54cd8090c83b0dfc3` (canonical Phase 2.1 checkpoint; latest HEAD via `git ls-remote`)
 **Latest pushed roadmap checkpoint:** 2303f94d1ee94f6b329ac949b916d5374f17370b (Phase 0 SHA-recording follow-up; verified via `git ls-remote` 2026-11-18T09:10Z). Correction: the previous header named `1dd5600d` as the latest checkpoint, but `2303f94d` was pushed after it — see History.
 **Current agent:** Qwen session 2026-11-18 (Phase 1 recovery + completion agent, Arena)
 
@@ -84,15 +84,15 @@ Contact candidates (UNCERTAIN, for Phase 2 review): near foot ~frames 17–19/43
 | Variant reuse | NOT RUN | Phase 4 deliverable | — |
 
 ## 7. Latest checkpoint
-- Session date/time (UTC): 2026-11-18T11:43Z
-- Recovery & Verification: Verified the previous session's unpushed work was successfully committed as `aacdb61`. Worktree is clean. Scope-audit passes with no out-of-scope files.
-- Commit(s) pushed: `aacdb61` (Phase 1 implementation), this roadmap update.
-- Recovery: previous session's unpushed Phase 1 worktree restored from the owner-supplied Drive snapshot (`18nBGm3soSLspThDrhReHhWEfVpsK_ina`). Method: recursive folder manifest via `embeddedfolderview`; the 19 files whose mtime differed from the 4:19 pm clone time were downloaded; two unchanged control files (`ROADMAP.md`, `reports/puppet-upgrade-baseline.json`) were verified byte-identical to the GitHub clone, confirming the heuristic. All 365 tracked files were present; nothing was discarded.
-- Files changed (Phase 1): NEW `remotion/src/puppet/{rig,ik,pose}.ts`, `remotion/test/{ik,rig,pose}.test.ts`, `remotion/scripts/ik-validate.ts`, `reports/ik-validation.json`; MODIFIED `remotion/src/puppet/{Runner.tsx,keys.ts}`, `remotion/scripts/motion-check.tsx`, `remotion/package.json` (test glob + `verify:ik`), `verify.mjs` (Test I note, new `ik` step, `puppet-unchanged` → `scope-audit`, A8 redefinition), `reports/motion-validation.json`, `reports/test-matrix.json`, `reports/logs/*`, `ROADMAP.md`.
-- Tests run this session (all re-run from scratch, not inherited): `npm test` 45/45 PASS; `npm run typecheck` clean; `npm run verify:motion` 12/12 PASS; `npm run verify:ik` 7/7 gates + 14/14 cases PASS; `node verify.mjs --only=unit-remotion,typecheck` → `scope-audit` PASS, `tracked-audit` PASS.
-- Evidence added: `reports/ik-validation.json` (new), regenerated `reports/motion-validation.json`.
-- Remote verified: pending at the time of writing this checkpoint; recorded in History after push.
-- Worktree clean after push: verified at each checkpoint.
+- Session date/time (UTC): 2026-11-18T13:20Z
+- Phase 2.1 (ground contract + foot-contact track schema) COMPLETE as a sub-task; Phase 2 IN PROGRESS (2.2 next).
+- Commit(s) pushed: `e7b35f7` (full-deps implementation, gates PASS), `fff46c4` (lean run, tsx-resolution FAIL artifact), `4a080e75` (consolidation + verified-log restore), `87dd40d` (SHA record). Canonical verified checkpoint: `4a080e75`. Latest HEAD is discoverable via `git ls-remote`.
+- Files changed: `remotion/src/puppet/motion/contacts.ts`, `remotion/test/contacts.test.ts`, `remotion/scripts/contact-candidates.ts`, `remotion/package.json`, `reports/foot-contact-candidates.json`, `reports/logs/contacts-{unit,typecheck,derive}.log`, `ROADMAP.md`, `reports/PROCEDURAL_RIG_UPGRADE_REPORT.md`.
+- Tests run: `npm test` 54/54 PASS; `npm run typecheck` clean; `npm run verify:contacts` PASS (evidence: `e7b35f7` full-deps logs, restored at `4a080e75`). Fresh full re-run BLOCKED by sandbox recycling; full `verify.mjs` suite + scope-audit NOT RUN (deferred to 2.4).
+- Evidence added: `reports/foot-contact-candidates.json` (groundY 974.92, belt -64.91, staticStance 0; windows near 17-19/43-45/69-71, far 4-6/30-32/56-58/82-84).
+- Remote verified: yes (GitHub API ref update + `git ls-remote`).
+- Worktree clean after push: yes (commits made via GitHub Git Data API; no local worktree residue).
+- Key finding: no static-ground stance in the raw run-in-place track -> treadmill hypothesis; contact-height windows labelled 'uncertain' pending Phase 2.2 review.
 
 ## 8. Decisions and conventions (append when established)
 
