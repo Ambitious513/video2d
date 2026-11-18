@@ -4,13 +4,13 @@ $ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeove
 scoring cel94 <- remotion/out/celframes
   cel94: 20/94 (8s)
   cel94: 40/94 (15s)
-  cel94: 60/94 (23s)
+  cel94: 60/94 (22s)
   cel94: 80/94 (30s)
 scoring celLoop <- remotion/out/celloopframes
-  celLoop: 20/94 (8s)
+  celLoop: 20/94 (7s)
   celLoop: 40/94 (15s)
   celLoop: 60/94 (22s)
-  celLoop: 80/94 (30s)
+  celLoop: 80/94 (29s)
 scoring puppet <- remotion/out/puppetframes
   puppet: 20/94 (7s)
   puppet: 40/94 (13s)
@@ -19,4 +19,4 @@ scoring puppet <- remotion/out/puppetframes
 wrote reports/fidelity-all-frames.json + reports/FIDELITY.md
 cel94: MAE 1.046, %>40 0.8006, IoU(fg) 0.9756, IoU(char) 0.9577
 celLoop: MAE 2.5423, %>40 1.8057, IoU(fg) 0.8791, IoU(char) 0.8582
-puppet: MAE 5.901, %>40 4.5315, IoU(fg) 0.5925, IoU(char) 0.5864
+puppet: MAE 5.8491, %>40 4.4767, IoU(fg) 0.5877, IoU(char) 0.5834

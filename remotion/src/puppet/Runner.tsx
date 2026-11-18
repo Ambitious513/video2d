@@ -1,6 +1,7 @@
 import React from 'react';
 import {C, HEAD_R, shadow, Pt, STEP} from './keys';
 import {solvePose} from './pose';
+import {scarfNodes, backpackBob, backpackLagX} from './secondary';
 
 /**
  * Phase 3a — visual construction. All limb joints still come from the
@@ -135,16 +136,11 @@ const Arm: React.FC<{ sh: Pt; elbow: Pt; fist: Pt; fill: string }> = ({ sh, elbo
   );
 };
 
-/** Flowing scarf ribbon built from a waving centerline (Phase 3b replaces this). */
+/** Scarf ribbon built from the deterministic chain (secondary.ts). */
 const ScarfTail: React.FC<{ knot: Pt; f: number }> = ({ knot, f }) => {
-  const base: Pt[] = [[-70, -18], [-180, -36], [-280, -22], [-360, 12], [-400, 56]];
-  const amp = [8, 14, 19, 24, 30];
-  const center: Pt[] = base.map((p, i) => [
-    knot[0] + p[0],
-    knot[1] + p[1] + amp[i] * Math.sin((2 * Math.PI * f) / STEP - i * 0.85),
-  ]);
-  center.unshift([knot[0] - 10, knot[1] - 6]);
-  const widths = [40, 40, 36, 30, 26, 30]; // tip flares a touch
+  const center = scarfNodes(knot, f).map((p): Pt => [p[0], p[1]]);
+  const widths = center.map((_, i) => 40 - i * 2.4); // taper 40 -> 28; tip flares a touch at the end
+  widths[widths.length - 1] = 30;
   const top: Pt[] = [], bot: Pt[] = [];
   for (let i = 0; i < center.length; i++) {
     const a = center[Math.max(0, i - 1)], b = center[Math.min(center.length - 1, i + 1)];
@@ -199,8 +195,8 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
       {/* scarf tail behind pack */}
       <ScarfTail knot={knot} f={f} />
 
-      {/* backpack */}
-      <g transform={`translate(${pack[0]} ${pack[1]}) rotate(-12)`}>
+      {/* backpack (torso attachment + deterministic bob/lag, Phase 3b) */}
+      <g transform={`translate(${pack[0] + backpackLagX(f)} ${pack[1] + backpackBob(f)}) rotate(-12)`}>
         <rect x={-70} y={-95} width={140} height={185} rx={30} fill={C.pack} stroke={C.line} strokeWidth={5} />
         <path d="M -70 -55 Q -70 -95 -40 -95 L 40 -95 Q 70 -95 70 -55 L 70 -30 L -70 -30 Z" fill={C.packLt} stroke={C.line} strokeWidth={5} />
         <rect x={-46} y={-8} width={92} height={72} rx={18} fill={C.packLt} stroke={C.line} strokeWidth={4} />

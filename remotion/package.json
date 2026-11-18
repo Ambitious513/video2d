@@ -11,7 +11,7 @@
     "render:still": "remotion still RunCycle out/puppet-still.png --frame=0",
     "render:all:lowram": "node ../render-lowram.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts",
+    "test": "node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts test/secondary.test.ts",
     "verify": "node ../verify.mjs",
     "verify:compositions": "node scripts/verify-compositions.mjs",
     "verify:stills": "node scripts/render-stills.mjs",

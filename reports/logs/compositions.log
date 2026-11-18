@@ -8,7 +8,7 @@ bundling remotion entry point...
 [PASS] every documented npm run script exists — documented=[render:all:lowram,extract,trace:all,verify:source,verify:assets,verify:docs,typecheck,verify:motion,studio] missing=[]
 [PASS] typecheck script exists — tsc --noEmit
 [PASS] tools test script is real (not placeholder exit 1) — node --test
-[PASS] remotion test script exists — node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts
+[PASS] remotion test script exists — node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts test/secondary.test.ts
 [PASS] CelRun: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
 [PASS] CelLoop: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
 [PASS] RunCycle: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames

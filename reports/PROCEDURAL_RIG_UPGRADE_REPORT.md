@@ -278,3 +278,26 @@ The cohesive redesign scores **lower on IoU** because the filled closed outlines
 
 ### Next (Phase 3b — secondary motion, requires owner go-ahead)
 Deterministic scarf chain (5–8 fixed-length nodes, pure function of frame) + backpack/strap attachment with deterministic lag; render before/after; then 3c visual acceptance (stills at 0/12/25/26/34/72/93 + old-vs-new-vs-source sheet).
+
+## Phase 3b — Deterministic Secondary Motion (COMPLETE)
+
+**Date:** 2026-11-18T19:30Z  **Status:** COMPLETE.
+
+### What changed
+
+- `remotion/src/puppet/secondary.ts` (NEW): pure, deterministic secondary motion.
+  - `scarfNodes(knot, frame, params)`: a fixed-length chain (knot + 6 tail nodes). Each node is placed at exactly `segLen` (72 px) from the previous one along a unit heading — the scarf never stretches. The heading is a closed-form traveling wave with per-node phase lag + a progressive gravity droop, clamped so the tail can never flip up/forward. Evaluated for any real frame independently (no simulation state).
+  - `backpackBob(frame)` / `backpackLagX(frame)`: small deterministic vertical bob (≤5 px) and horizontal lag (≤3 px) riding the torso anchor.
+- `remotion/src/puppet/Runner.tsx`: scarf ribbon now built from the chain (`ScarfTail` uses `scarfNodes`); backpack group translated by `backpackLagX/backpackBob`.
+- `remotion/test/secondary.test.ts` (NEW): 6 tests — node-0-is-knot, fixed segment lengths across all 94 frames, out-of-order determinism, tail stays behind/below (no flip), motion actually varies across frames, bob/lag bounded + deterministic.
+
+### Verification
+
+- `npm run typecheck`: clean (exit 0).
+- `npm test`: **72/72 PASS** (66 prior + 6 secondary).
+- `node verify.mjs --install`: A1–A18 all PASS, Test I 12/12, IK 7/7+14/14, overall PASS (exit 0).
+- Contact sheet: `reports/puppet-phase3b-sheet.png` (frames 0/12/25/26/34/72/93).
+- Fidelity: MAE 5.901→**5.849**, char IoU 0.586→**0.583** (the scarf now tracks the source's trailing scarf better; the 3a joint-fill IoU trade-off is unchanged).
+
+### Next (Phase 3c — visual acceptance, requires owner go-ahead)
+Render the Phase 3 stills + an old-vs-new-vs-source comparison sheet at frames 0/12/25/26/34/72/93, finalize the fidelity report, and mark Phase 3 COMPLETE with the owner's visual sign-off (the agent cannot view images).

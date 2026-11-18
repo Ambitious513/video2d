@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T18:39:54.166Z",
+  "generatedAt": "2026-11-18T18:57:00.229Z",
   "remotionVersion": "4.0.240",
   "registry": [
     {
@@ -108,7 +108,7 @@
     {
       "name": "remotion test script exists",
       "status": "PASS",
-      "detail": "node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts"
+      "detail": "node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts test/secondary.test.ts"
     },
     {
       "name": "CelRun: 1920x1080 @ 24fps, 94 frames",
