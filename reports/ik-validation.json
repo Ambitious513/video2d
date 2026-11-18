@@ -1,0 +1,4288 @@
+{
+  "generatedAt": "2026-11-18T09:16:53.404Z",
+  "scope": "Phase 1 constrained skeleton + two-bone IK (master plan §5, §9.1, §9.6). Runner rig, 94 frames @ 1920x1080.",
+  "conventions": {
+    "coordinates": "canvas pixels, y down, character faces +x",
+    "bendSign": "sign of cross(root->target, root->mid); knees -1 (front), elbows +1 (trailing); mirroring flips x and the sign",
+    "annulusClamp": "[|l1-l2|+EPS, l1+l2-EPS], EPS=0.000001; end = point actually reached; residual = |target-end|",
+    "zeroDirectionFallback": "+x (1,0), deterministic",
+    "foot": "ankle->toe is foot artwork geometry (constant length), NOT a constrained bone"
+  },
+  "calibration": {
+    "method": "rig.ts header: legs = max measured hip->ankle span + 0.5 px reach margin, thigh/calf split by least-squares knee fit over the 14 raw poses (0.25 px scan); arms = mean of the two extreme upper-arm readings + the reliable near-straight back forearm reading; foot = median of 14 ankle->toe readings. Reproducible via calibrateRunnerRig(); asserted by test/rig.test.ts.",
+    "reachMargin": 0.5,
+    "reproduced": {
+      "upperLeg": 186,
+      "lowerLeg": 177.82,
+      "upperArm": 115.91,
+      "lowerArm": 91.97,
+      "footLen": 87.3,
+      "maxLegSpan": 363.3235472688221,
+      "maxArmSpan": 205.65018842685265,
+      "legKneeRmsDeviation": 54.639747050360114,
+      "legKneeMaxDeviation": 73.89838812382271
+    },
+    "storedRig": {
+      "id": "runner",
+      "legs": {
+        "near": {
+          "upper": 186,
+          "lower": 177.82,
+          "bendSign": -1
+        },
+        "far": {
+          "upper": 186,
+          "lower": 177.82,
+          "bendSign": -1
+        }
+      },
+      "arms": {
+        "near": {
+          "upper": 115.91,
+          "lower": 91.97,
+          "bendSign": 1
+        },
+        "far": {
+          "upper": 115.91,
+          "lower": 91.97,
+          "bendSign": 1
+        }
+      },
+      "footLen": 87.3,
+      "anchors": {
+        "hipX": 864,
+        "headX": 978,
+        "headR": 86,
+        "shoulder": {
+          "x": 922,
+          "dyFromHead": 154
+        },
+        "scarfKnot": {
+          "x": 940,
+          "dyFromHead": 112
+        },
+        "backpack": {
+          "x": 818,
+          "dyFromHead": 222
+        },
+        "neckTop": {
+          "dxFromHead": -18,
+          "dyFromHead": 62
+        }
+      }
+    },
+    "configuredBoneLengths": {
+      "nearThigh": 186,
+      "nearCalf": 177.82,
+      "farThigh": 186,
+      "farCalf": 177.82,
+      "nearUpperArm": 115.91,
+      "nearForearm": 91.97,
+      "farUpperArm": 115.91,
+      "farForearm": 91.97
+    }
+  },
+  "solverCases": [
+    {
+      "case": "reachable natural distance",
+      "inputs": {
+        "root": [
+          864,
+          600
+        ],
+        "target": [
+          700,
+          850
+        ],
+        "l1": 186,
+        "l2": 177.82,
+        "bendSign": -1
+      },
+      "measured": {
+        "mid": [
+          865.899700165399,
+          785.9902985085017
+        ],
+        "end": [
+          700,
+          850
+        ],
+        "clamped": "none",
+        "residual": 0,
+        "bendSide": -1
+      },
+      "pass": true,
+      "detail": "exact lengths, end == target, bend side honored"
+    },
+    {
+      "case": "target exactly at max reach",
+      "inputs": {
+        "targetDistance": 363.82
+      },
+      "measured": {
+        "clamped": "max",
+        "residual": 0.000001,
+        "solvedDistance": 363.819999
+      },
+      "pass": true,
+      "detail": "EPS margin keeps near-straight solve non-degenerate"
+    },
+    {
+      "case": "target 25 px beyond max reach",
+      "inputs": {
+        "overshoot": 25
+      },
+      "measured": {
+        "clamped": "max",
+        "residual": 25.000001,
+        "end": [
+          1227.819999,
+          600
+        ]
+      },
+      "pass": true,
+      "detail": "clamped onto the reach ray; residual reported, never hidden"
+    },
+    {
+      "case": "target closer than min reach",
+      "inputs": {
+        "targetDistance": 1.12
+      },
+      "measured": {
+        "clamped": "min",
+        "solvedDistance": 8.180001,
+        "residual": 7.061967
+      },
+      "pass": true,
+      "detail": "folded safely at the inner annulus boundary"
+    },
+    {
+      "case": "target coincident with root (zero direction)",
+      "inputs": {
+        "target": [
+          864,
+          600
+        ]
+      },
+      "measured": {
+        "end": [
+          872.1800010000001,
+          600
+        ],
+        "clamped": "min",
+        "targetDistance": 0
+      },
+      "pass": true,
+      "detail": "documented deterministic +x fallback; no NaN"
+    },
+    {
+      "case": "bend side +1 (elbow convention)",
+      "inputs": {
+        "bendSign": 1
+      },
+      "measured": {
+        "mid": [
+          782.0179762398133,
+          766.9579221845557
+        ],
+        "bendSide": 1
+      },
+      "pass": true,
+      "detail": "mid joint on the requested side of the root->target line"
+    },
+    {
+      "case": "bend side -1 (knee convention)",
+      "inputs": {
+        "bendSign": -1
+      },
+      "measured": {
+        "mid": [
+          983.1555441071899,
+          742.8214140404706
+        ],
+        "bendSide": -1
+      },
+      "pass": true,
+      "detail": "mid joint on the requested side of the root->target line"
+    },
+    {
+      "case": "mirrored facing (x mirrored about 960, bend sign flipped)",
+      "inputs": {
+        "axis": 960
+      },
+      "measured": {
+        "mirroredMid": [
+          1054.1002998346012,
+          785.9902985085017
+        ],
+        "mirrorDeviation": 0
+      },
+      "pass": true,
+      "detail": "mirror(x) + flip(bendSign) == mirror(solution)"
+    },
+    {
+      "case": "near-straight configuration",
+      "inputs": {
+        "distance": 363.81
+      },
+      "measured": {
+        "clamped": "none",
+        "bendSide": -1
+      },
+      "pass": true,
+      "detail": "finite, correct side, no flip"
+    },
+    {
+      "case": "highly folded configuration",
+      "inputs": {
+        "distance": 8.190000000000007
+      },
+      "measured": {
+        "clamped": "none",
+        "bendSide": -1
+      },
+      "pass": true,
+      "detail": "finite, correct side, no flip"
+    },
+    {
+      "case": "equal-length bones, coincident target",
+      "inputs": {
+        "l1": 100,
+        "l2": 100
+      },
+      "measured": {
+        "clamped": "min",
+        "solvedDistance": 0.000001
+      },
+      "pass": true,
+      "detail": "min reach = EPS, still safe"
+    },
+    {
+      "case": "invalid bone lengths / bend hint / non-finite points throw",
+      "inputs": {},
+      "measured": {
+        "invalidInputs": 5,
+        "threw": 5
+      },
+      "pass": true,
+      "detail": "rig errors fail loudly, never render NaN"
+    },
+    {
+      "case": "seeded random sweep (500 targets, both signs)",
+      "inputs": {
+        "seed": 42
+      },
+      "measured": {
+        "worstLenErr": 0,
+        "worstReachableResidual": 0,
+        "bendFlips": 0,
+        "clampedCount": 156
+      },
+      "pass": true,
+      "detail": "fixed lengths + stable bend side for arbitrary reachable/unreachable targets"
+    },
+    {
+      "case": "mirrored limb solve through the shared evaluator path (frame 34)",
+      "inputs": {
+        "frame": 34
+      },
+      "measured": {
+        "mirrorDeviation": 0
+      },
+      "pass": true,
+      "detail": "solveLimb mirrors exactly with flipped hint"
+    }
+  ],
+  "frameSweep": {
+    "frames": 94,
+    "boneLengthErrorMax": {
+      "nearThigh": 0,
+      "nearCalf": 0,
+      "farThigh": 0,
+      "farCalf": 0,
+      "nearUpperArm": 0,
+      "nearForearm": 0,
+      "farUpperArm": 0,
+      "farForearm": 0
+    },
+    "worstBoneLengthError": 0,
+    "endResidualMax": {
+      "nearLeg": 0,
+      "farLeg": 0,
+      "nearArm": 0,
+      "farArm": 0
+    },
+    "clampedFrames": [],
+    "midDeviationFromRawTargets": {
+      "note": "Expected nonzero: raw knee/elbow readings are noisy hand measurements. The solver prioritizes end-effector accuracy + fixed bone lengths. Reported per frame below — never hidden.",
+      "max": {
+        "nearLeg": 141.05,
+        "farLeg": 141.05,
+        "nearArm": 45.18,
+        "farArm": 45.18
+      },
+      "rms": {
+        "nearLeg": 63.07,
+        "farLeg": 62.43,
+        "nearArm": 33.66,
+        "farArm": 33.7
+      }
+    },
+    "bendSides": {
+      "nearLeg": [
+        -1
+      ],
+      "farLeg": [
+        -1
+      ],
+      "nearArm": [
+        1
+      ],
+      "farArm": [
+        1
+      ]
+    },
+    "footLengthMaxError": 0,
+    "boundsProblems": [],
+    "determinism": {
+      "order": [
+        72,
+        0,
+        45,
+        12,
+        93,
+        25
+      ],
+      "identical": true
+    },
+    "perFrame": [
+      {
+        "frame": 0,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.9,
+          "farLeg": 49.61,
+          "nearArm": 39.82,
+          "farArm": 24.86
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 1,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.92,
+          "farLeg": 40.49,
+          "nearArm": 35.62,
+          "farArm": 26.48
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 2,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.71,
+          "farLeg": 31.18,
+          "nearArm": 24.24,
+          "farArm": 30.12
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 3,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.74,
+          "farLeg": 26.55,
+          "nearArm": 12.54,
+          "farArm": 34.25
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 4,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.03,
+          "farLeg": 31.02,
+          "nearArm": 21.18,
+          "farArm": 38.5
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 5,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75,
+          "farLeg": 41.69,
+          "nearArm": 35.34,
+          "farArm": 42.63
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 6,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54,
+          "farLeg": 47.49,
+          "nearArm": 43.52,
+          "farArm": 45.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 7,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.37,
+          "farLeg": 58.36,
+          "nearArm": 45.18,
+          "farArm": 43.52
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 8,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63,
+          "farLeg": 52.07,
+          "nearArm": 42.63,
+          "farArm": 35.34
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 9,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.99,
+          "farLeg": 40.93,
+          "nearArm": 38.5,
+          "farArm": 21.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 10,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.51,
+          "farLeg": 60.21,
+          "nearArm": 34.25,
+          "farArm": 12.54
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 11,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05,
+          "farLeg": 139.63,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 12,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61,
+          "farLeg": 68.54,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 13,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61,
+          "farLeg": 73.9,
+          "nearArm": 24.86,
+          "farArm": 39.82
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 14,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.49,
+          "farLeg": 49.92,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 15,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.18,
+          "farLeg": 25.71,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 16,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 26.55,
+          "farLeg": 18.74,
+          "nearArm": 34.25,
+          "farArm": 12.54
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 17,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.02,
+          "farLeg": 25.03,
+          "nearArm": 38.5,
+          "farArm": 21.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 18,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 41.69,
+          "farLeg": 50.75,
+          "nearArm": 42.63,
+          "farArm": 35.34
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 19,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 47.49,
+          "farLeg": 69.54,
+          "nearArm": 45.18,
+          "farArm": 43.52
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 20,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 58.36,
+          "farLeg": 83.37,
+          "nearArm": 43.52,
+          "farArm": 45.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 21,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 52.07,
+          "farLeg": 67.63,
+          "nearArm": 35.34,
+          "farArm": 42.63
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 22,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.93,
+          "farLeg": 32.99,
+          "nearArm": 21.18,
+          "farArm": 38.5
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 23,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 60.21,
+          "farLeg": 70.51,
+          "nearArm": 12.54,
+          "farArm": 34.25
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 24,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 139.63,
+          "farLeg": 141.05,
+          "nearArm": 24.24,
+          "farArm": 30.12
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 25,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 68.54,
+          "farLeg": 54.61,
+          "nearArm": 35.62,
+          "farArm": 26.48
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 26,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.9,
+          "farLeg": 49.61,
+          "nearArm": 39.82,
+          "farArm": 24.86
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 27,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.92,
+          "farLeg": 40.49,
+          "nearArm": 35.62,
+          "farArm": 26.48
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 28,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.71,
+          "farLeg": 31.18,
+          "nearArm": 24.24,
+          "farArm": 30.12
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 29,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.74,
+          "farLeg": 26.55,
+          "nearArm": 12.54,
+          "farArm": 34.25
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 30,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.03,
+          "farLeg": 31.02,
+          "nearArm": 21.18,
+          "farArm": 38.5
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 31,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75,
+          "farLeg": 41.69,
+          "nearArm": 35.34,
+          "farArm": 42.63
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 32,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54,
+          "farLeg": 47.49,
+          "nearArm": 43.52,
+          "farArm": 45.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 33,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.37,
+          "farLeg": 58.36,
+          "nearArm": 45.18,
+          "farArm": 43.52
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 34,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63,
+          "farLeg": 52.07,
+          "nearArm": 42.63,
+          "farArm": 35.34
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 35,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.99,
+          "farLeg": 40.93,
+          "nearArm": 38.5,
+          "farArm": 21.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 36,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.51,
+          "farLeg": 60.21,
+          "nearArm": 34.25,
+          "farArm": 12.54
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 37,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05,
+          "farLeg": 139.63,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 38,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61,
+          "farLeg": 68.54,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 39,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61,
+          "farLeg": 73.9,
+          "nearArm": 24.86,
+          "farArm": 39.82
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 40,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.49,
+          "farLeg": 49.92,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 41,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.18,
+          "farLeg": 25.71,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 42,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 26.55,
+          "farLeg": 18.74,
+          "nearArm": 34.25,
+          "farArm": 12.54
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 43,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.02,
+          "farLeg": 25.03,
+          "nearArm": 38.5,
+          "farArm": 21.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 44,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 41.69,
+          "farLeg": 50.75,
+          "nearArm": 42.63,
+          "farArm": 35.34
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 45,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 47.49,
+          "farLeg": 69.54,
+          "nearArm": 45.18,
+          "farArm": 43.52
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 46,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 58.36,
+          "farLeg": 83.37,
+          "nearArm": 43.52,
+          "farArm": 45.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 47,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 52.07,
+          "farLeg": 67.63,
+          "nearArm": 35.34,
+          "farArm": 42.63
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 48,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.93,
+          "farLeg": 32.99,
+          "nearArm": 21.18,
+          "farArm": 38.5
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 49,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 60.21,
+          "farLeg": 70.51,
+          "nearArm": 12.54,
+          "farArm": 34.25
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 50,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 139.63,
+          "farLeg": 141.05,
+          "nearArm": 24.24,
+          "farArm": 30.12
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 51,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 68.54,
+          "farLeg": 54.61,
+          "nearArm": 35.62,
+          "farArm": 26.48
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 52,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.9,
+          "farLeg": 49.61,
+          "nearArm": 39.82,
+          "farArm": 24.86
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 53,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.92,
+          "farLeg": 40.49,
+          "nearArm": 35.62,
+          "farArm": 26.48
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 54,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.71,
+          "farLeg": 31.18,
+          "nearArm": 24.24,
+          "farArm": 30.12
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 55,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.74,
+          "farLeg": 26.55,
+          "nearArm": 12.54,
+          "farArm": 34.25
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 56,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.03,
+          "farLeg": 31.02,
+          "nearArm": 21.18,
+          "farArm": 38.5
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 57,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75,
+          "farLeg": 41.69,
+          "nearArm": 35.34,
+          "farArm": 42.63
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 58,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54,
+          "farLeg": 47.49,
+          "nearArm": 43.52,
+          "farArm": 45.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 59,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.37,
+          "farLeg": 58.36,
+          "nearArm": 45.18,
+          "farArm": 43.52
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 60,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63,
+          "farLeg": 52.07,
+          "nearArm": 42.63,
+          "farArm": 35.34
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 61,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.99,
+          "farLeg": 40.93,
+          "nearArm": 38.5,
+          "farArm": 21.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 62,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.51,
+          "farLeg": 60.21,
+          "nearArm": 34.25,
+          "farArm": 12.54
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 63,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05,
+          "farLeg": 139.63,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 64,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61,
+          "farLeg": 68.54,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 65,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61,
+          "farLeg": 73.9,
+          "nearArm": 24.86,
+          "farArm": 39.82
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 66,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.49,
+          "farLeg": 49.92,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 67,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.18,
+          "farLeg": 25.71,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 68,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 26.55,
+          "farLeg": 18.74,
+          "nearArm": 34.25,
+          "farArm": 12.54
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 69,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.02,
+          "farLeg": 25.03,
+          "nearArm": 38.5,
+          "farArm": 21.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 70,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 41.69,
+          "farLeg": 50.75,
+          "nearArm": 42.63,
+          "farArm": 35.34
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 71,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 47.49,
+          "farLeg": 69.54,
+          "nearArm": 45.18,
+          "farArm": 43.52
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 72,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 58.36,
+          "farLeg": 83.37,
+          "nearArm": 43.52,
+          "farArm": 45.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 73,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 52.07,
+          "farLeg": 67.63,
+          "nearArm": 35.34,
+          "farArm": 42.63
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 74,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.93,
+          "farLeg": 32.99,
+          "nearArm": 21.18,
+          "farArm": 38.5
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 75,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 60.21,
+          "farLeg": 70.51,
+          "nearArm": 12.54,
+          "farArm": 34.25
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 76,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 139.63,
+          "farLeg": 141.05,
+          "nearArm": 24.24,
+          "farArm": 30.12
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 77,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 68.54,
+          "farLeg": 54.61,
+          "nearArm": 35.62,
+          "farArm": 26.48
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 78,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.9,
+          "farLeg": 49.61,
+          "nearArm": 39.82,
+          "farArm": 24.86
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 79,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.92,
+          "farLeg": 40.49,
+          "nearArm": 35.62,
+          "farArm": 26.48
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 80,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.71,
+          "farLeg": 31.18,
+          "nearArm": 24.24,
+          "farArm": 30.12
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 81,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.74,
+          "farLeg": 26.55,
+          "nearArm": 12.54,
+          "farArm": 34.25
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 82,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.03,
+          "farLeg": 31.02,
+          "nearArm": 21.18,
+          "farArm": 38.5
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 83,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75,
+          "farLeg": 41.69,
+          "nearArm": 35.34,
+          "farArm": 42.63
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 84,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54,
+          "farLeg": 47.49,
+          "nearArm": 43.52,
+          "farArm": 45.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 85,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.37,
+          "farLeg": 58.36,
+          "nearArm": 45.18,
+          "farArm": 43.52
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 86,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63,
+          "farLeg": 52.07,
+          "nearArm": 42.63,
+          "farArm": 35.34
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 87,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.99,
+          "farLeg": 40.93,
+          "nearArm": 38.5,
+          "farArm": 21.18
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 88,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.51,
+          "farLeg": 60.21,
+          "nearArm": 34.25,
+          "farArm": 12.54
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 89,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05,
+          "farLeg": 139.63,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 90,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61,
+          "farLeg": 68.54,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 91,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61,
+          "farLeg": 73.9,
+          "nearArm": 24.86,
+          "farArm": 39.82
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 92,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.49,
+          "farLeg": 49.92,
+          "nearArm": 26.48,
+          "farArm": 35.62
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      },
+      {
+        "frame": 93,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 0,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.18,
+          "farLeg": 25.71,
+          "nearArm": 30.12,
+          "farArm": 24.24
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        },
+        "footLength": {
+          "near": 87.3,
+          "far": 87.3
+        }
+      }
+    ]
+  },
+  "gates": [
+    {
+      "gate": "every constrained bone within ±0.5 px of configured length (94 frames × 8 bones)",
+      "pass": true,
+      "measured": 1.4210854715202004e-13
+    },
+    {
+      "gate": "reachable end-effector residual ≤ 1 px; clamping reported",
+      "pass": true,
+      "measured": {
+        "worstResidual": 0,
+        "clampedFrameCount": 0
+      }
+    },
+    {
+      "gate": "bend side constant and equal to rig hint on every frame (incl. 25->26 wrap)",
+      "pass": true,
+      "measured": {
+        "nearLeg": [
+          -1
+        ],
+        "farLeg": [
+          -1
+        ],
+        "nearArm": [
+          1
+        ],
+        "farArm": [
+          1
+        ]
+      }
+    },
+    {
+      "gate": "all joints finite and inside 1920x1080",
+      "pass": true,
+      "measured": 0
+    },
+    {
+      "gate": "foot artwork length constant (geometry, not a bone)",
+      "pass": true,
+      "measured": 9.947598300641403e-14
+    },
+    {
+      "gate": "out-of-order frame evaluation deterministic",
+      "pass": true,
+      "measured": [
+        72,
+        0,
+        45,
+        12,
+        93,
+        25
+      ]
+    },
+    {
+      "gate": "all named solver edge cases pass",
+      "pass": true,
+      "measured": "14/14"
+    }
+  ],
+  "historicalBaseline": {
+    "commit": "5d4d13ab92ac38be0397bd2b8feb27e19eefdf98",
+    "oldGate": "segment length max/min <= 2.0 (unconstrained puppet)",
+    "oldWorstRatio": 2.891,
+    "oldResult": "FAIL 7/8 — preserved verbatim in reports/baseline/motion-validation.json",
+    "note": "The ratio gate is replaced by the per-bone configured-length gate above (master plan §9.7). Raw-track variation remains reported as a diagnostic in reports/motion-validation.json."
+  },
+  "summary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0
+  },
+  "status": "PASS"
+}

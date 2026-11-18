@@ -1,8 +1,10 @@
 {
-  "generatedAt": "2026-11-17T23:58:31.254Z",
-  "scope": "RunCycle procedural puppet, frames 0..93; cel selection monotonicity covered by remotion/test/cels.test.ts",
+  "generatedAt": "2026-11-18T09:16:38.505Z",
+  "scope": "RunCycle procedural puppet (Phase 1 constrained rig), frames 0..93; cel selection monotonicity covered by remotion/test/cels.test.ts; solver edge cases by test/ik.test.ts + reports/ik-validation.json",
   "tolerances": {
-    "segmentLengthMaxOverMin": 2,
+    "solvedBoneLengthErrorPx": 0.5,
+    "ikReachableResidualPx": 1,
+    "footArtworkLengthErrorPx": 0.000001,
     "wrapPopFactor": 1.5,
     "pixelThumb": "96x54 grayscale-free RGB MAD"
   },
@@ -11,6 +13,11 @@
       "name": "deterministic SSR: same frame -> identical SVG (94 frames x2)",
       "status": "PASS",
       "detail": "94/94 identical"
+    },
+    {
+      "name": "out-of-order frame requests -> identical SVG (72,0,45,12,93,25 twice, interleaved)",
+      "status": "PASS",
+      "detail": "6/6 identical"
     },
     {
       "name": "no NaN/Infinity/undefined; shadow+scarf+body present every frame",
@@ -23,24 +30,39 @@
       "detail": "1410 points in bounds"
     },
     {
-      "name": "limb segment length variation within documented tolerance (max/min <= 2)",
-      "status": "FAIL",
-      "detail": "near hip->knee: 2.034; near knee->ankle: 2.891; far hip->knee: 2.034; far knee->ankle: 2.891; near elbow->fist: 2.705; far elbow->fist: 2.705"
+      "name": "solved bone lengths within ±0.5 px of configured rig lengths (94 frames x 8 bones)",
+      "status": "PASS",
+      "detail": "worst error 1.421e-13 px (analytic solve; gate ±0.5)"
     },
     {
-      "name": "joint motion is smooth at the wrap (accel 276.3px <= 1.5 x p95 298.6px)",
+      "name": "IK end-effector residual <= 1 px for reachable targets; clamped targets reported",
       "status": "PASS",
-      "detail": "accel median=46.65px, p95=298.55px, max=298.55px, wrap=276.29px"
+      "detail": "worst residual 0.000e+0 px; clamped frames: 0"
     },
     {
-      "name": "no one-frame pop at 26-frame wrap (joint delta 17.2px <= 1.5 x p95 276.1px)",
+      "name": "knee/elbow bend side stable and equal to rig hint (no flips incl. 25->26 wrap)",
       "status": "PASS",
-      "detail": "wrap(25->26)=17.18px, adjacent-delta median=73.30px, p95=276.13px, max=276.13px"
+      "detail": "knees -1, elbows 1 on all 94 frames"
     },
     {
-      "name": "no pixel pop at wrap (MAD 1.28 <= 1.5 x p95 5.08)",
+      "name": "foot artwork length constant at rig.footLen=87.3 px (geometry, not a bone)",
       "status": "PASS",
-      "detail": "wrap(25->26)=1.278, median=3.254, p95=5.082, max=5.151"
+      "detail": "max error 9.948e-14 px"
+    },
+    {
+      "name": "joint motion is smooth at the wrap (accel 286.5px <= 1.5 x p95 307.0px)",
+      "status": "PASS",
+      "detail": "accel median=54.43px, p95=306.99px, max=306.99px, wrap=286.51px"
+    },
+    {
+      "name": "no one-frame pop at 26-frame wrap (joint delta 13.7px <= 1.5 x p95 295.2px)",
+      "status": "PASS",
+      "detail": "wrap(25->26)=13.68px, adjacent-delta median=71.30px, p95=295.20px, max=295.20px"
+    },
+    {
+      "name": "no pixel pop at wrap (MAD 1.36 <= 1.5 x p95 5.41)",
+      "status": "PASS",
+      "detail": "wrap(25->26)=1.356, median=3.343, p95=5.408, max=5.497"
     },
     {
       "name": "character visible (not blank) in every rasterized frame",
@@ -48,7 +70,3624 @@
       "detail": "94/94 non-blank at 96x54"
     }
   ],
+  "solvedRig": {
+    "rigId": "runner",
+    "configuredBoneLengths": {
+      "nearThigh": 186,
+      "nearCalf": 177.82,
+      "farThigh": 186,
+      "farCalf": 177.82,
+      "nearUpperArm": 115.91,
+      "nearForearm": 91.97,
+      "farUpperArm": 115.91,
+      "farForearm": 91.97
+    },
+    "boneLengthErrorMax": {
+      "nearThigh": 1.1369e-13,
+      "nearCalf": 1.4211e-13,
+      "farThigh": 1.1369e-13,
+      "farCalf": 1.4211e-13,
+      "nearUpperArm": 9.9476e-14,
+      "nearForearm": 1.1369e-13,
+      "farUpperArm": 9.9476e-14,
+      "farForearm": 1.1369e-13
+    },
+    "worstBoneLengthErrorPx": 1.4211e-13,
+    "endResidualMax": {
+      "nearLeg": 0,
+      "farLeg": 0,
+      "nearArm": 0,
+      "farArm": 0
+    },
+    "clampedFrames": [],
+    "midDeviationFromRawTargets": {
+      "note": "Expected nonzero: raw knee/elbow readings are noisy hand measurements (hip->knee varies 1.958x). The solver prioritizes end-effector accuracy + fixed bone lengths. Per-frame values below — never hidden.",
+      "max": {
+        "nearLeg": 141.05,
+        "farLeg": 141.05,
+        "nearArm": 45.18,
+        "farArm": 45.18
+      },
+      "rms": {
+        "nearLeg": 63.07,
+        "farLeg": 62.43,
+        "nearArm": 33.66,
+        "farArm": 33.7
+      }
+    },
+    "bendSides": {
+      "nearLeg": [
+        -1
+      ],
+      "farLeg": [
+        -1
+      ],
+      "nearArm": [
+        1
+      ],
+      "farArm": [
+        1
+      ]
+    },
+    "footArtworkLength": {
+      "configured": 87.3,
+      "maxErrorPx": 9.9476e-14
+    },
+    "perFrame": [
+      {
+        "frame": 0,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 9.947598300641403e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.89838812382271,
+          "farLeg": 49.61411119268434,
+          "nearArm": 39.82004021942645,
+          "farArm": 24.86411744422821
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 1,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.924111306708596,
+          "farLeg": 40.491125762634645,
+          "nearArm": 35.62008493938884,
+          "farArm": 26.481237764636425
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 2,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 1.1368683772161603e-13,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.70637653162487,
+          "farLeg": 31.17837670923349,
+          "nearArm": 24.238373353555158,
+          "farArm": 30.12483813978417
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 3,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 8.526512829121202e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.741097574012503,
+          "farLeg": 26.547636061179894,
+          "nearArm": 12.539220108788216,
+          "farArm": 34.250276577698706
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 4,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.033378886112597,
+          "farLeg": 31.02098755072098,
+          "nearArm": 21.17506750084275,
+          "farArm": 38.4981981212715
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 5,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75449855584969,
+          "farLeg": 41.68891520253988,
+          "nearArm": 35.339483410667135,
+          "farArm": 42.63475474039203
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 6,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54281383228499,
+          "farLeg": 47.48634038531614,
+          "nearArm": 43.52208277029171,
+          "farArm": 45.178672291344
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 7,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 0,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.36657607621456,
+          "farLeg": 58.359085758841545,
+          "nearArm": 45.178672291344085,
+          "farArm": 43.52208277029162
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 8,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63102361619814,
+          "farLeg": 52.07119367199984,
+          "nearArm": 42.63475474039185,
+          "farArm": 35.339483410667135
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 9,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 8.526512829121202e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.991817768140066,
+          "farLeg": 40.931886024760914,
+          "nearArm": 38.49819812127154,
+          "farArm": 21.17506750084283
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 10,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.50855514940646,
+          "farLeg": 60.2060922575536,
+          "nearArm": 34.250276577698706,
+          "farArm": 12.539220108788095
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 11,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05201300799698,
+          "farLeg": 139.62839052008385,
+          "nearArm": 30.124838139784014,
+          "farArm": 24.238373353555232
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 12,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61393371062676,
+          "farLeg": 68.53599945665798,
+          "nearArm": 26.481237764636546,
+          "farArm": 35.62008493938884
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 13,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 0,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 9.947598300641403e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61411119268434,
+          "farLeg": 73.89838812382271,
+          "nearArm": 24.86411744422821,
+          "farArm": 39.82004021942645
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 14,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.491125762634645,
+          "farLeg": 49.924111306708596,
+          "nearArm": 26.481237764636425,
+          "farArm": 35.62008493938884
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 15,
+        "boneLengthError": {
+          "nearThigh": 1.1368683772161603e-13,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 9.947598300641403e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.17837670923349,
+          "farLeg": 25.70637653162487,
+          "nearArm": 30.12483813978417,
+          "farArm": 24.238373353555144
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 16,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 1.4210854715202004e-13,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 8.526512829121202e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 26.547636061179894,
+          "farLeg": 18.741097574012503,
+          "nearArm": 34.250276577698706,
+          "farArm": 12.539220108788216
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 17,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.02098755072098,
+          "farLeg": 25.033378886112597,
+          "nearArm": 38.4981981212715,
+          "farArm": 21.17506750084267
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 18,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 7.105427357601002e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 41.68891520253988,
+          "farLeg": 50.75449855584969,
+          "nearArm": 42.63475474039203,
+          "farArm": 35.339483410667206
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 19,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 1.4210854715202004e-13,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 47.48634038531614,
+          "farLeg": 69.54281383228499,
+          "nearArm": 45.178672291344,
+          "farArm": 43.52208277029162
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 20,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 0,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 58.359085758841545,
+          "farLeg": 83.36657607621456,
+          "nearArm": 43.52208277029162,
+          "farArm": 45.178672291344085
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 21,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 52.07119367199984,
+          "farLeg": 67.63102361619814,
+          "nearArm": 35.339483410667135,
+          "farArm": 42.63475474039185
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 22,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 0,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 7.105427357601002e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.931886024760914,
+          "farLeg": 32.991817768140066,
+          "nearArm": 21.17506750084283,
+          "farArm": 38.4981981212715
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 23,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 60.2060922575536,
+          "farLeg": 70.50855514940646,
+          "nearArm": 12.539220108788095,
+          "farArm": 34.25027657769863
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 24,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 139.62839052008385,
+          "farLeg": 141.05201300799698,
+          "nearArm": 24.238373353555232,
+          "farArm": 30.124838139784334
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 25,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 68.53599945665798,
+          "farLeg": 54.61393371062676,
+          "nearArm": 35.62008493938884,
+          "farArm": 26.48123776463671
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 26,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 9.947598300641403e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.89838812382271,
+          "farLeg": 49.61411119268434,
+          "nearArm": 39.82004021942645,
+          "farArm": 24.86411744422821
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 27,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.924111306708596,
+          "farLeg": 40.491125762634645,
+          "nearArm": 35.62008493938884,
+          "farArm": 26.48123776463671
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 28,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 1.1368683772161603e-13,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 9.947598300641403e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.70637653162487,
+          "farLeg": 31.17837670923349,
+          "nearArm": 24.238373353555144,
+          "farArm": 30.124838139784092
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 29,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 8.526512829121202e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.741097574012503,
+          "farLeg": 26.547636061179894,
+          "nearArm": 12.539220108788216,
+          "farArm": 34.250276577698706
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 30,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 9.947598300641403e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.033378886112597,
+          "farLeg": 31.02098755072098,
+          "nearArm": 21.17506750084267,
+          "farArm": 38.49819812127166
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 31,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 7.105427357601002e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 8.526512829121202e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75449855584969,
+          "farLeg": 41.68891520253988,
+          "nearArm": 35.339483410667206,
+          "farArm": 42.63475474039203
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 32,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 0,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54281383228499,
+          "farLeg": 47.48634038531614,
+          "nearArm": 43.52208277029162,
+          "farArm": 45.178672291344
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 33,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 0,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.36657607621456,
+          "farLeg": 58.359085758841545,
+          "nearArm": 45.178672291344085,
+          "farArm": 43.52208277029162
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 34,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63102361619814,
+          "farLeg": 52.07119367199984,
+          "nearArm": 42.63475474039185,
+          "farArm": 35.339483410667135
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 35,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 7.105427357601002e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 7.105427357601002e-14,
+          "farForearm": 7.105427357601002e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.991817768140066,
+          "farLeg": 40.931886024760914,
+          "nearArm": 38.4981981212715,
+          "farArm": 21.17506750084275
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 36,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.50855514940646,
+          "farLeg": 60.2060922575536,
+          "nearArm": 34.25027657769863,
+          "farArm": 12.539220108788095
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 37,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05201300799698,
+          "farLeg": 139.62839052008385,
+          "nearArm": 30.124838139784334,
+          "farArm": 24.238373353555232
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 38,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61393371062676,
+          "farLeg": 68.53599945665798,
+          "nearArm": 26.48123776463671,
+          "farArm": 35.62008493938887
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 39,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 0,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 9.947598300641403e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61411119268434,
+          "farLeg": 73.89838812382271,
+          "nearArm": 24.86411744422821,
+          "farArm": 39.82004021942645
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 40,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.491125762634645,
+          "farLeg": 49.924111306708596,
+          "nearArm": 26.48123776463671,
+          "farArm": 35.62008493938884
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 41,
+        "boneLengthError": {
+          "nearThigh": 1.1368683772161603e-13,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.17837670923349,
+          "farLeg": 25.70637653162487,
+          "nearArm": 30.124838139784092,
+          "farArm": 24.238373353555232
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 42,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 1.4210854715202004e-13,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 26.547636061179894,
+          "farLeg": 18.741097574012503,
+          "nearArm": 34.250276577698706,
+          "farArm": 12.539220108788081
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 43,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 9.947598300641403e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.02098755072098,
+          "farLeg": 25.033378886112597,
+          "nearArm": 38.49819812127166,
+          "farArm": 21.17506750084275
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 44,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 8.526512829121202e-14,
+          "nearForearm": 0,
+          "farUpperArm": 7.105427357601002e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 41.68891520253988,
+          "farLeg": 50.75449855584969,
+          "nearArm": 42.63475474039203,
+          "farArm": 35.339483410667206
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 45,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 1.4210854715202004e-13,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 0,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 47.48634038531614,
+          "farLeg": 69.54281383228499,
+          "nearArm": 45.178672291344,
+          "farArm": 43.52208277029162
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 46,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 0,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 1.1368683772161603e-13
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 58.359085758841545,
+          "farLeg": 83.36657607621456,
+          "nearArm": 43.52208277029162,
+          "farArm": 45.178672291344164
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 47,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 52.07119367199984,
+          "farLeg": 67.63102361619814,
+          "nearArm": 35.339483410667135,
+          "farArm": 42.634754740392005
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 48,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 0,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 7.105427357601002e-14,
+          "nearForearm": 7.105427357601002e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.931886024760914,
+          "farLeg": 32.991817768140066,
+          "nearArm": 21.17506750084275,
+          "farArm": 38.49819812127158
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 49,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 60.2060922575536,
+          "farLeg": 70.50855514940646,
+          "nearArm": 12.539220108788095,
+          "farArm": 34.25027657769863
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 50,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 139.62839052008385,
+          "farLeg": 141.05201300799698,
+          "nearArm": 24.238373353555232,
+          "farArm": 30.124838139784334
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 51,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 68.53599945665798,
+          "farLeg": 54.61393371062676,
+          "nearArm": 35.62008493938887,
+          "farArm": 26.481237764636546
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 52,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 9.947598300641403e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.89838812382271,
+          "farLeg": 49.61411119268434,
+          "nearArm": 39.82004021942645,
+          "farArm": 24.86411744422821
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 53,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.924111306708596,
+          "farLeg": 40.491125762634645,
+          "nearArm": 35.62008493938884,
+          "farArm": 26.481237764636425
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 54,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 1.1368683772161603e-13,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.70637653162487,
+          "farLeg": 31.17837670923349,
+          "nearArm": 24.238373353555232,
+          "farArm": 30.12483813978425
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 55,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.741097574012503,
+          "farLeg": 26.547636061179894,
+          "nearArm": 12.539220108788081,
+          "farArm": 34.250276577698706
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 56,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.033378886112597,
+          "farLeg": 31.02098755072098,
+          "nearArm": 21.17506750084275,
+          "farArm": 38.4981981212715
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 57,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 7.105427357601002e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 2.842170943040401e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75449855584969,
+          "farLeg": 41.68891520253988,
+          "nearArm": 35.339483410667206,
+          "farArm": 42.63475474039197
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 58,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 0,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54281383228499,
+          "farLeg": 47.48634038531614,
+          "nearArm": 43.52208277029162,
+          "farArm": 45.178672291344
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 59,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 0,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 1.1368683772161603e-13,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.36657607621456,
+          "farLeg": 58.359085758841545,
+          "nearArm": 45.178672291344164,
+          "farArm": 43.52208277029161
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 60,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 0,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63102361619814,
+          "farLeg": 52.07119367199984,
+          "nearArm": 42.634754740392005,
+          "farArm": 35.339483410667384
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 61,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.991817768140066,
+          "farLeg": 40.931886024760914,
+          "nearArm": 38.49819812127158,
+          "farArm": 21.17506750084283
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 62,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 8.526512829121202e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.50855514940646,
+          "farLeg": 60.2060922575536,
+          "nearArm": 34.25027657769863,
+          "farArm": 12.539220108788118
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 63,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05201300799698,
+          "farLeg": 139.62839052008385,
+          "nearArm": 30.124838139784334,
+          "farArm": 24.238373353554984
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 64,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61393371062676,
+          "farLeg": 68.53599945665798,
+          "nearArm": 26.481237764636546,
+          "farArm": 35.62008493938884
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 65,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 0,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 9.947598300641403e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61411119268434,
+          "farLeg": 73.89838812382271,
+          "nearArm": 24.86411744422821,
+          "farArm": 39.82004021942645
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 66,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.491125762634645,
+          "farLeg": 49.924111306708596,
+          "nearArm": 26.481237764636425,
+          "farArm": 35.62008493938884
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 67,
+        "boneLengthError": {
+          "nearThigh": 1.1368683772161603e-13,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.17837670923349,
+          "farLeg": 25.70637653162487,
+          "nearArm": 30.12483813978425,
+          "farArm": 24.238373353555232
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 68,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 1.4210854715202004e-13,
+          "farThigh": 0,
+          "farCalf": 0,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 26.547636061179894,
+          "farLeg": 18.741097574012503,
+          "nearArm": 34.250276577698706,
+          "farArm": 12.539220108788081
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 69,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.02098755072098,
+          "farLeg": 25.033378886112597,
+          "nearArm": 38.4981981212715,
+          "farArm": 21.17506750084275
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 70,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 2.842170943040401e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 7.105427357601002e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 41.68891520253988,
+          "farLeg": 50.75449855584969,
+          "nearArm": 42.63475474039197,
+          "farArm": 35.33948341066729
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 71,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 1.4210854715202004e-13,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 0,
+          "farUpperArm": 0,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 47.48634038531614,
+          "farLeg": 69.54281383228499,
+          "nearArm": 45.178672291344,
+          "farArm": 43.52208277029162
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 72,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 0,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 0,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 1.1368683772161603e-13
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 58.359085758841545,
+          "farLeg": 83.36657607621456,
+          "nearArm": 43.52208277029161,
+          "farArm": 45.178672291344164
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 73,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 0,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 52.07119367199984,
+          "farLeg": 67.63102361619814,
+          "nearArm": 35.339483410667384,
+          "farArm": 42.634754740392005
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 74,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 0,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.931886024760914,
+          "farLeg": 32.991817768140066,
+          "nearArm": 21.17506750084283,
+          "farArm": 38.498198121271706
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 75,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 8.526512829121202e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 60.2060922575536,
+          "farLeg": 70.50855514940646,
+          "nearArm": 12.539220108788118,
+          "farArm": 34.25027657769887
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 76,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 139.62839052008385,
+          "farLeg": 141.05201300799698,
+          "nearArm": 24.238373353554984,
+          "farArm": 30.12483813978397
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 77,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 68.53599945665798,
+          "farLeg": 54.61393371062676,
+          "nearArm": 35.62008493938884,
+          "farArm": 26.48123776463651
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 78,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 9.947598300641403e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 73.89838812382271,
+          "farLeg": 49.61411119268434,
+          "nearArm": 39.82004021942645,
+          "farArm": 24.86411744422821
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 79,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 0,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.924111306708596,
+          "farLeg": 40.491125762634645,
+          "nearArm": 35.62008493938884,
+          "farArm": 26.48123776463671
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 80,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 1.1368683772161603e-13,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.70637653162487,
+          "farLeg": 31.17837670923349,
+          "nearArm": 24.238373353555232,
+          "farArm": 30.124838139784092
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 81,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 0,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 5.684341886080802e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 18.741097574012503,
+          "farLeg": 26.547636061179894,
+          "nearArm": 12.539220108788081,
+          "farArm": 34.250276577698706
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 82,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 25.033378886112597,
+          "farLeg": 31.02098755072098,
+          "nearArm": 21.17506750084275,
+          "farArm": 38.4981981212715
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 83,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 7.105427357601002e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 50.75449855584969,
+          "farLeg": 41.68891520253988,
+          "nearArm": 35.33948341066729,
+          "farArm": 42.634754740392125
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 84,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 1.4210854715202004e-13,
+          "nearUpperArm": 0,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 69.54281383228499,
+          "farLeg": 47.48634038531614,
+          "nearArm": 43.52208277029162,
+          "farArm": 45.178672291344
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 85,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 0,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 5.684341886080802e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 1.1368683772161603e-13,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 0
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 83.36657607621456,
+          "farLeg": 58.359085758841545,
+          "nearArm": 45.178672291344164,
+          "farArm": 43.52208277029153
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 86,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 8.526512829121202e-14,
+          "farForearm": 8.526512829121202e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 67.63102361619814,
+          "farLeg": 52.07119367199984,
+          "nearArm": 42.634754740392005,
+          "farArm": 35.33948341066698
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 87,
+        "boneLengthError": {
+          "nearThigh": 0,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 1.4210854715202004e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 32.991817768140066,
+          "farLeg": 40.931886024760914,
+          "nearArm": 38.498198121271706,
+          "farArm": 21.17506750084283
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 88,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 8.526512829121202e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 5.684341886080802e-14,
+          "farUpperArm": 4.263256414560601e-14,
+          "farForearm": 8.526512829121202e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 70.50855514940646,
+          "farLeg": 60.2060922575536,
+          "nearArm": 34.25027657769887,
+          "farArm": 12.539220108788118
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 89,
+        "boneLengthError": {
+          "nearThigh": 2.842170943040401e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 0,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 4.263256414560601e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 141.05201300799698,
+          "farLeg": 139.62839052008385,
+          "nearArm": 30.12483813978397,
+          "farArm": 24.238373353554984
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 90,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 5.684341886080802e-14,
+          "farThigh": 0,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 7.105427357601002e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 54.61393371062676,
+          "farLeg": 68.53599945665798,
+          "nearArm": 26.48123776463651,
+          "farArm": 35.620084939388555
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 91,
+        "boneLengthError": {
+          "nearThigh": 8.526512829121202e-14,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 2.842170943040401e-14,
+          "farCalf": 0,
+          "nearUpperArm": 4.263256414560601e-14,
+          "nearForearm": 4.263256414560601e-14,
+          "farUpperArm": 2.842170943040401e-14,
+          "farForearm": 9.947598300641403e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 49.61411119268434,
+          "farLeg": 73.89838812382271,
+          "nearArm": 24.86411744422821,
+          "farArm": 39.82004021942645
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 92,
+        "boneLengthError": {
+          "nearThigh": 5.684341886080802e-14,
+          "nearCalf": 8.526512829121202e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 8.526512829121202e-14,
+          "nearUpperArm": 0,
+          "nearForearm": 1.4210854715202004e-14,
+          "farUpperArm": 5.684341886080802e-14,
+          "farForearm": 1.4210854715202004e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 40.491125762634645,
+          "farLeg": 49.924111306708596,
+          "nearArm": 26.48123776463671,
+          "farArm": 35.62008493938884
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      },
+      {
+        "frame": 93,
+        "boneLengthError": {
+          "nearThigh": 1.1368683772161603e-13,
+          "nearCalf": 2.842170943040401e-14,
+          "farThigh": 5.684341886080802e-14,
+          "farCalf": 2.842170943040401e-14,
+          "nearUpperArm": 2.842170943040401e-14,
+          "nearForearm": 0,
+          "farUpperArm": 1.4210854715202004e-14,
+          "farForearm": 5.684341886080802e-14
+        },
+        "endResidual": {
+          "nearLeg": 0,
+          "farLeg": 0,
+          "nearArm": 0,
+          "farArm": 0
+        },
+        "midDeviation": {
+          "nearLeg": 31.17837670923349,
+          "farLeg": 25.70637653162487,
+          "nearArm": 30.124838139784092,
+          "farArm": 24.238373353555232
+        },
+        "bendSide": {
+          "nearLeg": -1,
+          "farLeg": -1,
+          "nearArm": 1,
+          "farArm": 1
+        },
+        "clamped": {
+          "nearLeg": "none",
+          "farLeg": "none",
+          "nearArm": "none",
+          "farArm": "none"
+        }
+      }
+    ]
+  },
   "segmentLengthStats": [
+    {
+      "segment": "near hip->knee",
+      "min": 186,
+      "max": 186,
+      "mean": 186,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "near knee->ankle",
+      "min": 177.8,
+      "max": 177.8,
+      "mean": 177.8,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "near ankle->toe",
+      "min": 87.3,
+      "max": 87.3,
+      "mean": 87.3,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "far hip->knee",
+      "min": 186,
+      "max": 186,
+      "mean": 186,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "far knee->ankle",
+      "min": 177.8,
+      "max": 177.8,
+      "mean": 177.8,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "far ankle->toe",
+      "min": 87.3,
+      "max": 87.3,
+      "mean": 87.3,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "near shoulder->elbow",
+      "min": 115.9,
+      "max": 115.9,
+      "mean": 115.9,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "near elbow->fist",
+      "min": 92,
+      "max": 92,
+      "mean": 92,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "far shoulder->elbow",
+      "min": 115.9,
+      "max": 115.9,
+      "mean": 115.9,
+      "maxOverMin": 1
+    },
+    {
+      "segment": "far elbow->fist",
+      "min": 92,
+      "max": 92,
+      "mean": 92,
+      "maxOverMin": 1
+    }
+  ],
+  "segmentLengthStatsNote": "SOLVED joints (what renders). Constrained bones have ratio ~1.000 by construction; ankle->toe is constant foot artwork. The historical unconstrained variation is preserved below and in reports/baseline/.",
+  "rawTrackSegmentLengthStats": [
     {
       "segment": "near hip->knee",
       "min": 117.1,
@@ -121,7 +3760,7 @@
     }
   ],
   "segmentLengthOrigin": {
-    "note": "Three levels, measured separately: rawMeasuredKeys (7 hand-measured poses per leg, read read-only from keys.ts) -> storedTrack (26-sample LEG_CYCLE after build-time Catmull-Rom) -> interpolatedFrames (all 94). interpolationOvershoot = interpolated max / stored max. Diagnostic only — the tolerance above and the puppet itself are unchanged.",
+    "note": "DIAGNOSTIC ONLY (not a gate since Phase 1). Three levels of the RAW unconstrained track, measured separately: rawMeasuredKeys (7 hand-measured poses per leg, exported read-only by keys.ts) -> storedTrack (26-sample LEG_CYCLE after build-time Catmull-Rom) -> interpolatedFrames (all 94). interpolationOvershoot = interpolated max / stored max. The constrained solver absorbs this noise without stretching bones.",
     "rawMeasuredKeys": [
       {
         "segment": "hip->knee",
@@ -229,52 +3868,43 @@
     "worstInterpolatedMaxOverMin": 2.891,
     "worstInterpolationOvershoot": 1.192
   },
+  "historicalBaseline": {
+    "commit": "5d4d13ab92ac38be0397bd2b8feb27e19eefdf98",
+    "oldPrimaryGate": "limb segment length max/min <= 2.0 (unconstrained puppet)",
+    "oldResult": "FAIL 7/8 checks; worst ratio 2.891x knee->ankle",
+    "preservedIn": "reports/baseline/motion-validation.json (verbatim) + reports/puppet-upgrade-baseline.json",
+    "replacedBy": "per-bone configured-length error ±0.5 px + IK residual + bend stability (master plan §9.7)"
+  },
   "adjacentJointDeltaPx": {
-    "median": 73.3,
-    "p95": 276.13,
-    "max": 276.13,
-    "wrap25to26": 17.18
+    "median": 71.3,
+    "p95": 295.2,
+    "max": 295.2,
+    "wrap25to26": 13.68
   },
   "jointAccelerationPx": {
-    "median": 46.65,
-    "p95": 298.55,
-    "max": 298.55,
-    "wrap25to26": 276.29
+    "median": 54.43,
+    "p95": 306.99,
+    "max": 306.99,
+    "wrap25to26": 286.51
   },
   "adjacentPixelMad": {
-    "median": 3.254,
-    "p95": 5.082,
-    "max": 5.151,
-    "wrap25to26": 1.278
+    "median": 3.343,
+    "p95": 5.408,
+    "max": 5.497,
+    "wrap25to26": 1.356
   },
   "notPresent_futureWork": [
-    "true IK stance-locking (not implemented in Runner.tsx / keys.ts)",
-    "measured foot-contact solver (not implemented)",
-    "bone-length constraints on the limb segments (lengths are unconstrained by design)"
+    "true IK stance-locking (Phase 2 — not implemented yet)",
+    "measured foot-contact solver / verified contact track (Phase 2 — baseline candidates are UNCERTAIN)",
+    "cohesive limb/torso/foot silhouettes + deterministic scarf chain (Phase 3)",
+    "second character variant (Phase 4)"
   ],
-  "findings": [
-    {
-      "check": "limb segment length variation within documented tolerance (max/min <= 2)",
-      "detail": "near hip->knee: 2.034; near knee->ankle: 2.891; far hip->knee: 2.034; far knee->ankle: 2.891; near elbow->fist: 2.705; far elbow->fist: 2.705",
-      "classification": "PRE-EXISTING DESIGN LIMITATION (not a regression): Runner.tsx / keys.ts are byte-identical to the pre-reconciliation baseline commit 5ab3d64. The puppet has NO bone-length constraint. Three levels are measured separately: the raw hand-measured keys already vary, build-time Catmull-Rom resampling into the 26-sample LEG_CYCLE amplifies that, and per-frame interpolation adds only a small overshoot on top. The dominant source is the unconstrained measured geometry, not a continuity bug.",
-      "regression": false,
-      "evidence": {
-        "rawMeasuredKeyMaxOverMin": 1.958,
-        "storedTrackSampleMaxOverMin": 2.891,
-        "interpolatedFrameMaxOverMin": 2.891,
-        "maxInterpolationOvershoot": 1.192,
-        "tolerance": 2
-      },
-      "action": "Recorded as future work. NOT tuned and NOT re-thresholded as part of this reconciliation (contract rules 1 and 3)."
-    }
-  ],
+  "findings": [],
   "summary": {
-    "total": 8,
-    "passed": 7,
-    "failed": 1,
-    "failedChecks": [
-      "limb segment length variation within documented tolerance (max/min <= 2)"
-    ]
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "failedChecks": []
   },
-  "status": "FAIL"
+  "status": "PASS"
 }

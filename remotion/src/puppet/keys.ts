@@ -135,6 +135,12 @@ export function shadow(frame: number) {
   return { rx: 120 + 185 * s, ry: 9 + 5 * s, opacity: 0.55 + 0.35 * s };
 }
 
+// --- Raw measurement exports (additive, Phase 1 of the puppet upgrade) ---
+// The hand-measured keys above are REFERENCE DATA and are never overwritten
+// by solver output. They are exported read-only so rig calibration and the
+// raw-vs-solved diagnostics can use them without duplicating literals.
+export {nearLegRaw as NEAR_LEG_RAW, farLegRaw as FAR_LEG_RAW};
+
 // --- Palette (sampled from source) ---
 export const C = {
   bg: '#FFFFFF',

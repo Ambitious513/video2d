@@ -1,72 +1,242 @@
 $ npm test
-(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion)
+(cwd=/tmp/arena/tenants/6f80636a-b516-481f-b5fd-517d771de62c/sessions/187b0090-7e21-5f66-b884-49e9b2805745/workspace/video2d/remotion)
 
 
 > runner-2d-remotion@1.0.0 test
-> node --import tsx --test test/cels.test.ts
+> node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts
 
 TAP version 13
 # Subtest: constants match the source timeline
 ok 1 - constants match the source timeline
   ---
-  duration_ms: 0.684496
+  duration_ms: 0.701622
   ...
 # Subtest: frame 0: exact cel 1, loop cel 1
 ok 2 - frame 0: exact cel 1, loop cel 1
   ---
-  duration_ms: 0.165925
+  duration_ms: 0.244813
   ...
 # Subtest: frame 12: exact cel 13, loop cel 13
 ok 3 - frame 12: exact cel 13, loop cel 13
   ---
-  duration_ms: 0.084731
+  duration_ms: 0.108925
   ...
 # Subtest: frame 25: exact cel 26, loop cel 26
 ok 4 - frame 25: exact cel 26, loop cel 26
   ---
-  duration_ms: 0.107663
+  duration_ms: 0.130541
   ...
 # Subtest: frame 26: exact cel 27, loop cel 1
 ok 5 - frame 26: exact cel 27, loop cel 1
   ---
-  duration_ms: 0.075639
+  duration_ms: 0.080169
   ...
 # Subtest: frame 72: exact cel 73, loop cel 21
 ok 6 - frame 72: exact cel 73, loop cel 21
   ---
-  duration_ms: 0.073264
+  duration_ms: 0.062401
   ...
 # Subtest: frame 93: exact cel 94, loop cel 16
 ok 7 - frame 93: exact cel 94, loop cel 16
   ---
-  duration_ms: 0.069593
+  duration_ms: 0.060862
   ...
 # Subtest: exact variant: 94 frames -> 94 unique cels, strictly monotonic, no skips/repeats
 ok 8 - exact variant: 94 frames -> 94 unique cels, strictly monotonic, no skips/repeats
   ---
-  duration_ms: 0.395644
+  duration_ms: 0.337274
   ...
 # Subtest: loop variant: repeats exactly every 26 timeline frames
 ok 9 - loop variant: repeats exactly every 26 timeline frames
   ---
-  duration_ms: 0.250954
+  duration_ms: 0.288285
   ...
 # Subtest: out-of-range and non-integer frames are rejected, not wrapped
 ok 10 - out-of-range and non-integer frames are rejected, not wrapped
   ---
-  duration_ms: 0.750438
+  duration_ms: 0.634302
   ...
 # Subtest: cel paths are zero-padded and point at the right asset directories
 ok 11 - cel paths are zero-padded and point at the right asset directories
   ---
-  duration_ms: 0.186795
+  duration_ms: 1.011063
   ...
-1..11
-# tests 11
+# Subtest: reachable target at a natural distance: exact lengths, zero residual, end == target
+ok 12 - reachable target at a natural distance: exact lengths, zero residual, end == target
+  ---
+  duration_ms: 1.165045
+  ...
+# Subtest: target exactly at maximum reach: safe near-straight solve, residual ~ EPS
+ok 13 - target exactly at maximum reach: safe near-straight solve, residual ~ EPS
+  ---
+  duration_ms: 0.206185
+  ...
+# Subtest: target slightly beyond maximum reach: clamps safely onto the reach ray
+ok 14 - target slightly beyond maximum reach: clamps safely onto the reach ray
+  ---
+  duration_ms: 0.170715
+  ...
+# Subtest: target closer than minimum reach: clamps safely, no division blow-up
+ok 15 - target closer than minimum reach: clamps safely, no division blow-up
+  ---
+  duration_ms: 0.159127
+  ...
+# Subtest: target coincident with root: deterministic +x fallback, never NaN
+ok 16 - target coincident with root: deterministic +x fallback, never NaN
+  ---
+  duration_ms: 0.717351
+  ...
+# Subtest: bend-left and bend-right pole hints place the mid joint on opposite sides
+ok 17 - bend-left and bend-right pole hints place the mid joint on opposite sides
+  ---
+  duration_ms: 0.313064
+  ...
+# Subtest: mirrored facing: mirror x and flip bendSign -> mirrored solution
+ok 18 - mirrored facing: mirror x and flip bendSign -> mirrored solution
+  ---
+  duration_ms: 0.215138
+  ...
+# Subtest: near-straight and highly folded configurations stay finite with correct bend side
+ok 19 - near-straight and highly folded configurations stay finite with correct bend side
+  ---
+  duration_ms: 0.250004
+  ...
+# Subtest: repeat evaluation with identical inputs is deeply identical (purity)
+ok 20 - repeat evaluation with identical inputs is deeply identical (purity)
+  ---
+  duration_ms: 0.192061
+  ...
+# Subtest: invalid rig data throws loudly instead of rendering NaN
+ok 21 - invalid rig data throws loudly instead of rendering NaN
+  ---
+  duration_ms: 0.551818
+  ...
+# Subtest: equal-length bones: min reach 0, coincident target still safe
+ok 22 - equal-length bones: min reach 0, coincident target still safe
+  ---
+  duration_ms: 0.165492
+  ...
+# Subtest: seeded random sweep (500 targets, both signs): fixed lengths, stable bend, finite
+ok 23 - seeded random sweep (500 targets, both signs): fixed lengths, stable bend, finite
+  ---
+  duration_ms: 4.83201
+  ...
+# Subtest: end-effector accuracy gate: reachable targets solved within 1 px (actually ~1e-13)
+ok 24 - end-effector accuracy gate: reachable targets solved within 1 px (actually ~1e-13)
+  ---
+  duration_ms: 0.385596
+  ...
+# Subtest: all 94 frames: every constrained bone within 1e-6 px of its configured length
+ok 25 - all 94 frames: every constrained bone within 1e-6 px of its configured length
+  ---
+  duration_ms: 6.182105
+  ...
+# Subtest: all 94 frames: every joint finite and inside the 1920x1080 canvas
+ok 26 - all 94 frames: every joint finite and inside the 1920x1080 canvas
+  ---
+  duration_ms: 4.292416
+  ...
+# Subtest: all 94 frames: every raw end target reachable (0 clamps), residual ~ 0
+ok 27 - all 94 frames: every raw end target reachable (0 clamps), residual ~ 0
+  ---
+  duration_ms: 5.649982
+  ...
+# Subtest: bend side equals the rig hint on every frame; no flips incl. the 25->26 wrap
+ok 28 - bend side equals the rig hint on every frame; no flips incl. the 25->26 wrap
+  ---
+  duration_ms: 2.746922
+  ...
+# Subtest: determinism: out-of-order frame requests produce identical poses
+ok 29 - determinism: out-of-order frame requests produce identical poses
+  ---
+  duration_ms: 0.980997
+  ...
+# Subtest: raw measured targets are preserved exactly alongside solved joints
+ok 30 - raw measured targets are preserved exactly alongside solved joints
+  ---
+  duration_ms: 2.376159
+  ...
+# Subtest: foot artwork length is constant (rig.footLen) on every frame; direction is unit
+ok 31 - foot artwork length is constant (rig.footLen) on every frame; direction is unit
+  ---
+  duration_ms: 4.332199
+  ...
+# Subtest: mid-joint deviation from noisy raw targets is reported, finite, and bounded by evidence
+ok 32 - mid-joint deviation from noisy raw targets is reported, finite, and bounded by evidence
+  ---
+  duration_ms: 1.345248
+  ...
+# Subtest: mirrored facing through solveLimb: mirror x + flip bend hint -> mirrored joints
+ok 33 - mirrored facing through solveLimb: mirror x + flip bend hint -> mirrored joints
+  ---
+  duration_ms: 0.428867
+  ...
+# Subtest: shared evaluator honors a different rig profile (no hardcoded lengths)
+ok 34 - shared evaluator honors a different rig profile (no hardcoded lengths)
+  ---
+  duration_ms: 0.477175
+  ...
+# Subtest: fractional frames evaluate cleanly (pure function of frame, not integer-only)
+ok 35 - fractional frames evaluate cleanly (pure function of frame, not integer-only)
+  ---
+  duration_ms: 0.702413
+  ...
+# Subtest: stored rig constants == calibrateRunnerRig() output (exact reproducibility, 1e-9)
+ok 36 - stored rig constants == calibrateRunnerRig() output (exact reproducibility, 1e-9)
+  ---
+  duration_ms: 8.763016
+  ...
+# Subtest: calibration is deterministic (repeat call deeply identical)
+ok 37 - calibration is deterministic (repeat call deeply identical)
+  ---
+  duration_ms: 57.020624
+  ...
+# Subtest: documented calibration evidence reproduces (spans, knee deviation stats)
+ok 38 - documented calibration evidence reproduces (spans, knee deviation stats)
+  ---
+  duration_ms: 1.19191
+  ...
+# Subtest: every raw measured ankle target is reachable with the calibrated leg bones
+ok 39 - every raw measured ankle target is reachable with the calibrated leg bones
+  ---
+  duration_ms: 0.234266
+  ...
+# Subtest: every fist target over the 26-frame arm swing (incl. mid-swing bulge) is reachable
+ok 40 - every fist target over the 26-frame arm swing (incl. mid-swing bulge) is reachable
+  ---
+  duration_ms: 0.504503
+  ...
+# Subtest: boneLengths covers all 8 constrained bones with finite positive values; feet excluded
+ok 41 - boneLengths covers all 8 constrained bones with finite positive values; feet excluded
+  ---
+  duration_ms: 0.261328
+  ...
+# Subtest: bend-side hints: knees -1 (front), elbows +1 (trailing) — fixed convention
+ok 42 - bend-side hints: knees -1 (front), elbows +1 (trailing) — fixed convention
+  ---
+  duration_ms: 0.092194
+  ...
+# Subtest: attachment anchors match the pre-upgrade puppet geometry (no silent drift)
+ok 43 - attachment anchors match the pre-upgrade puppet geometry (no silent drift)
+  ---
+  duration_ms: 0.220161
+  ...
+# Subtest: raw measured keys are preserved untouched (reference data, 7 poses per leg)
+ok 44 - raw measured keys are preserved untouched (reference data, 7 poses per leg)
+  ---
+  duration_ms: 0.190749
+  ...
+# Subtest: foot artwork length is the median of the 14 raw ankle->toe readings
+ok 45 - foot artwork length is the median of the 14 raw ankle->toe readings
+  ---
+  duration_ms: 0.228246
+  ...
+1..45
+# tests 45
 # suites 0
-# pass 11
+# pass 45
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 418.986823
+# duration_ms 1352.617043

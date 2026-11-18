@@ -1,8 +1,15 @@
 import React from 'react';
-import {
-  C, HIP_X, HEAD_X, HEAD_R, hipY, headY, cycleSample, LEG_CYCLE,
-  armPose, shadow, Pt, STEP,
-} from './keys';
+import {C, HEAD_R, shadow, Pt, STEP} from './keys';
+import {solvePose} from './pose';
+
+/**
+ * Phase 1 rewiring: all limb joints now come from the constrained pose
+ * evaluator (pose.ts -> rig.ts + ik.ts). Geometry, stroke widths, palette and
+ * draw order are UNCHANGED from the pre-upgrade puppet — visual construction
+ * work is deliberately deferred to Phase 3 (master plan §7). The raw measured
+ * targets still drive the motion intent; the solver guarantees fixed bone
+ * lengths and a stable bend side. See ROADMAP.md §8 for the conventions.
+ */
 
 /** Catmull-Rom -> cubic bezier smooth open path through points */
 function smoothPath(pts: Pt[]): string {
@@ -88,17 +95,15 @@ const ScarfTail: React.FC<{ knot: Pt; f: number }> = ({ knot, f }) => {
 
 export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
   const f = frame;
-  const hip: Pt = [HIP_X, hipY(f)];
-  const head: Pt = [HEAD_X, headY(f)];
-  const sh: Pt = [922, headY(f) + 154];
-  const knot: Pt = [940, headY(f) + 112];
-  const pack: Pt = [818, headY(f) + 222];
-
-  const nl = cycleSample(LEG_CYCLE, f);
-  const fl = cycleSample(LEG_CYCLE, f + 13);
-  const add = (p: Pt, o: Pt): Pt => [p[0] + o[0], p[1] + o[1]];
-  const na = armPose(f, 0);
-  const fa = armPose(f, 13);
+  // Constrained pose: pure function of (rig, motion keys, frame). Solved
+  // joints have fixed bone lengths; raw targets are preserved inside the
+  // pose object for diagnostics (never rendered directly).
+  const pose = solvePose(f);
+  const hip: Pt = pose.hip;
+  const head: Pt = pose.head;
+  const sh: Pt = pose.shoulder;
+  const knot: Pt = pose.knot;
+  const pack: Pt = pose.pack;
   const shd = shadow(f);
 
   // torso quad
@@ -113,8 +118,8 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
       <ellipse cx={880} cy={972} rx={shd.rx} ry={shd.ry} fill={C.shadow} opacity={shd.opacity} />
 
       {/* far limbs (behind) */}
-      <Leg hip={hip} knee={add(fl.knee, hip)} ankle={add(fl.ankle, hip)} toe={add(fl.toe, hip)} fill={C.far} />
-      <Arm sh={sh} elbow={add(fa.elbow, sh)} fist={add(fa.fist, sh)} fill={C.far} />
+      <Leg hip={pose.farLeg.hip} knee={pose.farLeg.knee} ankle={pose.farLeg.ankle} toe={pose.farLeg.toe} fill={C.far} />
+      <Arm sh={sh} elbow={pose.farArm.elbow} fist={pose.farArm.fist} fill={C.far} />
 
       {/* scarf tail behind pack */}
       <ScarfTail knot={knot} f={f} />
@@ -133,10 +138,10 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
 
       {/* torso + neck */}
       <path d={torso} fill={C.body} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
-      <Seg a={[head[0] - 18, head[1] + 62]} b={sh} w={40} fill={C.body} />
+      <Seg a={pose.neckTop} b={sh} w={40} fill={C.body} />
 
       {/* near leg (in front of torso bottom) */}
-      <Leg hip={hip} knee={add(nl.knee, hip)} ankle={add(nl.ankle, hip)} toe={add(nl.toe, hip)} fill={C.body} />
+      <Leg hip={pose.nearLeg.hip} knee={pose.nearLeg.knee} ankle={pose.nearLeg.ankle} toe={pose.nearLeg.toe} fill={C.body} />
 
       {/* scarf knot */}
       <g transform={`translate(${knot[0]} ${knot[1]}) rotate(-14)`}>
@@ -153,7 +158,7 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
       <path d={`M ${head[0] + 44} ${head[1] + 48} q 16 12 32 0`} fill="none" stroke={C.eye} strokeWidth={4} strokeLinecap="round" />
 
       {/* near arm (front) */}
-      <Arm sh={sh} elbow={add(na.elbow, sh)} fist={add(na.fist, sh)} fill={C.body} />
+      <Arm sh={sh} elbow={pose.nearArm.elbow} fist={pose.nearArm.fist} fill={C.body} />
     </svg>
   );
 };

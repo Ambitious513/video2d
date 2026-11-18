@@ -129,8 +129,9 @@ step('fidelity', process.execPath, [
   '--puppet', 'remotion/out/puppetframes',
 ], ROOT, {dependsOn: ['render']});
 
-// 12. Motion & continuity (Test I)
+// 12. Motion & continuity (Test I) + IK/solver validation (Phase 1)
 step('motion', NPM, ['run', 'verify:motion'], REMOTION);
+step('ik', NPM, ['run', 'verify:ik'], REMOTION);
 
 // 12b. Documentation-vs-implementation consistency (A15, A16). Pure file/git
 // checks, no browser needed: every documented path resolves (or is a gitignored
@@ -181,26 +182,75 @@ step('docs', process.execPath, [path.join(TOOLS, 'verify-docs.js')], ROOT);
   console.log(`\n=== tracked-audit: ${status} — ${detail} ===`);
 }
 
-// 13b. Puppet-unchanged proof (A8): the procedural puppet must be byte-identical
-// to the pre-reconciliation baseline commit. This is the evidence that the
-// reconciliation did not silently redesign or re-tune the character.
+// 13b. Reconciliation-assets-protected / scope audit (A8, master plan §10).
+// HISTORY: the reconciliation task gated A8 on `puppet-unchanged` — Runner.tsx /
+// keys.ts / RunCycle.tsx byte-identical to pre-reconciliation commit 5ab3d64.
+// That was correct when the puppet was out of scope. The procedural-puppet
+// upgrade (feat/constrained-puppet-rig) deliberately changes those files, so
+// the gate is REPLACED (not deleted) by this audit against the reconciled
+// baseline 5d4d13a:
+//   (a) protected reconciliation assets stay byte-identical (committed + worktree);
+//   (b) the frozen Phase 0 baseline records stay byte-identical to 1dd5600d;
+//   (c) every changed/added path is inside the allowed upgrade scope, and any
+//       out-of-scope path is listed explicitly (FAIL until justified/removed).
 {
-  const BASELINE = '5ab3d647050cbc229098ee30b39d36cb3e1fe3fc';
-  const files = ['remotion/src/puppet/Runner.tsx', 'remotion/src/puppet/keys.ts', 'remotion/src/RunCycle.tsx'];
-  const r = spawnSync('git', ['-C', ROOT, 'diff', '--stat', BASELINE, 'HEAD', '--', ...files], {encoding: 'utf8'});
-  const clean = r.status === 0 && r.stdout.trim() === '';
-  // also compare the working tree (uncommitted edits would count as a change)
-  const w = spawnSync('git', ['-C', ROOT, 'diff', '--stat', BASELINE, '--', ...files], {encoding: 'utf8'});
-  const wtClean = w.status === 0 && w.stdout.trim() === '';
-  const status = clean && wtClean ? 'PASS' : 'FAIL';
-  results['puppet-unchanged'] = {
-    status,
-    detail: status === 'PASS'
-      ? `${files.join(', ')} byte-identical to baseline ${BASELINE.slice(0, 7)} (committed + working tree)`
-      : `puppet differs from baseline:\n${r.stdout}${w.stdout}`,
-    baseline: BASELINE, files, seconds: 0,
+  const BASELINE = '5d4d13ab92ac38be0397bd2b8feb27e19eefdf98';
+  const PHASE0 = '1dd5600dd2503942aca43fe24ae01fc222fb9f50';
+  const protectedPaths = [
+    'remotion/public/cel94', 'remotion/public/cel',
+    'tools/flatrace.js', 'tools/trace-all.js', 'tools/trace.js',
+    'source/input_video.mp4', 'source/audio.aac', 'source/audio.wav',
+    'remotion/public/audio.m4a', 'frames', 'fullres',
+    'remotion/src/cels.ts', 'remotion/src/CelRun.tsx', 'remotion/src/CelLoop.tsx',
+    'remotion/src/Comparison.tsx', 'remotion/src/Root.tsx', 'remotion/src/index.ts',
+  ];
+  const frozenPhase0 = [
+    'reports/baseline', 'reports/puppet-upgrade-baseline.json',
+    'reports/puppet-upgrade-baseline-contact-sheet.png',
+  ];
+  // Allowed upgrade scope (master plan §2.2 + §10). Anything else must be
+  // listed with a reason and approved before it can pass.
+  const allowedScope = [
+    /^remotion\/src\/puppet\//,
+    /^remotion\/src\/RunCycle\.tsx$/,
+    /^remotion\/scripts\//,
+    /^remotion\/test\//,
+    /^remotion\/package(-lock)?\.json$/,
+    /^reports\//,
+    /^verify\.mjs$/,
+    /^(METHOD|STATUS|SKILL|ROADMAP)\.md$/,
+  ];
+  const git = (...args) => spawnSync('git', ['-C', ROOT, ...args], {encoding: 'utf8'});
+  const diffNames = (base, paths) => {
+    const r = git('diff', '--name-only', base, '--', ...(paths || []));
+    return r.status === 0 ? r.stdout.trim().split('\n').filter(Boolean) : [`GIT-DIFF-ERROR:${r.stderr.trim()}`];
   };
-  console.log(`\n=== puppet-unchanged: ${status} — ${results['puppet-unchanged'].detail} ===`);
+  // (a) protected assets: working tree vs baseline covers committed AND
+  // uncommitted edits; untracked NEW files under protected paths also count.
+  const wtProtected = git('diff', '--name-only', BASELINE, '--', ...protectedPaths);
+  const protectedProblems = wtProtected.status === 0 ? wtProtected.stdout.trim().split('\n').filter(Boolean) : [`GIT-DIFF-ERROR:${wtProtected.stderr.trim()}`];
+  const untrackedR = git('ls-files', '--others', '--exclude-standard');
+  const untracked = untrackedR.status === 0 ? untrackedR.stdout.trim().split('\n').filter(Boolean) : [];
+  for (const f of untracked) {
+    if (protectedPaths.some((p) => f === p || f.startsWith(`${p}/`))) protectedProblems.push(`NEW-FILE-IN-PROTECTED:${f}`);
+  }
+  // (b) frozen Phase 0 records vs the Phase 0 completion commit
+  const frozenProblems = diffNames(PHASE0, frozenPhase0);
+  // (c) scope: every changed tracked path (committed + worktree) and every
+  // untracked new file must be inside the allowed scope.
+  const changed = diffNames(BASELINE, null);
+  const outOfScope = [...new Set([...changed, ...untracked])].filter((f) => !allowedScope.some((re) => re.test(f)));
+  const status = protectedProblems.length === 0 && frozenProblems.length === 0 && outOfScope.length === 0 ? 'PASS' : 'FAIL';
+  const detail = [
+    protectedProblems.length === 0 ? `${protectedPaths.length} protected reconciliation paths byte-identical to ${BASELINE.slice(0, 7)} (committed + worktree)` : `PROTECTED ASSETS CHANGED: ${protectedProblems.join(', ')}`,
+    frozenProblems.length === 0 ? `frozen Phase 0 records byte-identical to ${PHASE0.slice(0, 7)}` : `FROZEN BASELINE RECORDS CHANGED: ${frozenProblems.join(', ')}`,
+    outOfScope.length === 0 ? `${changed.length} changed + ${untracked.length} new tracked-candidate paths, all inside allowed upgrade scope` : `OUT-OF-SCOPE PATHS (need documented justification): ${outOfScope.join(', ')}`,
+  ].join('; ');
+  results['scope-audit'] = {
+    status, detail, baseline: BASELINE, phase0Freeze: PHASE0,
+    protectedPaths, frozenPhase0, outOfScope, changedCount: changed.length, untrackedCount: untracked.length, seconds: 0,
+  };
+  console.log(`\n=== scope-audit: ${status} — ${detail} ===`);
 }
 
 // 14. Cleanup regenerable sequences ONLY after render+frame verification AND
@@ -228,7 +278,7 @@ const matrix = {
   A5: {criterion: 'Exact/loop compositions distinct, mapping correct', status: all('unit-remotion', 'compositions'), evidence: 'reports/logs/unit-remotion.log + reports/composition-validation.json'},
   A6: {criterion: 'Every advertised render job registered', status: s('compositions'), evidence: 'reports/composition-validation.json'},
   A7: {criterion: 'Low-RAM script works from documented invocation', status: s('render'), evidence: 'reports/render-validation.json + reports/logs/render.log'},
-  A8: {criterion: 'Puppet present, design unchanged', status: all('puppet-unchanged', 'stills'), evidence: 'reports/test-matrix.json (puppet-unchanged: git diff vs baseline 5ab3d64) + reports/still-render-validation.json'},
+  A8: {criterion: 'Puppet implementation + tests exist and render; reconciliation assets protected', status: all('scope-audit', 'stills', 'unit-remotion'), evidence: 'reports/test-matrix.json (scope-audit: protected assets vs 5d4d13a + frozen Phase 0 records + allowed-scope audit; replaces the historical puppet-unchanged gate vs 5ab3d64) + reports/still-render-validation.json + reports/logs/unit-remotion.log'},
   A9: {criterion: 'All required stills render correctly', status: s('stills'), evidence: 'reports/still-render-validation.json + verify/contact-sheet.png'},
   A10: {criterion: 'All compositions render 94 frames @24fps 1920x1080', status: s('render'), evidence: 'reports/render-validation.json'},
   A11: {criterion: 'Exact-cel all-frame fidelity measured', status: s('fidelity'), evidence: 'reports/fidelity-all-frames.json'},
@@ -240,15 +290,20 @@ const matrix = {
   A17: {criterion: 'Clean install + typecheck succeed', status: all('typecheck', 'unit-tools', ...installSteps), evidence: 'reports/logs/typecheck.log + reports/logs/install-*.log (with --install)'},
   A18: {criterion: 'No MP4s/node_modules/temp sequences committed', status: s('tracked-audit'), evidence: 'reports/test-matrix.json (tracked-audit)'},
 };
-// Test I is a required test but is NOT an A1-A18 acceptance gate: A8 gates the
-// puppet's design being unchanged, not its motion quality. Its result is
-// reported separately and honestly (a pre-existing limb-length finding is a
-// documented limitation, never a silently tuned PASS).
+// Test I is a required test. Since Phase 1 of the puppet upgrade it gates the
+// constrained rig (fixed bone lengths, IK residual, bend stability) plus the
+// original continuity checks; A8 gates asset protection + puppet rendering,
+// not motion quality. Results are reported separately and honestly.
 const extraChecks = {
   'Test I (motion & continuity)': {
     status: s('motion'),
     evidence: 'reports/motion-validation.json',
-    note: 'See reports/motion-validation.json findings + reports/REPRODUCIBILITY_REPORT.md known limitations. No IK / foot-contact solver exists; limb bone lengths are unconstrained.',
+    note: 'Phase 1: solved bone-length / IK residual / bend-stability gates + continuity. Raw-track variation remains a reported diagnostic (historical 2.891x FAIL preserved in reports/baseline/). Stance-locking / foot-contact solver are Phase 2 future work, not claimed.',
+  },
+  'IK validation (Phase 1)': {
+    status: s('ik'),
+    evidence: 'reports/ik-validation.json',
+    note: 'Solver edge-case matrix + all-94-frame configured-length/residual/bend/bounds/determinism sweep (npm run verify:ik).',
   },
 };
 const out = {generatedAt: new Date().toISOString(), steps: results, acceptanceMatrix: matrix, additionalRequiredTests: extraChecks};

@@ -1,238 +1,210 @@
 {
-  "generatedAt": "2026-11-17T23:58:31.401Z",
+  "generatedAt": "2026-11-18T00:34:15.076Z",
   "steps": {
     "install-tools": {
-      "status": "PASS",
-      "command": "npm ci --no-audit --no-fund",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools",
-      "seconds": 10.9,
-      "log": "reports/logs/install-tools.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "prerequisite; pass --install to run and log npm ci + browser ensure"
     },
     "install-remotion": {
-      "status": "PASS",
-      "command": "npm ci --no-audit --no-fund",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
-      "seconds": 6.7,
-      "log": "reports/logs/install-remotion.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "prerequisite; pass --install to run and log npm ci + browser ensure"
     },
     "browser": {
-      "status": "PASS",
-      "command": "npx remotion browser ensure",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
-      "seconds": 11.1,
-      "log": "reports/logs/browser.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "prerequisite; pass --install to run and log npm ci + browser ensure"
     },
     "extract": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/extract-frames.js",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
-      "seconds": 7.5,
-      "log": "reports/logs/extract.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "source": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-source.js",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
-      "seconds": 2.8,
-      "log": "reports/logs/source.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "trace": {
       "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/trace-all.js",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
-      "seconds": 75.2,
-      "log": "reports/logs/trace.log",
-      "exitCode": 0
+      "reason": "cel94 already complete (94 SVGs); use --force-trace to regenerate",
+      "seconds": 0
     },
     "assets": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-assets.js",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
-      "seconds": 1.4,
-      "log": "reports/logs/assets.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "unit-remotion": {
       "status": "PASS",
       "command": "npm test",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
-      "seconds": 0.6,
+      "cwd": "/tmp/arena/tenants/6f80636a-b516-481f-b5fd-517d771de62c/sessions/187b0090-7e21-5f66-b884-49e9b2805745/workspace/video2d/remotion",
+      "seconds": 1.5,
       "log": "reports/logs/unit-remotion.log",
       "exitCode": 0
     },
     "unit-tools": {
-      "status": "PASS",
-      "command": "npm test",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools",
-      "seconds": 0.7,
-      "log": "reports/logs/unit-tools.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "typecheck": {
       "status": "PASS",
       "command": "npm run typecheck",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
-      "seconds": 4,
+      "cwd": "/tmp/arena/tenants/6f80636a-b516-481f-b5fd-517d771de62c/sessions/187b0090-7e21-5f66-b884-49e9b2805745/workspace/video2d/remotion",
+      "seconds": 3.8,
       "log": "reports/logs/typecheck.log",
       "exitCode": 0
     },
     "compositions": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion/scripts/verify-compositions.mjs",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
-      "seconds": 6.6,
-      "log": "reports/logs/compositions.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "stills": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion/scripts/render-stills.mjs",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
-      "seconds": 20.3,
-      "log": "reports/logs/stills.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "render": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/render-lowram.mjs",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
-      "seconds": 73.8,
-      "log": "reports/logs/render.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "fidelity": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
-      "seconds": 37.8,
-      "log": "reports/logs/fidelity.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "motion": {
-      "status": "FAIL",
-      "command": "npm run verify:motion",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion",
-      "seconds": 1.4,
-      "log": "reports/logs/motion.log",
-      "exitCode": 1
+      "status": "NOT RUN",
+      "reason": "not in --only list"
+    },
+    "ik": {
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "docs": {
-      "status": "PASS",
-      "command": "/usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-docs.js",
-      "cwd": "/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d",
-      "seconds": 0.1,
-      "log": "reports/logs/docs.log",
-      "exitCode": 0
+      "status": "NOT RUN",
+      "reason": "not in --only list"
     },
     "tracked-audit": {
       "status": "PASS",
-      "detail": "361 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
+      "detail": "365 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
       "forbiddenTracked": [],
       "missingRequired": [],
-      "trackedCount": 361,
+      "trackedCount": 365,
       "seconds": 0
     },
-    "puppet-unchanged": {
+    "scope-audit": {
       "status": "PASS",
-      "detail": "remotion/src/puppet/Runner.tsx, remotion/src/puppet/keys.ts, remotion/src/RunCycle.tsx byte-identical to baseline 5ab3d64 (committed + working tree)",
-      "baseline": "5ab3d647050cbc229098ee30b39d36cb3e1fe3fc",
-      "files": [
-        "remotion/src/puppet/Runner.tsx",
-        "remotion/src/puppet/keys.ts",
-        "remotion/src/RunCycle.tsx"
+      "detail": "17 protected reconciliation paths byte-identical to 5d4d13a (committed + worktree); frozen Phase 0 records byte-identical to 1dd5600; 41 changed + 8 new tracked-candidate paths, all inside allowed upgrade scope",
+      "baseline": "5d4d13ab92ac38be0397bd2b8feb27e19eefdf98",
+      "phase0Freeze": "1dd5600dd2503942aca43fe24ae01fc222fb9f50",
+      "protectedPaths": [
+        "remotion/public/cel94",
+        "remotion/public/cel",
+        "tools/flatrace.js",
+        "tools/trace-all.js",
+        "tools/trace.js",
+        "source/input_video.mp4",
+        "source/audio.aac",
+        "source/audio.wav",
+        "remotion/public/audio.m4a",
+        "frames",
+        "fullres",
+        "remotion/src/cels.ts",
+        "remotion/src/CelRun.tsx",
+        "remotion/src/CelLoop.tsx",
+        "remotion/src/Comparison.tsx",
+        "remotion/src/Root.tsx",
+        "remotion/src/index.ts"
       ],
+      "frozenPhase0": [
+        "reports/baseline",
+        "reports/puppet-upgrade-baseline.json",
+        "reports/puppet-upgrade-baseline-contact-sheet.png"
+      ],
+      "outOfScope": [],
+      "changedCount": 41,
+      "untrackedCount": 8,
       "seconds": 0
     }
   },
   "acceptanceMatrix": {
     "A1": {
       "criterion": "Source media metadata verified",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/source-media.json"
     },
     "A2": {
       "criterion": "All 94 source frames extractable",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/source-frame-validation.json"
     },
     "A3": {
       "criterion": "94 unique exact SVG cels exist and validate",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/svg-asset-validation.json"
     },
     "A4": {
       "criterion": "26 loop cels intact",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/svg-asset-validation.json"
     },
     "A5": {
       "criterion": "Exact/loop compositions distinct, mapping correct",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/logs/unit-remotion.log + reports/composition-validation.json"
     },
     "A6": {
       "criterion": "Every advertised render job registered",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/composition-validation.json"
     },
     "A7": {
       "criterion": "Low-RAM script works from documented invocation",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/render-validation.json + reports/logs/render.log"
     },
     "A8": {
-      "criterion": "Puppet present, design unchanged",
-      "status": "PASS",
-      "evidence": "reports/test-matrix.json (puppet-unchanged: git diff vs baseline 5ab3d64) + reports/still-render-validation.json"
+      "criterion": "Puppet implementation + tests exist and render; reconciliation assets protected",
+      "status": "NOT RUN",
+      "evidence": "reports/test-matrix.json (scope-audit: protected assets vs 5d4d13a + frozen Phase 0 records + allowed-scope audit; replaces the historical puppet-unchanged gate vs 5ab3d64) + reports/still-render-validation.json + reports/logs/unit-remotion.log"
     },
     "A9": {
       "criterion": "All required stills render correctly",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/still-render-validation.json + verify/contact-sheet.png"
     },
     "A10": {
       "criterion": "All compositions render 94 frames @24fps 1920x1080",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/render-validation.json"
     },
     "A11": {
       "criterion": "Exact-cel all-frame fidelity measured",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/fidelity-all-frames.json"
     },
     "A12": {
       "criterion": "26-loop drift measured, described as expected",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/fidelity-all-frames.json + reports/FIDELITY.md"
     },
     "A13": {
       "criterion": "Puppet metrics diagnostic-only",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/fidelity-all-frames.json (objective field)"
     },
     "A14": {
       "criterion": "Comparison composition + proof sheet work",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "verify/comparison-contact-sheet.png + remotion/out/comparison-source-vs-2d.mp4"
     },
     "A15": {
       "criterion": "METHOD.md commands and paths match the implementation",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/doc-validation.json + reports/logs/docs.log"
     },
     "A16": {
       "criterion": "STATUS.md has no contradictory historical/current status",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/doc-validation.json (required handoff sections; stale claims confined to History) + reports/REPRODUCIBILITY_REPORT.md"
     },
     "A17": {
       "criterion": "Clean install + typecheck succeed",
-      "status": "PASS",
+      "status": "NOT RUN",
       "evidence": "reports/logs/typecheck.log + reports/logs/install-*.log (with --install)"
     },
     "A18": {
@@ -243,9 +215,14 @@
   },
   "additionalRequiredTests": {
     "Test I (motion & continuity)": {
-      "status": "FAIL",
+      "status": "NOT RUN",
       "evidence": "reports/motion-validation.json",
-      "note": "See reports/motion-validation.json findings + reports/REPRODUCIBILITY_REPORT.md known limitations. No IK / foot-contact solver exists; limb bone lengths are unconstrained."
+      "note": "Phase 1: solved bone-length / IK residual / bend-stability gates + continuity. Raw-track variation remains a reported diagnostic (historical 2.891x FAIL preserved in reports/baseline/). Stance-locking / foot-contact solver are Phase 2 future work, not claimed."
+    },
+    "IK validation (Phase 1)": {
+      "status": "NOT RUN",
+      "evidence": "reports/ik-validation.json",
+      "note": "Solver edge-case matrix + all-94-frame configured-length/residual/bend/bounds/determinism sweep (npm run verify:ik)."
     }
   }
 }
