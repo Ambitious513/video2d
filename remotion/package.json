@@ -11,7 +11,7 @@
     "render:still": "remotion still RunCycle out/puppet-still.png --frame=0",
     "render:all:lowram": "node ../render-lowram.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts",
+    "test": "node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts",
     "verify": "node ../verify.mjs",
     "verify:compositions": "node scripts/verify-compositions.mjs",
     "verify:stills": "node scripts/render-stills.mjs",
@@ -22,7 +22,8 @@
     "verify:contacts": "tsx scripts/contact-candidates.ts",
     "verify:contact-evidence": "tsx scripts/contact-evidence.ts",
     "verify:source-root": "node scripts/source-root-stability.mjs",
-    "contact:timeline": "node scripts/contact-timeline.mjs"
+    "contact:timeline": "node scripts/contact-timeline.mjs",
+    "verify:stance": "tsx scripts/stance-validate.ts"
   },
   "dependencies": {
     "@remotion/cli": "4.0.240",

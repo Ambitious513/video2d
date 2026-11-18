@@ -162,3 +162,37 @@ No protected assets touched: cel94/, cel/, flatrace.js, source media, frames/, f
 
 ### Next (Phase 2.3)
 Stance locking: world-space anchor capture at touchdown, IK-to-anchor during stance with belt-locking, heel-to-toe roll if evidenced, release at toe-off, smooth swing; in_place vs root_motion contract; unit tests per master plan §9.2. Phase 2.4 then runs the full `node verify.mjs --install --force-trace` suite + formal scope-audit and closes Phase 2.
+
+## Phase 2.3 — Stance Locking (COMPLETE)
+
+**Date:** 2026-11-18T16:20Z  **Status:** COMPLETE — sub-task gates all PASS.
+
+### Deliverables
+
+- `remotion/src/puppet/motion/stance.ts`: `StanceOptions`, `StanceInterval`, `StanceFrameState`, `StanceDiagnostics`; `stancePhaseAtFrame`, `buildStanceIntervals`, `diagnoseStance`, plus the world<->character coordinate helpers (`toWorldX`, `toCharacterX`, `anchorInCharacterFrame`). Pure functions, no mutable state.
+- `remotion/scripts/stance-validate.ts` (`npm run verify:stance`): writes `reports/stance-locking-validation.json`.
+- `remotion/test/stance.test.ts`: 12 unit tests (master plan §9.2).
+
+### Anchor model (belt-locked stance)
+
+At touchdown the foot plants on the moving treadmill belt. The stance anchor is the **solved toe at the belt-locked bottom frame** (worldY = 974.916180333009, y-down; `in_place` root, world == canvas). The anchor is the point where the foot actually is; the foot artwork keeps the raw ankle→toe direction. Belt-lock: the **solved toe velocity at the stance frame equals the belt exactly** (central difference = −64.90774054581459 px/frame; the raw measured toe is noisy at −72.5, reported not gated). In the belt-relative world (x_world = x − belt·f) the planted point has **world velocity exactly 0** → slip vs the ground is 0 by construction. The window edges (touchdown/toeOff) are the approach/release segments and are NOT belt-locked (entry→bottom is −81.875 px/frame in the raw track — the 2.2b evidence shows the same).
+
+State machine (pure, per frame): `touchdown` (window entry) / `stance` (belt-locked bottom) / `toeOff` (window exit) / `swing` (every other frame). Stance frames: near [18, 44, 70], far [5, 31, 57, 83]. Heel-to-toe roll: not evidenced (the planted foot stays flat on the shadow), so none implemented.
+
+### Verification (all fresh this session; Windows workspace, Node v25.2.1)
+
+| Command (cwd `remotion/`) | Exit | Result | Log |
+|---|---|---|---|
+| `npm run typecheck` (full-project tsc --noEmit) | 0 | clean | `reports/logs/stance-typecheck.log` |
+| `npm test` | 0 | **66 tests / 66 pass / 0 fail** (54 prior + 12 stance) | `reports/logs/stance-unit.log` |
+| `npm run verify:stance` | 0 | **ALL GATES PASS** — planted slip 0.000000 (<0.5), anchor drift 0.000000 (≤1.5), penetration 0.000000 (≤1), touchdown delta 60.05 / toeOff 76.34 vs p95 295.20 (≤1.5×p95), solved-anchor/belt/bone error 0 | `reports/logs/stance-validate.log` |
+| `npm run verify:contacts` | 0 | groundY 974.916180, belt −64.907741, staticStance 0; windows unchanged | `reports/logs/contacts-derive.log` |
+| `npm run verify:contact-evidence` | 0 | 7 windows, spread 0, stanceCand [18]/[44]/[70]/[5]/[31]/[57]/[83] | `reports/logs/contact-evidence.log` |
+| `npm run verify:motion` | 0 | **12/12 PASS** (no regression; wrap 13.68 px vs p95 295.20, MAD 1.356 vs 5.408) | `reports/logs/motion-2.3.log` |
+| `npm run verify:ik` | 0 | **7/7 gates + 14/14 cases PASS**; worst bone error 1.421e-13 px; 0 clamped | `reports/logs/ik-2.3.log` |
+
+### Notes for 2.4
+
+- Phase 2.4 measures slip/drift/penetration on the **solved (locked) track** via `node verify.mjs` full suite + the formal scope-audit, then closes Phase 2.
+- `reports/foot-contact-validation.json` (2.2b) already lists the 2.3/2.4 measurements owed; `reports/stance-locking-validation.json` (2.3) carries the solved-track stance numbers.
+- No protected assets touched (cel94/, cel/, flatrace.js, source media, frames/, fullres/, cels.ts semantics, CelRun/CelLoop/Comparison, reports/baseline/* unchanged).

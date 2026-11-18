@@ -1,0 +1,670 @@
+{
+  "generatedAt": "2026-11-18T16:32:33.863Z",
+  "schema": "stance-locking-validation/1",
+  "purpose": "Phase 2.3 belt-locked stance validation (solved track)",
+  "groundContract": {
+    "worldY": 974.916180333009,
+    "mode": "treadmill",
+    "beltVelocityX": -64.90774054581459,
+    "verified": true
+  },
+  "method": {
+    "anchors": "stance anchor = solved toe at the stance frame (world == canvas, in_place); anchorY = groundY",
+    "beltLock": "anchorX + belt == raw toe x at the stance frame; planted world velocity = (belt, 0) -> slip vs ground 0",
+    "continuity": "max joint delta at touchdown/toeOff boundaries vs p95 of all adjacent-frame deltas",
+    "states": "touchdown/stance/toeOff/swing per frame from the reviewed contact windows (Phase 2.2b)"
+  },
+  "gates": {
+    "plantedSlipMax": 0,
+    "plantedSlipGate": 0.5,
+    "stanceAnchorDriftMax": 0,
+    "driftGate": 1.5,
+    "groundPenetrationMax": 0,
+    "penetrationGate": 1,
+    "touchdownMaxDelta": 60.05141095929264,
+    "toeOffMaxDelta": 76.33714475543516,
+    "continuityP95": 295.203292375905,
+    "continuityGateFactor": 1.5,
+    "solvedAnchorMaxError": 0,
+    "beltShiftMaxError": 0,
+    "stanceBoneErrorMax": 0
+  },
+  "pass": {
+    "plantedSlip": true,
+    "stanceAnchorDrift": true,
+    "groundPenetration": true,
+    "touchdownContinuity": true,
+    "toeOffContinuity": true,
+    "solvedAnchor": true,
+    "beltShift": true,
+    "fixedBones": true
+  },
+  "intervals": [
+    {
+      "side": "near",
+      "touchdown": 17,
+      "stance": 18,
+      "toeOff": 19,
+      "anchor": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "rawToeAtStance": {
+        "x": 916.125,
+        "y": 973.1928197542103
+      },
+      "solvedToeAtStance": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "worldVelocity": {
+        "x": -64.90774054581459,
+        "y": 0
+      }
+    },
+    {
+      "side": "near",
+      "touchdown": 43,
+      "stance": 44,
+      "toeOff": 45,
+      "anchor": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "rawToeAtStance": {
+        "x": 916.125,
+        "y": 973.1928197542103
+      },
+      "solvedToeAtStance": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "worldVelocity": {
+        "x": -64.90774054581459,
+        "y": 0
+      }
+    },
+    {
+      "side": "near",
+      "touchdown": 69,
+      "stance": 70,
+      "toeOff": 71,
+      "anchor": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "rawToeAtStance": {
+        "x": 916.125,
+        "y": 973.1928197542103
+      },
+      "solvedToeAtStance": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "worldVelocity": {
+        "x": -64.90774054581459,
+        "y": 0
+      }
+    },
+    {
+      "side": "far",
+      "touchdown": 4,
+      "stance": 5,
+      "toeOff": 6,
+      "anchor": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "rawToeAtStance": {
+        "x": 916.125,
+        "y": 973.1928197542103
+      },
+      "solvedToeAtStance": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "worldVelocity": {
+        "x": -64.90774054581459,
+        "y": 0
+      }
+    },
+    {
+      "side": "far",
+      "touchdown": 30,
+      "stance": 31,
+      "toeOff": 32,
+      "anchor": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "rawToeAtStance": {
+        "x": 916.125,
+        "y": 973.1928197542103
+      },
+      "solvedToeAtStance": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "worldVelocity": {
+        "x": -64.90774054581459,
+        "y": 0
+      }
+    },
+    {
+      "side": "far",
+      "touchdown": 56,
+      "stance": 57,
+      "toeOff": 58,
+      "anchor": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "rawToeAtStance": {
+        "x": 916.125,
+        "y": 973.1928197542103
+      },
+      "solvedToeAtStance": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "worldVelocity": {
+        "x": -64.90774054581459,
+        "y": 0
+      }
+    },
+    {
+      "side": "far",
+      "touchdown": 82,
+      "stance": 83,
+      "toeOff": 84,
+      "anchor": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "rawToeAtStance": {
+        "x": 916.125,
+        "y": 973.1928197542103
+      },
+      "solvedToeAtStance": {
+        "x": 924.4065187346944,
+        "y": 974.916180333009
+      },
+      "worldVelocity": {
+        "x": -64.90774054581459,
+        "y": 0
+      }
+    }
+  ],
+  "stateTimeline": [
+    {
+      "frame": 0,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 1,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 2,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 3,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 4,
+      "near": "swing",
+      "far": "touchdown"
+    },
+    {
+      "frame": 5,
+      "near": "swing",
+      "far": "stance"
+    },
+    {
+      "frame": 6,
+      "near": "swing",
+      "far": "toeOff"
+    },
+    {
+      "frame": 7,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 8,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 9,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 10,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 11,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 12,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 13,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 14,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 15,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 16,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 17,
+      "near": "touchdown",
+      "far": "swing"
+    },
+    {
+      "frame": 18,
+      "near": "stance",
+      "far": "swing"
+    },
+    {
+      "frame": 19,
+      "near": "toeOff",
+      "far": "swing"
+    },
+    {
+      "frame": 20,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 21,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 22,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 23,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 24,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 25,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 26,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 27,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 28,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 29,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 30,
+      "near": "swing",
+      "far": "touchdown"
+    },
+    {
+      "frame": 31,
+      "near": "swing",
+      "far": "stance"
+    },
+    {
+      "frame": 32,
+      "near": "swing",
+      "far": "toeOff"
+    },
+    {
+      "frame": 33,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 34,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 35,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 36,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 37,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 38,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 39,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 40,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 41,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 42,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 43,
+      "near": "touchdown",
+      "far": "swing"
+    },
+    {
+      "frame": 44,
+      "near": "stance",
+      "far": "swing"
+    },
+    {
+      "frame": 45,
+      "near": "toeOff",
+      "far": "swing"
+    },
+    {
+      "frame": 46,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 47,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 48,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 49,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 50,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 51,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 52,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 53,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 54,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 55,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 56,
+      "near": "swing",
+      "far": "touchdown"
+    },
+    {
+      "frame": 57,
+      "near": "swing",
+      "far": "stance"
+    },
+    {
+      "frame": 58,
+      "near": "swing",
+      "far": "toeOff"
+    },
+    {
+      "frame": 59,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 60,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 61,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 62,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 63,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 64,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 65,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 66,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 67,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 68,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 69,
+      "near": "touchdown",
+      "far": "swing"
+    },
+    {
+      "frame": 70,
+      "near": "stance",
+      "far": "swing"
+    },
+    {
+      "frame": 71,
+      "near": "toeOff",
+      "far": "swing"
+    },
+    {
+      "frame": 72,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 73,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 74,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 75,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 76,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 77,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 78,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 79,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 80,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 81,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 82,
+      "near": "swing",
+      "far": "touchdown"
+    },
+    {
+      "frame": 83,
+      "near": "swing",
+      "far": "stance"
+    },
+    {
+      "frame": 84,
+      "near": "swing",
+      "far": "toeOff"
+    },
+    {
+      "frame": 85,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 86,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 87,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 88,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 89,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 90,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 91,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 92,
+      "near": "swing",
+      "far": "swing"
+    },
+    {
+      "frame": 93,
+      "near": "swing",
+      "far": "swing"
+    }
+  ]
+}
