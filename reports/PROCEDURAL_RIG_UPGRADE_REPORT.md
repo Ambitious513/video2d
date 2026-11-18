@@ -333,3 +333,35 @@ Open `reports/phase3-comparison-sheet.png` (and `reports/puppet-phase3b-sheet.pn
 ### Note on the IoU target
 
 The master plan's provisional "IoU ≥ 0.68" was set for the OLD thin-cylinder geometry. The cohesive redesign intentionally trades IoU for cohesion (filled joint/gap regions the source leaves white). Per master plan §7.8, the numeric target does not override visual quality; the owner's visual review is the acceptance gate. Do not revert to cylinders or carve notches to game IoU.
+
+## Phase 3 Closeout (COMPLETE — READY FOR OWNER VISUAL SIGN-OFF)
+
+**Date:** 2026-11-18T20:10Z  **Status:** Implementation + evidence COMPLETE; owner visual sign-off PENDING.
+
+### Backpack strap fix (closeout adjustment A)
+
+The backpack artwork lives in a transformed group (`translate(anchor + bob/lag) rotate(-12)`); the strap was drawn outside that group using the untransformed `pack` anchor, so the strap's backpack end could slide/detach. Fixed by deriving the backpack-side strap endpoint from the **same** transform via a shared helper (`backpackTransform`, `backpackLocalToCanvas`, `strapBackpackAnchor` in `secondary.ts`); the shoulder-side endpoint stays anchored to the shoulder in canvas coordinates. The strap now follows the animated + rotated backpack exactly, continuous from backpack to shoulder over all 94 frames. Focused tests added (transform-equivalence, shoulder-anchor, no frame-boundary jump 25→26 and 93→0).
+
+### Scarf decision (closeout adjustment B)
+
+The scarf was reviewed against the source across frames 0/12/25/26/34/72/93. The deterministic fixed-length chain already reads as a coherent trailing accessory (curvature + per-node lag + gravity droop, clamped no-flip). **No change** was made — it is accepted for Phase 3 closeout (per REVIEW.md §4.1: do not change if already coherent). The existing `secondary.test.ts` fixed-length/determinism/no-flip/motion invariants still pass.
+
+### Final evidence
+
+- `reports/phase3-final-polish-sheet.png` (4528×782): source (top) vs final puppet (bottom) at 0/12/25/26/34/72/93, actual Remotion stills.
+- Final `RunCycle` + `Comparison` MP4s rendered (both 94/94 frames, 1920×1080, 24 fps, 3.917 s, 1 audio stream each), kept in ignored `remotion/out/`. The agent cannot play video, so the closeout relies on the dense contact sheet + MP4 metadata/decode validation; full human playback review is the owner's.
+
+### Verification (fresh this session)
+
+- `npm run typecheck`: clean.
+- `npm test`: **75/75 PASS** (72 + 3 strap tests).
+- `node verify.mjs --install`: A1–A18 all PASS, Test I 12/12, IK 7/7+14/14, `verify:stance` diagnostic PASS, overall PASS (exit 0).
+- Protected assets (cel94/cel/flatrace/source/frames/baseline) unchanged (scope-audit PASS).
+
+### Qualification (master REVIEW.md §6 — documentation truthfulness)
+
+The contact/stance work is a **data model + diagnostic/anchor contract**. `Runner.tsx` evaluates `solvePose(frame)` directly and does **not** consume a stance-constrained pose; the stance slip/drift figures are derived from the declared belt/anchor contract, not measured over a multi-frame planted interval in the rendered puppet. **Continuous stance-constrained pose integration + rendered multi-frame foot-slip verification is a future locomotion-engine follow-up**, not a current capability. The stance tests/thresholds are unchanged.
+
+### Next
+
+Owner visual sign-off of `reports/phase3-final-polish-sheet.png` + the final `RunCycle` MP4. Only after approval: **Phase 4 — reusable second character variant** (separate owner authorization required). Phase 5 (final verification + docs) after that.

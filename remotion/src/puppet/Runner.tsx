@@ -1,7 +1,7 @@
 import React from 'react';
 import {C, HEAD_R, shadow, Pt, STEP} from './keys';
 import {solvePose} from './pose';
-import {scarfNodes, backpackBob, backpackLagX} from './secondary';
+import {scarfNodes, backpackBob, backpackLagX, backpackTransform, strapBackpackAnchor} from './secondary';
 
 /**
  * Phase 3a — visual construction. All limb joints still come from the
@@ -203,9 +203,9 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
         <circle cx={0} cy={28} r={5} fill={C.line} />
         <rect x={-58} y={72} width={116} height={26} rx={12} fill={C.packDk} />
       </g>
-      {/* strap over shoulder */}
-      <line x1={pack[0] + 44} y1={pack[1] - 78} x2={sh[0] + 16} y2={sh[1] - 4} stroke={C.line} strokeWidth={22} strokeLinecap="round" />
-      <line x1={pack[0] + 44} y1={pack[1] - 78} x2={sh[0] + 16} y2={sh[1] - 4} stroke={C.packLt} strokeWidth={15} strokeLinecap="round" />
+      {/* strap over shoulder: backpack end follows the transformed pack; shoulder end stays anchored */}
+      <line x1={strapBackpackAnchor(pack, f)[0]} y1={strapBackpackAnchor(pack, f)[1]} x2={sh[0] + 16} y2={sh[1] - 4} stroke={C.line} strokeWidth={22} strokeLinecap="round" />
+      <line x1={strapBackpackAnchor(pack, f)[0]} y1={strapBackpackAnchor(pack, f)[1]} x2={sh[0] + 16} y2={sh[1] - 4} stroke={C.packLt} strokeWidth={15} strokeLinecap="round" />
 
       {/* torso + neck */}
       <path d={torso} fill={C.body} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />

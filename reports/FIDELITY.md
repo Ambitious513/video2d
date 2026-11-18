@@ -1,6 +1,6 @@
 # Full-sequence fidelity — all 94 frames at 1920x1080
 
-Generated 2026-11-18T19:17:41.011Z by `tools/score-fidelity.js`. No resampling: rendered frames and source frames are both native 1920x1080.
+Generated 2026-11-18T20:20:40.716Z by `tools/score-fidelity.js`. No resampling: rendered frames and source frames are both native 1920x1080.
 
 ## Metric definitions
 
@@ -17,7 +17,7 @@ Generated 2026-11-18T19:17:41.011Z by `tools/score-fidelity.js`. No resampling: 
 |---|---|---|---|---|---|---|
 | cel94 | fidelity deliverable — exact per-frame traced cels | 1.046 | 0.8006 | 0.9756 | 0.9577 | 99.143 |
 | celLoop | comparison/control — 26-cel loop, phase drift EXPECTED, not a fidelity failure | 2.5423 | 1.8057 | 0.8791 | 0.8582 | 99.156 |
-| puppet | diagnostic only — objective is editability + plausible motion, NOT pixel equality | 5.8491 | 4.4767 | 0.5877 | 0.5834 | n/a |
+| puppet | diagnostic only — objective is editability + plausible motion, NOT pixel equality | 5.85 | 4.4777 | 0.5876 | 0.5833 | n/a |
 
 ## Per-frame distribution
 
@@ -25,7 +25,7 @@ Generated 2026-11-18T19:17:41.011Z by `tools/score-fidelity.js`. No resampling: 
 |---|---|---|---|
 | cel94 | 0.9012/1.0484/1.1197/1.2085 | 0.7111/0.8019/0.8495/0.8769 | 0.9479/0.9575/0.9637/0.9669 |
 | celLoop | 0.972/2.238/4.8647/6.1712 | 0.7207/1.5923/3.4987/4.2079 | 0.6282/0.8901/0.9614/0.9638 |
-| puppet | 4.4438/5.8372/7.0472/7.3745 | 3.685/4.4507/5.1091/5.5059 | 0.4848/0.5873/0.6419/0.6569 |
+| puppet | 4.4482/5.8407/7.0491/7.3697 | 3.6891/4.4481/5.1103/5.5033 | 0.4846/0.5871/0.6418/0.6569 |
 
 ## Worst 5 frames (by MAE)
 
@@ -33,7 +33,7 @@ Generated 2026-11-18T19:17:41.011Z by `tools/score-fidelity.js`. No resampling: 
 
 **celLoop**: f34 (MAE 6.1712, %>40 4.2079), f74 (MAE 5.5073, %>40 3.9893), f73 (MAE 5.4313, %>40 3.9971), f33 (MAE 5.0052, %>40 3.5296), f75 (MAE 4.8821, %>40 3.4497)
 
-**puppet**: f38 (MAE 7.3745, %>40 5.5059), f64 (MAE 7.3697, %>40 5.4672), f90 (MAE 7.3588, %>40 5.4681), f12 (MAE 7.3038, %>40 5.4693), f25 (MAE 7.0645, %>40 5.0229)
+**puppet**: f38 (MAE 7.3697, %>40 5.5033), f64 (MAE 7.3669, %>40 5.4653), f90 (MAE 7.3548, %>40 5.4652), f12 (MAE 7.2999, %>40 5.4667), f25 (MAE 7.0691, %>40 5.0261)
 
 ## Historical reference (NOT the same measurement)
 

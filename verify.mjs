@@ -220,9 +220,12 @@ step('docs', process.execPath, [path.join(TOOLS, 'verify-docs.js')], ROOT);
     // (npx/npm.cmd spawn via shell) needed to run this suite on Windows.
     /^render-lowram\.mjs$/,
     /^tools\/package\.json$/,
-    // Phase 3 dev tools: puppet-only fast fidelity scorer + comparison sheet.
+    // Phase 3 dev tools: puppet-only fast fidelity scorer + comparison sheets.
     /^tools\/score-puppet-fast\.js$/,
     /^tools\/compare-phase3\.mjs$/,
+    /^tools\/compare-final-polish\.mjs$/,
+    // Ignored regenerable dirs (Phase 3c/3f comparison stills).
+    /^\.gitignore$/,
     // Regenerable verification proof sheets (render-stills.mjs output); the
     // frozen verify/ comparison frames (cel_*/pup_*/compare) stay protected.
     /^verify\/(contact-sheet|comparison-contact-sheet)\.png$/,

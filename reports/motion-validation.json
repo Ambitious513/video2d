@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T19:19:26.814Z",
+  "generatedAt": "2026-11-18T20:21:08.193Z",
   "scope": "RunCycle procedural puppet (Phase 1 constrained rig), frames 0..93; cel selection monotonicity covered by remotion/test/cels.test.ts; solver edge cases by test/ik.test.ts + reports/ik-validation.json",
   "tolerances": {
     "solvedBoneLengthErrorPx": 0.5,
@@ -60,9 +60,9 @@
       "detail": "wrap(25->26)=13.68px, adjacent-delta median=71.30px, p95=295.20px, max=295.20px"
     },
     {
-      "name": "no pixel pop at wrap (MAD 1.22 <= 1.5 x p95 4.59)",
+      "name": "no pixel pop at wrap (MAD 1.23 <= 1.5 x p95 4.59)",
       "status": "PASS",
-      "detail": "wrap(25->26)=1.225, median=3.084, p95=4.591, max=5.297"
+      "detail": "wrap(25->26)=1.230, median=3.084, p95=4.590, max=5.299"
     },
     {
       "name": "character visible (not blank) in every rasterized frame",
@@ -3889,9 +3889,9 @@
   },
   "adjacentPixelMad": {
     "median": 3.084,
-    "p95": 4.591,
-    "max": 5.297,
-    "wrap25to26": 1.225
+    "p95": 4.59,
+    "max": 5.299,
+    "wrap25to26": 1.23
   },
   "notPresent_futureWork": [
     "true IK stance-locking (Phase 2 — not implemented yet)",

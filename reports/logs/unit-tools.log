@@ -5,11 +5,11 @@ $ npm.cmd test
 > tools@1.0.0 test
 > node --test
 
-✔ palette is the locked 11-color set with matching hex list (2.9216ms)
-✔ quantize maps every pixel to an exact palette color (7.2813ms)
-✔ despeckle preserves multi-pixel features (the eye survives) (4.6179ms)
-✔ despeckle removes a fully isolated single pixel (2.4374ms)
-✔ CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only (1286.9907ms)
+✔ palette is the locked 11-color set with matching hex list (0.7657ms)
+✔ quantize maps every pixel to an exact palette color (1.6715ms)
+✔ despeckle preserves multi-pixel features (the eye survives) (1.4448ms)
+✔ despeckle removes a fully isolated single pixel (0.8407ms)
+✔ CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only (359.0201ms)
 ℹ tests 5
 ℹ suites 0
 ℹ pass 5
@@ -17,4 +17,4 @@ $ npm.cmd test
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 1765.7588
+ℹ duration_ms 486.8834

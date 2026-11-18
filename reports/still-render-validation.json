@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T19:14:03.753Z",
+  "generatedAt": "2026-11-18T20:19:32.311Z",
   "framesTested": [
     0,
     12,
@@ -567,11 +567,11 @@
       "file": "verify/stills/RunCycle_f00.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 105988,
-      "meanLuminance": 247.15,
-      "nonWhiteFraction": 0.06432,
-      "darkFraction": 0.04537,
-      "distinctColorsSampled": 884,
+      "bytes": 106114,
+      "meanLuminance": 247.14,
+      "nonWhiteFraction": 0.06431,
+      "darkFraction": 0.04542,
+      "distinctColorsSampled": 893,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -581,27 +581,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "105988 bytes"
+          "detail": "106114 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=247.15"
+          "detail": "meanLum=247.14"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.06432"
+          "detail": "nonWhite=0.06431"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.04537"
+          "detail": "dark=0.04542"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "884 colors"
+          "detail": "893 colors"
         }
       ],
       "status": "PASS"
@@ -612,11 +612,11 @@
       "file": "verify/stills/RunCycle_f12.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 108642,
-      "meanLuminance": 246.93,
-      "nonWhiteFraction": 0.06519,
-      "darkFraction": 0.0467,
-      "distinctColorsSampled": 872,
+      "bytes": 108831,
+      "meanLuminance": 246.92,
+      "nonWhiteFraction": 0.06518,
+      "darkFraction": 0.04676,
+      "distinctColorsSampled": 881,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -626,27 +626,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "108642 bytes"
+          "detail": "108831 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=246.93"
+          "detail": "meanLum=246.92"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.06519"
+          "detail": "nonWhite=0.06518"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.0467"
+          "detail": "dark=0.04676"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "872 colors"
+          "detail": "881 colors"
         }
       ],
       "status": "PASS"
@@ -657,11 +657,11 @@
       "file": "verify/stills/RunCycle_f25.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 105687,
+      "bytes": 105916,
       "meanLuminance": 247.21,
-      "nonWhiteFraction": 0.0636,
-      "darkFraction": 0.04503,
-      "distinctColorsSampled": 838,
+      "nonWhiteFraction": 0.06359,
+      "darkFraction": 0.04509,
+      "distinctColorsSampled": 845,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -671,7 +671,7 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "105687 bytes"
+          "detail": "105916 bytes"
         },
         {
           "name": "not entirely black",
@@ -681,17 +681,17 @@
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.0636"
+          "detail": "nonWhite=0.06359"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.04503"
+          "detail": "dark=0.04509"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "838 colors"
+          "detail": "845 colors"
         }
       ],
       "status": "PASS"
@@ -702,11 +702,11 @@
       "file": "verify/stills/RunCycle_f26.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 105988,
-      "meanLuminance": 247.15,
-      "nonWhiteFraction": 0.06432,
-      "darkFraction": 0.04537,
-      "distinctColorsSampled": 884,
+      "bytes": 106114,
+      "meanLuminance": 247.14,
+      "nonWhiteFraction": 0.06431,
+      "darkFraction": 0.04542,
+      "distinctColorsSampled": 893,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -716,27 +716,27 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "105988 bytes"
+          "detail": "106114 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=247.15"
+          "detail": "meanLum=247.14"
         },
         {
           "name": "not entirely white",
           "status": "PASS",
-          "detail": "nonWhite=0.06432"
+          "detail": "nonWhite=0.06431"
         },
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.04537"
+          "detail": "dark=0.04542"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "884 colors"
+          "detail": "893 colors"
         }
       ],
       "status": "PASS"
@@ -747,11 +747,11 @@
       "file": "verify/stills/RunCycle_f72.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 104144,
-      "meanLuminance": 247.88,
+      "bytes": 104445,
+      "meanLuminance": 247.87,
       "nonWhiteFraction": 0.05586,
-      "darkFraction": 0.04183,
-      "distinctColorsSampled": 858,
+      "darkFraction": 0.04191,
+      "distinctColorsSampled": 862,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -761,12 +761,12 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "104144 bytes"
+          "detail": "104445 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=247.88"
+          "detail": "meanLum=247.87"
         },
         {
           "name": "not entirely white",
@@ -776,12 +776,12 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.04183"
+          "detail": "dark=0.04191"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "858 colors"
+          "detail": "862 colors"
         }
       ],
       "status": "PASS"
@@ -792,11 +792,11 @@
       "file": "verify/stills/RunCycle_f93.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 108274,
-      "meanLuminance": 247.13,
+      "bytes": 108435,
+      "meanLuminance": 247.12,
       "nonWhiteFraction": 0.06326,
-      "darkFraction": 0.04584,
-      "distinctColorsSampled": 876,
+      "darkFraction": 0.0459,
+      "distinctColorsSampled": 873,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -806,12 +806,12 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "108274 bytes"
+          "detail": "108435 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=247.13"
+          "detail": "meanLum=247.12"
         },
         {
           "name": "not entirely white",
@@ -821,12 +821,12 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.04584"
+          "detail": "dark=0.0459"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "876 colors"
+          "detail": "873 colors"
         }
       ],
       "status": "PASS"
@@ -837,11 +837,11 @@
       "file": "verify/stills/Comparison_f00.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 327432,
+      "bytes": 327523,
       "meanLuminance": 239.02,
       "nonWhiteFraction": 0.10758,
-      "darkFraction": 0.08963,
-      "distinctColorsSampled": 5637,
+      "darkFraction": 0.08965,
+      "distinctColorsSampled": 5643,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -851,7 +851,7 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "327432 bytes"
+          "detail": "327523 bytes"
         },
         {
           "name": "not entirely black",
@@ -866,12 +866,12 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.08963"
+          "detail": "dark=0.08965"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5637 colors"
+          "detail": "5643 colors"
         }
       ],
       "status": "PASS"
@@ -882,11 +882,11 @@
       "file": "verify/stills/Comparison_f12.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 350299,
+      "bytes": 350345,
       "meanLuminance": 238.41,
       "nonWhiteFraction": 0.11094,
-      "darkFraction": 0.09337,
-      "distinctColorsSampled": 5716,
+      "darkFraction": 0.09339,
+      "distinctColorsSampled": 5713,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -896,7 +896,7 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "350299 bytes"
+          "detail": "350345 bytes"
         },
         {
           "name": "not entirely black",
@@ -911,12 +911,12 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09337"
+          "detail": "dark=0.09339"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5716 colors"
+          "detail": "5713 colors"
         }
       ],
       "status": "PASS"
@@ -927,11 +927,11 @@
       "file": "verify/stills/Comparison_f25.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 343200,
+      "bytes": 343258,
       "meanLuminance": 238.84,
       "nonWhiteFraction": 0.10886,
-      "darkFraction": 0.09039,
-      "distinctColorsSampled": 5671,
+      "darkFraction": 0.09041,
+      "distinctColorsSampled": 5672,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -941,7 +941,7 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "343200 bytes"
+          "detail": "343258 bytes"
         },
         {
           "name": "not entirely black",
@@ -956,12 +956,12 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09039"
+          "detail": "dark=0.09041"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5671 colors"
+          "detail": "5672 colors"
         }
       ],
       "status": "PASS"
@@ -972,11 +972,11 @@
       "file": "verify/stills/Comparison_f26.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 338857,
+      "bytes": 338934,
       "meanLuminance": 238.84,
       "nonWhiteFraction": 0.10888,
-      "darkFraction": 0.09053,
-      "distinctColorsSampled": 5742,
+      "darkFraction": 0.09055,
+      "distinctColorsSampled": 5744,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -986,7 +986,7 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "338857 bytes"
+          "detail": "338934 bytes"
         },
         {
           "name": "not entirely black",
@@ -1001,12 +1001,12 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09053"
+          "detail": "dark=0.09055"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5742 colors"
+          "detail": "5744 colors"
         }
       ],
       "status": "PASS"
@@ -1017,10 +1017,10 @@
       "file": "verify/stills/Comparison_f72.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 319960,
-      "meanLuminance": 239.62,
+      "bytes": 320102,
+      "meanLuminance": 239.61,
       "nonWhiteFraction": 0.10134,
-      "darkFraction": 0.08615,
+      "darkFraction": 0.08617,
       "distinctColorsSampled": 5576,
       "checks": [
         {
@@ -1031,12 +1031,12 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "319960 bytes"
+          "detail": "320102 bytes"
         },
         {
           "name": "not entirely black",
           "status": "PASS",
-          "detail": "meanLum=239.62"
+          "detail": "meanLum=239.61"
         },
         {
           "name": "not entirely white",
@@ -1046,7 +1046,7 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.08615"
+          "detail": "dark=0.08617"
         },
         {
           "name": "color variety",
@@ -1062,11 +1062,11 @@
       "file": "verify/stills/Comparison_f93.png",
       "width": 1920,
       "height": 1080,
-      "bytes": 345632,
+      "bytes": 345707,
       "meanLuminance": 238.6,
       "nonWhiteFraction": 0.10859,
-      "darkFraction": 0.09244,
-      "distinctColorsSampled": 5951,
+      "darkFraction": 0.09246,
+      "distinctColorsSampled": 5947,
       "checks": [
         {
           "name": "dimensions 1920x1080",
@@ -1076,7 +1076,7 @@
         {
           "name": "non-empty",
           "status": "PASS",
-          "detail": "345632 bytes"
+          "detail": "345707 bytes"
         },
         {
           "name": "not entirely black",
@@ -1091,12 +1091,12 @@
         {
           "name": "character/content present",
           "status": "PASS",
-          "detail": "dark=0.09244"
+          "detail": "dark=0.09246"
         },
         {
           "name": "color variety",
           "status": "PASS",
-          "detail": "5951 colors"
+          "detail": "5947 colors"
         }
       ],
       "status": "PASS"

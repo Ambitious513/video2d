@@ -82,3 +82,43 @@ export function backpackBob(frame: number): number {
 export function backpackLagX(frame: number): number {
   return 2 * Math.sin((TAU * frame) / 13 + 0.7);
 }
+
+/** Backpack rotation (degrees) in the Runner group. */
+export const BACKPACK_ROT_DEG = -12;
+
+export interface BackpackTransform {
+  /** Group translation (canvas px): anchor + bob/lag. */
+  tx: number;
+  ty: number;
+  /** Group rotation (radians). */
+  rot: number;
+}
+
+/** The ONE shared backpack transform (translation + rotation) for a frame. */
+export function backpackTransform(anchor: Pt, frame: number): BackpackTransform {
+  return {
+    tx: anchor[0] + backpackLagX(frame),
+    ty: anchor[1] + backpackBob(frame),
+    rot: (BACKPACK_ROT_DEG * Math.PI) / 180,
+  };
+}
+
+/**
+ * Map a backpack-LOCAL point (the artwork's coordinate system, before the
+ * group transform) to canvas coordinates using the SAME transform the group
+ * applies. SVG `translate(tx ty) rotate(rot)` maps local (lx,ly) to
+ * (tx + lx·cos − ly·sin, ty + lx·sin + ly·cos).
+ */
+export function backpackLocalToCanvas(local: Pt, t: BackpackTransform): Pt {
+  const c = Math.cos(t.rot), s = Math.sin(t.rot);
+  return [t.tx + local[0] * c - local[1] * s, t.ty + local[0] * s + local[1] * c];
+}
+
+/**
+ * Backpack-side strap attachment in CANVAS coordinates for a frame: the
+ * strap's top local point (44, -78) transformed by the shared backpack
+ * transform, so the strap follows the animated + rotated backpack exactly.
+ */
+export function strapBackpackAnchor(anchor: Pt, frame: number): Pt {
+  return backpackLocalToCanvas([44, -78], backpackTransform(anchor, frame));
+}

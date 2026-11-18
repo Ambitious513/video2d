@@ -2,21 +2,21 @@ $ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeove
 (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
 scoring cel94 <- remotion/out/celframes
-  cel94: 20/94 (8s)
-  cel94: 40/94 (16s)
-  cel94: 60/94 (23s)
-  cel94: 80/94 (30s)
+  cel94: 20/94 (2s)
+  cel94: 40/94 (4s)
+  cel94: 60/94 (6s)
+  cel94: 80/94 (8s)
 scoring celLoop <- remotion/out/celloopframes
-  celLoop: 20/94 (8s)
-  celLoop: 40/94 (15s)
-  celLoop: 60/94 (23s)
-  celLoop: 80/94 (30s)
+  celLoop: 20/94 (2s)
+  celLoop: 40/94 (4s)
+  celLoop: 60/94 (6s)
+  celLoop: 80/94 (8s)
 scoring puppet <- remotion/out/puppetframes
-  puppet: 20/94 (7s)
-  puppet: 40/94 (13s)
-  puppet: 60/94 (19s)
-  puppet: 80/94 (26s)
+  puppet: 20/94 (2s)
+  puppet: 40/94 (3s)
+  puppet: 60/94 (5s)
+  puppet: 80/94 (7s)
 wrote reports/fidelity-all-frames.json + reports/FIDELITY.md
 cel94: MAE 1.046, %>40 0.8006, IoU(fg) 0.9756, IoU(char) 0.9577
 celLoop: MAE 2.5423, %>40 1.8057, IoU(fg) 0.8791, IoU(char) 0.8582
-puppet: MAE 5.8491, %>40 4.4767, IoU(fg) 0.5877, IoU(char) 0.5834
+puppet: MAE 5.85, %>40 4.4777, IoU(fg) 0.5876, IoU(char) 0.5833
