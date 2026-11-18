@@ -12,8 +12,8 @@
 Upgrade only the existing procedural puppet into a constrained, reusable 2D character rig. Preserve the reconciled exact-cel and loop experiments. A new Qwen session must be able to continue from this file without prior chat history. Master requirements: owner-supplied `QWEN_VIDEO2D_MULTI_AGENT_HANDOFF_AND_ROADMAP.md` (not committed; this file + `reports/` carry the durable state).
 
 ## 2. Current state — read this first
-- **Active phase:** Phase 1 (fixed-length skeleton + two-bone IK) — IN PROGRESS
-- **Phase status:** Phase 0 COMPLETE; Phase 1 IN PROGRESS; Phases 2–5 NOT STARTED
+- **Active phase:** Phase 2 (Foot contacts + stance locking)
+- **Phase status:** IN PROGRESS (sub-task 2.1 complete; 2.2 next)
 - **What is already complete:**
   - Remote baseline verified: `origin/main` = `5d4d13ab92ac38be0397bd2b8feb27e19eefdf98` (documented reconciled baseline, not advanced). Feature branch created from it and pushed.
   - Full suite reproduced in a fresh sandbox (Debian 12, 2 cores, 1.09 GB, Node v20.20.2): `node verify.mjs --install --force-trace` → **A1–A18 all PASS; Test I FAIL 7/8 (pre-existing segment-length defect, exit code 1)**. All 94 re-traced cel94 SVGs byte-identical; cel/ untouched; both committed contact sheets byte-identical; fidelity aggregates reproduce exactly (1.046 / 2.5423 / 5.6307 MAE).
@@ -24,15 +24,12 @@ Upgrade only the existing procedural puppet into a constrained, reusable 2D char
 - **Current blocker:** NONE. Push access works (owner-provided token stored outside the repo, never committed).
 
 ### NEXT AGENT START HERE
-1. Fetch `origin`, switch to `feat/constrained-puppet-rig`, confirm remote HEAD via `git ls-remote origin refs/heads/feat/constrained-puppet-rig`.
-2. Read this file, then `remotion/src/puppet/{rig,ik,pose}.ts`, `reports/ik-validation.json`, `reports/motion-validation.json`, and `verify.mjs` §13b (`scope-audit`, which replaced `puppet-unchanged`).
-3. First command: `cd remotion && npm test && npm run typecheck && npm run verify:motion && npm run verify:ik` (from a clean clone run `node verify.mjs --install` first; ~1 GB RAM sandbox — see `setup-deps` notes in §9).
-4. **Phase 1 implementation is DONE and its focused gates PASS** (45/45 unit, 12/12 motion, 7/7 IK gates, 14/14 solver cases). Do NOT re-implement rig/ik/pose or re-calibrate the bone lengths. Remaining Phase 1 completion evidence only:
-   a. `node verify.mjs --install --force-trace` from the repo root — full suite with the changed puppet; confirm A1–A18 PASS, cel94 re-trace byte-identical, and record the new `RunCycle` MAE/IoU honestly (they are expected to move; Phase 1 does not target visual fidelity).
-   b. `node remotion/scripts/puppet-contact-sheet.mjs --comp RunCycle --frames 0,12,25,26,34,72,93 --out reports/puppet-phase1-contact-sheet.png --label "Phase 1 constrained puppet"` and compare against the frozen `reports/puppet-upgrade-baseline-contact-sheet.png` (same character design must be recognizable).
-   c. Write `reports/PROCEDURAL_RIG_UPGRADE_REPORT.md` (Phase 1 section: design decisions, calibration, measured results, limitations, exact reproduction commands).
-   d. Flip Phase 1 to COMPLETE in §3 only if all of the above pass; commit, push, verify remote SHA, then record the SHA in a follow-up commit.
-5. Then stop at the phase boundary. Phase 2 (foot contacts / stance locking) is the next phase, not part of this checkpoint.
+1. Fetch `origin` and switch to `feat/constrained-puppet-rig`; confirm remote HEAD is the Phase 2.1 checkpoint (see History).
+2. Read `remotion/src/puppet/motion/contacts.ts`, `reports/foot-contact-candidates.json`, and the Phase 2.1 section of `reports/PROCEDURAL_RIG_UPGRADE_REPORT.md`.
+3. Run `cd remotion && npm install && npm run verify:contacts && npm test` (expect 54 unit tests PASS).
+4. Continue only with **Phase 2.2 — verify contact intervals + resolve the treadmill question**: the raw run-in-place track has NO static-ground stance (|toe vx|~65 px/frame at the lowest frames). Validate the treadmill-belt hypothesis (belt ~ -64.9 px/frame) against source shadow/contact evidence, render a labelled contact timeline/sheet at frames 4,5,6,17,18,19, manually review, then finalize touchdown/stance/toeOff labels (or keep 'uncertain' where ambiguous). Write `reports/foot-contact-validation.json`. Do NOT implement stance locking yet (that is 2.3).
+5. Acceptance for 2.2: reviewed labels with documented method + evidence; no fabricated stance; uncertain where ambiguous.
+
 
 Do not redo: reconciliation (A1–A18 PASS at `5d4d13a`), Phase 0 baseline capture (frozen — `puppet-baseline.ts` refuses overwrite without `--force`).
 Do not modify: `remotion/public/cel94/`, `remotion/public/cel/`, `tools/flatrace.js`, locked palette/VTracer params, `source/input_video.mp4`, `remotion/public/audio.m4a`, committed `frames/` + `fullres/f_001..f_026.png`, `remotion/src/cels.ts` semantics, CelRun/CelLoop/Comparison behavior, `reports/baseline/*`, historical Test I evidence.
@@ -43,7 +40,7 @@ Do not modify: `remotion/public/cel94/`, `remotion/public/cel/`, `tools/flatrace
 |---|---|---|---|---|---|
 | 0. Bootstrap/baseline | Initialize this roadmap; confirm remote baseline and reproduce existing state | COMPLETE | 1dd5600dd2503942aca43fe24ae01fc222fb9f50 | `reports/puppet-upgrade-baseline.json`, `reports/puppet-upgrade-baseline-contact-sheet.png`, `reports/baseline/`, regenerated `reports/test-matrix.json` + logs | done |
 | 1. Fixed-length skeleton + IK | Rig definitions, generic two-bone solver, raw vs solved targets | COMPLETE | `aacdb61` | `reports/ik-validation.json`, `reports/motion-validation.json`, `reports/logs/*` | All configured bones within ±0.5 px (max error 1.421e-13 px); IK edge tests pass; Test I rewritten per master plan |
-| 2. Foot contacts + stance locking | Contact track, world-space anchors, root modes, foot-slip tests | NOT STARTED | — | — | Stance velocity <0.5 px/frame; drift ≤1.5 px |
+| 2. Foot contacts + stance locking | Contact track, world-space anchors, root modes, foot-slip tests | IN PROGRESS | — | — | Stance velocity <0.5 px/frame; drift ≤1.5 px |
 | 3. Visual construction + secondary motion | Cohesive silhouettes, torso/feet, backpack, deterministic scarf | NOT STARTED | — | — | Visual review + no regressions; IoU ≥0.68 target, MAE ≤5.6307 |
 | 4. Reusable second character | Second appearance/rig profile uses shared solver and motion | NOT STARTED | — | — | Both variants pass same tests without duplicated gait |
 | 5. Final verification + docs | Clean clone suite, reports, final technical handoff | NOT STARTED | — | — | All acceptance tests PASS or explicitly approved exceptions |
@@ -98,6 +95,8 @@ Contact candidates (UNCERTAIN, for Phase 2 review): near foot ~frames 17–19/43
 - Worktree clean after push: verified at each checkpoint.
 
 ## 8. Decisions and conventions (append when established)
+
+- **Phase 2.1 contact schema (established):** `ContactState` = swing|touchdown|stance|toeOff|uncertain; intervals stored as explicit frame ranges in `remotion/src/puppet/motion/contacts.ts`; world==canvas for the fixed-camera in_place demo; ground plane worldY~974.92 px (y-down). Treadmill ground-belt hypothesis (belt ~-64.91 px/frame) recorded because the raw track has no static-ground stance; verified:false until Phase 2.2. Do not relabel to 'stance' without evidence.
 - Coordinate spaces / units: current puppet coordinates are 1920×1080 canvas pixels, y down, 24 fps; character faces +x (right). Root currently fixed (run-in-place); world/root contract formalized in Phase 2. Ground visual reference: shadow ellipse center y=972.
 - Rig and joint conventions (ESTABLISHED Phase 1 — do not silently change): joints `hip/knee/ankle/toe` per leg, `shoulder/elbow/fist` per arm; near/far sides. `bendSign` = sign of `cross(root→target, root→mid)` in screen coords (y down): **knees −1 (toward +x/front), elbows +1 (trailing)**. Mirroring a character mirrors x AND flips `bendSign`. Solver clamps target distance into `[|l1−l2|+EPS, l1+l2−EPS]`, `IK_EPS = 1e-6`; zero-distance direction fallback is deterministically `+x`. `end` is the point actually reached; `residual = |target − end|` is always reported. Feet are **geometry, not bones**: `ankle→toe` keeps constant artwork length `rig.footLen` along the raw foot direction, applied at the solved ankle.
 - Bone calibration method (ESTABLISHED Phase 1, reproducible via `calibrateRunnerRig()` in `rig.ts`, asserted by `test/rig.test.ts`): legs — total `T = max measured hip→ankle span (363.3235) + 0.5 px reach margin = 363.8235`, thigh/calf split by least-squares fit of the IK knee to the 14 raw measured knees (scan l1 ∈ [140,220] step 0.25, bend −1) → **thigh 186.00 / calf 177.82 px**. Arms — upper = mean of the two extreme readings → **115.91 px**; forearm = the reliable near-straight back-extreme reading → **91.97 px** (the fwd reading 131.1 would force a bend into a measured straight arm; reachability guard raises it if the 26-frame fist span ever exceeds reach). Foot artwork = median of 14 ankle→toe readings → **87.30 px**. Raw keys are never overwritten (`NEAR_LEG_RAW`/`FAR_LEG_RAW` exported read-only from `keys.ts`).
@@ -126,5 +125,7 @@ Do not silently change a decision. Record rationale and migration impact first.
 
 | 2026-11-18T00:34Z | Qwen Phase 1 (Arena, session A) | 1 | NONE — usage limit hit before push | Implemented rig/ik/pose + 45 unit tests + Test I rewrite + ik-validate + verify.mjs scope-audit; local gates passed (45/45, 12/12, 7/7) but work was never pushed. Worktree preserved by the owner to Drive. | local `npm test`, `verify:motion`, `verify:ik`, partial `verify.mjs` | Recover the worktree and finish the Phase 1 gate |
 | 2026-11-18T11:43Z | Qwen Phase 1 completion (Arena, session C) | 1 | `aacdb61` + roadmap update | Phase 1 gates fully satisfied. Worktree cleaned (removed nested clone artifact). Scope-audit now PASS. Phase 1 marked COMPLETE. | `git status` clean; scope-audit PASS | Begin Phase 2: ground contacts and stance locking. Read Section 6 of master handoff. |
+
+| 2026-11-18T13:05Z | Qwen Phase 2.1 (ground contract + contact schema) | 2 | (implementation SHA recorded in follow-up row) | Added ground/world coordinate contract + foot-contact track schema (`contacts.ts`), provisional 94-frame track with contact-height windows labelled 'uncertain', derivation script + `reports/foot-contact-candidates.json`. KEY FINDING: no static-ground stance exists in the raw run-in-place track (|toe vx|~65 px/frame at lowest frames) -> treadmill hypothesis (belt ~-64.91 px/frame), ground worldY~974.92. 9 new schema unit tests incl. an honesty guard forbidding fabricated stance. | typecheck PASS; unit PASS; verify:contacts PASS; full suite/scope-audit NOT RUN (deferred to 2.4) | Phase 2.2: verify contact intervals + resolve treadmill vs root_motion; write foot-contact-validation.json. Do NOT implement stance locking yet. |
 
 Never delete earlier rows. If an earlier statement is found to be wrong, append a correction row and update the current state above.

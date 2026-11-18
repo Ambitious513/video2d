@@ -38,3 +38,24 @@ Phase 1 successfully transforms the procedural puppet from an unconstrained, str
 3. `cd remotion && npm install && npm test`
 4. `npm run verify:motion && npm run verify:ik`
 5. `cd .. && node verify.mjs --only=scope-audit,typecheck,unit-remotion`
+
+## Phase 2.1 — Ground Contract + Foot-Contact Track Schema (IN PROGRESS)
+
+**Date:** 2026-11-18T13:05Z  **Sub-task status:** COMPLETE (schema); Phase 2 gate NOT yet met.
+
+### Deliverables
+- `remotion/src/puppet/motion/contacts.ts`: `ContactState`, `GroundContract`, `RootMode`, `ContactInterval`, `FootContactTrack`, pure `expandTrack`/`getContactAtFrame`/`stanceFrames`.
+- `remotion/scripts/contact-candidates.ts` + `reports/foot-contact-candidates.json`: deterministic per-frame toe/ankle height + velocity diagnostics.
+- `remotion/test/contacts.test.ts`: 9 schema tests incl. an honesty guard (no fabricated stance).
+
+### Key finding (provisional, drives Phase 2.2)
+Ground estimate (max solved toe Y) = **974.92 px**. Static-ground stance candidates = **0**. At the lowest toe frames |toe vx| ~ 65 px/frame, so NO frame is both low AND horizontally slow against a static ground. This is the treadmill signature of a run-in-place performance. Belt-velocity hypothesis = **-64.91 px/frame**. Contact-height windows (toe height <= 8 px): near 17-19/43-45/69-71; far 4-6/30-32/56-58/82-84. All labelled **uncertain** pending Phase 2.2 source/manual review (master plan §6.2 — no fabricated stance).
+
+### Verification this sub-task
+- `npm run typecheck`: PASS
+- `npm test` (45 prior + 9 new = 54): PASS
+- `npm run verify:contacts`: PASS
+- Full `node verify.mjs` suite + scope-audit: NOT RUN this sub-task (shallow clone; deferred to Phase 2.4 completion boundary).
+
+### Next (Phase 2.2)
+Validate treadmill-belt vs root_motion against source shadow/contact evidence; render a labelled contact timeline; manually review; finalize labels; write `reports/foot-contact-validation.json`. Stance locking is Phase 2.3.
