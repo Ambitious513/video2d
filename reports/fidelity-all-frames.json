@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T23:57:52.157Z",
+  "generatedAt": "2026-11-18T18:11:10.438Z",
   "scorer": "tools/score-fidelity.js",
   "samplingMode": "all_frames",
   "comparedFrames": 94,
@@ -2082,821 +2082,821 @@
         "frames": 94
       },
       "aggregate": {
-        "mae": 5.6307,
-        "pct_pixels_any_channel_gt_40": 4.3798,
-        "iou_foreground": 0.6158,
-        "iou_character": 0.6116
+        "mae": 5.671,
+        "pct_pixels_any_channel_gt_40": 4.3883,
+        "iou_foreground": 0.6167,
+        "iou_character": 0.6126
       },
       "perFrameStats": {
         "mae": {
-          "min": 4.0723,
-          "median": 5.533,
-          "p95": 7.2916,
-          "max": 7.6782
+          "min": 4.024,
+          "median": 5.6046,
+          "p95": 7.7906,
+          "max": 8.0106
         },
         "pct_pixels_any_channel_gt_40": {
-          "min": 3.0954,
-          "median": 4.3456,
-          "p95": 5.4854,
-          "max": 5.8589
+          "min": 3.0368,
+          "median": 4.4187,
+          "p95": 5.7748,
+          "max": 6.0933
         },
         "iou_foreground": {
-          "min": 0.4682,
-          "median": 0.6316,
-          "p95": 0.7082,
-          "max": 0.7481
+          "min": 0.4609,
+          "median": 0.6201,
+          "p95": 0.7227,
+          "max": 0.7512
         },
         "iou_character": {
-          "min": 0.456,
-          "median": 0.6283,
-          "p95": 0.7109,
-          "max": 0.7493
+          "min": 0.4488,
+          "median": 0.6185,
+          "p95": 0.7251,
+          "max": 0.7516
         }
       },
       "worst5FramesByMae": [
         {
           "frame": 38,
-          "mae": 7.6782,
-          "pct_pixels_any_channel_gt_40": 5.8589,
-          "iou_character": 0.4576
+          "mae": 8.0106,
+          "pct_pixels_any_channel_gt_40": 6.0933,
+          "iou_character": 0.4568
         },
         {
           "frame": 90,
-          "mae": 7.5798,
-          "pct_pixels_any_channel_gt_40": 5.7475,
-          "iou_character": 0.4603
-        },
-        {
-          "frame": 12,
-          "mae": 7.5146,
-          "pct_pixels_any_channel_gt_40": 5.7859,
-          "iou_character": 0.4614
+          "mae": 7.9879,
+          "pct_pixels_any_channel_gt_40": 6.0143,
+          "iou_character": 0.4541
         },
         {
           "frame": 64,
-          "mae": 7.5064,
-          "pct_pixels_any_channel_gt_40": 5.7178,
-          "iou_character": 0.4629
+          "mae": 7.9746,
+          "pct_pixels_any_channel_gt_40": 6.0209,
+          "iou_character": 0.4531
+        },
+        {
+          "frame": 12,
+          "mae": 7.9255,
+          "pct_pixels_any_channel_gt_40": 6.0445,
+          "iou_character": 0.4551
         },
         {
           "frame": 25,
-          "mae": 7.4309,
-          "pct_pixels_any_channel_gt_40": 5.5332,
-          "iou_character": 0.456
+          "mae": 7.8039,
+          "pct_pixels_any_channel_gt_40": 5.7624,
+          "iou_character": 0.4522
         }
       ],
       "frames": [
         {
           "frame": 1,
           "timelineFrame": 0,
-          "mae": 4.9346,
-          "pct_pixels_any_channel_gt_40": 3.9463,
-          "iou_foreground": 0.6556,
-          "iou_character": 0.6563
+          "mae": 5.1903,
+          "pct_pixels_any_channel_gt_40": 4.0364,
+          "iou_foreground": 0.6437,
+          "iou_character": 0.6431
         },
         {
           "frame": 2,
           "timelineFrame": 1,
-          "mae": 4.5824,
-          "pct_pixels_any_channel_gt_40": 3.5879,
-          "iou_foreground": 0.7001,
-          "iou_character": 0.7027
+          "mae": 4.4476,
+          "pct_pixels_any_channel_gt_40": 3.498,
+          "iou_foreground": 0.7092,
+          "iou_character": 0.713
         },
         {
           "frame": 3,
           "timelineFrame": 2,
-          "mae": 4.0723,
-          "pct_pixels_any_channel_gt_40": 3.0954,
-          "iou_foreground": 0.7481,
-          "iou_character": 0.7493
+          "mae": 4.032,
+          "pct_pixels_any_channel_gt_40": 3.0368,
+          "iou_foreground": 0.7502,
+          "iou_character": 0.7516
         },
         {
           "frame": 4,
           "timelineFrame": 3,
-          "mae": 4.4366,
-          "pct_pixels_any_channel_gt_40": 3.3444,
-          "iou_foreground": 0.7194,
-          "iou_character": 0.7131
+          "mae": 4.024,
+          "pct_pixels_any_channel_gt_40": 3.07,
+          "iou_foreground": 0.7478,
+          "iou_character": 0.7435
         },
         {
           "frame": 5,
           "timelineFrame": 4,
-          "mae": 4.661,
-          "pct_pixels_any_channel_gt_40": 3.6154,
-          "iou_foreground": 0.6729,
-          "iou_character": 0.6692
+          "mae": 4.3533,
+          "pct_pixels_any_channel_gt_40": 3.4177,
+          "iou_foreground": 0.6957,
+          "iou_character": 0.6935
         },
         {
           "frame": 6,
           "timelineFrame": 5,
-          "mae": 4.6024,
-          "pct_pixels_any_channel_gt_40": 3.7665,
-          "iou_foreground": 0.6528,
-          "iou_character": 0.653
+          "mae": 4.3037,
+          "pct_pixels_any_channel_gt_40": 3.5775,
+          "iou_foreground": 0.6755,
+          "iou_character": 0.6776
         },
         {
           "frame": 7,
           "timelineFrame": 6,
-          "mae": 4.4729,
-          "pct_pixels_any_channel_gt_40": 3.6694,
-          "iou_foreground": 0.6613,
-          "iou_character": 0.652
+          "mae": 4.9954,
+          "pct_pixels_any_channel_gt_40": 3.9802,
+          "iou_foreground": 0.6348,
+          "iou_character": 0.6247
         },
         {
           "frame": 8,
           "timelineFrame": 7,
-          "mae": 5.9697,
-          "pct_pixels_any_channel_gt_40": 4.5487,
-          "iou_foreground": 0.5815,
-          "iou_character": 0.5717
+          "mae": 6.2251,
+          "pct_pixels_any_channel_gt_40": 4.7029,
+          "iou_foreground": 0.5733,
+          "iou_character": 0.5635
         },
         {
           "frame": 9,
           "timelineFrame": 8,
-          "mae": 5.221,
-          "pct_pixels_any_channel_gt_40": 4.0203,
-          "iou_foreground": 0.6594,
-          "iou_character": 0.6611
+          "mae": 6.4359,
+          "pct_pixels_any_channel_gt_40": 4.7636,
+          "iou_foreground": 0.5844,
+          "iou_character": 0.581
         },
         {
           "frame": 10,
           "timelineFrame": 9,
-          "mae": 6.9453,
-          "pct_pixels_any_channel_gt_40": 5.2683,
-          "iou_foreground": 0.552,
-          "iou_character": 0.5455
+          "mae": 6.553,
+          "pct_pixels_any_channel_gt_40": 4.9404,
+          "iou_foreground": 0.5764,
+          "iou_character": 0.5715
         },
         {
           "frame": 11,
           "timelineFrame": 10,
-          "mae": 6.3455,
-          "pct_pixels_any_channel_gt_40": 5.081,
-          "iou_foreground": 0.577,
-          "iou_character": 0.572
+          "mae": 5.711,
+          "pct_pixels_any_channel_gt_40": 4.5853,
+          "iou_foreground": 0.62,
+          "iou_character": 0.6185
         },
         {
           "frame": 12,
           "timelineFrame": 11,
-          "mae": 7.5146,
-          "pct_pixels_any_channel_gt_40": 5.7859,
-          "iou_foreground": 0.4703,
-          "iou_character": 0.4614
+          "mae": 7.9255,
+          "pct_pixels_any_channel_gt_40": 6.0445,
+          "iou_foreground": 0.4643,
+          "iou_character": 0.4551
         },
         {
           "frame": 13,
           "timelineFrame": 12,
-          "mae": 5.774,
-          "pct_pixels_any_channel_gt_40": 4.7319,
-          "iou_foreground": 0.6097,
-          "iou_character": 0.6104
+          "mae": 5.8955,
+          "pct_pixels_any_channel_gt_40": 4.7531,
+          "iou_foreground": 0.6053,
+          "iou_character": 0.6051
         },
         {
           "frame": 14,
           "timelineFrame": 13,
-          "mae": 5.4053,
-          "pct_pixels_any_channel_gt_40": 4.3527,
-          "iou_foreground": 0.6446,
-          "iou_character": 0.6498
+          "mae": 5.6892,
+          "pct_pixels_any_channel_gt_40": 4.5848,
+          "iou_foreground": 0.6276,
+          "iou_character": 0.6305
         },
         {
           "frame": 15,
           "timelineFrame": 14,
-          "mae": 5.6169,
-          "pct_pixels_any_channel_gt_40": 4.3456,
-          "iou_foreground": 0.6533,
-          "iou_character": 0.6579
+          "mae": 5.512,
+          "pct_pixels_any_channel_gt_40": 4.3198,
+          "iou_foreground": 0.6567,
+          "iou_character": 0.6611
         },
         {
           "frame": 16,
           "timelineFrame": 15,
-          "mae": 5.5511,
-          "pct_pixels_any_channel_gt_40": 4.1648,
-          "iou_foreground": 0.6754,
-          "iou_character": 0.6687
+          "mae": 5.1666,
+          "pct_pixels_any_channel_gt_40": 3.9183,
+          "iou_foreground": 0.6982,
+          "iou_character": 0.6928
         },
         {
           "frame": 17,
           "timelineFrame": 16,
-          "mae": 5.664,
-          "pct_pixels_any_channel_gt_40": 4.3737,
-          "iou_foreground": 0.6533,
-          "iou_character": 0.6421
+          "mae": 5.4214,
+          "pct_pixels_any_channel_gt_40": 4.1669,
+          "iou_foreground": 0.6666,
+          "iou_character": 0.6561
         },
         {
           "frame": 18,
           "timelineFrame": 17,
-          "mae": 5.5825,
-          "pct_pixels_any_channel_gt_40": 4.462,
-          "iou_foreground": 0.6202,
-          "iou_character": 0.611
+          "mae": 5.8605,
+          "pct_pixels_any_channel_gt_40": 4.5688,
+          "iou_foreground": 0.6012,
+          "iou_character": 0.5913
         },
         {
           "frame": 19,
           "timelineFrame": 18,
-          "mae": 4.855,
-          "pct_pixels_any_channel_gt_40": 4.0156,
-          "iou_foreground": 0.6352,
-          "iou_character": 0.6306
+          "mae": 5.1255,
+          "pct_pixels_any_channel_gt_40": 4.2055,
+          "iou_foreground": 0.6201,
+          "iou_character": 0.6144
         },
         {
           "frame": 20,
           "timelineFrame": 19,
-          "mae": 5.4728,
-          "pct_pixels_any_channel_gt_40": 4.2854,
-          "iou_foreground": 0.5902,
-          "iou_character": 0.5826
+          "mae": 5.7719,
+          "pct_pixels_any_channel_gt_40": 4.4856,
+          "iou_foreground": 0.5753,
+          "iou_character": 0.5678
         },
         {
           "frame": 21,
           "timelineFrame": 20,
-          "mae": 5.8723,
-          "pct_pixels_any_channel_gt_40": 4.4191,
-          "iou_foreground": 0.5841,
-          "iou_character": 0.5729
+          "mae": 6.2598,
+          "pct_pixels_any_channel_gt_40": 4.7005,
+          "iou_foreground": 0.5612,
+          "iou_character": 0.5494
         },
         {
           "frame": 22,
           "timelineFrame": 21,
-          "mae": 5.3777,
-          "pct_pixels_any_channel_gt_40": 4.0393,
-          "iou_foreground": 0.626,
-          "iou_character": 0.6279
+          "mae": 6.5176,
+          "pct_pixels_any_channel_gt_40": 4.8069,
+          "iou_foreground": 0.5602,
+          "iou_character": 0.558
         },
         {
           "frame": 23,
           "timelineFrame": 22,
-          "mae": 5.9693,
-          "pct_pixels_any_channel_gt_40": 4.559,
-          "iou_foreground": 0.5841,
-          "iou_character": 0.5808
+          "mae": 5.4017,
+          "pct_pixels_any_channel_gt_40": 4.1671,
+          "iou_foreground": 0.6223,
+          "iou_character": 0.6218
         },
         {
           "frame": 24,
           "timelineFrame": 23,
-          "mae": 6.3094,
-          "pct_pixels_any_channel_gt_40": 4.9061,
-          "iou_foreground": 0.559,
-          "iou_character": 0.5528
+          "mae": 5.6178,
+          "pct_pixels_any_channel_gt_40": 4.4187,
+          "iou_foreground": 0.6086,
+          "iou_character": 0.6064
         },
         {
           "frame": 25,
           "timelineFrame": 24,
-          "mae": 7.4309,
-          "pct_pixels_any_channel_gt_40": 5.5332,
-          "iou_foreground": 0.4683,
-          "iou_character": 0.456
+          "mae": 7.8039,
+          "pct_pixels_any_channel_gt_40": 5.7624,
+          "iou_foreground": 0.4644,
+          "iou_character": 0.4522
         },
         {
           "frame": 26,
           "timelineFrame": 25,
-          "mae": 5.1669,
-          "pct_pixels_any_channel_gt_40": 4.1309,
-          "iou_foreground": 0.6369,
-          "iou_character": 0.6369
+          "mae": 5.5814,
+          "pct_pixels_any_channel_gt_40": 4.3884,
+          "iou_foreground": 0.6146,
+          "iou_character": 0.6127
         },
         {
           "frame": 27,
           "timelineFrame": 26,
-          "mae": 4.8646,
-          "pct_pixels_any_channel_gt_40": 3.8339,
-          "iou_foreground": 0.6639,
-          "iou_character": 0.6666
+          "mae": 5.3438,
+          "pct_pixels_any_channel_gt_40": 4.0991,
+          "iou_foreground": 0.6391,
+          "iou_character": 0.6394
         },
         {
           "frame": 28,
           "timelineFrame": 27,
-          "mae": 5.3145,
-          "pct_pixels_any_channel_gt_40": 3.9508,
-          "iou_foreground": 0.6566,
-          "iou_character": 0.6547
+          "mae": 5.4526,
+          "pct_pixels_any_channel_gt_40": 3.9844,
+          "iou_foreground": 0.6493,
+          "iou_character": 0.6469
         },
         {
           "frame": 29,
           "timelineFrame": 28,
-          "mae": 5.1583,
-          "pct_pixels_any_channel_gt_40": 3.7188,
-          "iou_foreground": 0.6811,
-          "iou_character": 0.6727
+          "mae": 5.0797,
+          "pct_pixels_any_channel_gt_40": 3.6645,
+          "iou_foreground": 0.6882,
+          "iou_character": 0.6803
         },
         {
           "frame": 30,
           "timelineFrame": 29,
-          "mae": 5.5136,
-          "pct_pixels_any_channel_gt_40": 4.0128,
-          "iou_foreground": 0.64,
-          "iou_character": 0.6356
+          "mae": 5.6228,
+          "pct_pixels_any_channel_gt_40": 4.0726,
+          "iou_foreground": 0.6356,
+          "iou_character": 0.6311
         },
         {
           "frame": 31,
           "timelineFrame": 30,
-          "mae": 5.4669,
-          "pct_pixels_any_channel_gt_40": 4.1959,
-          "iou_foreground": 0.6167,
-          "iou_character": 0.6134
+          "mae": 6.0587,
+          "pct_pixels_any_channel_gt_40": 4.555,
+          "iou_foreground": 0.5847,
+          "iou_character": 0.5797
         },
         {
           "frame": 32,
           "timelineFrame": 31,
-          "mae": 5.321,
-          "pct_pixels_any_channel_gt_40": 4.1145,
-          "iou_foreground": 0.6136,
-          "iou_character": 0.6065
+          "mae": 5.3747,
+          "pct_pixels_any_channel_gt_40": 4.1066,
+          "iou_foreground": 0.6185,
+          "iou_character": 0.6112
         },
         {
           "frame": 33,
           "timelineFrame": 32,
-          "mae": 6.2535,
-          "pct_pixels_any_channel_gt_40": 4.7052,
-          "iou_foreground": 0.565,
-          "iou_character": 0.5518
+          "mae": 6.569,
+          "pct_pixels_any_channel_gt_40": 4.8723,
+          "iou_foreground": 0.5511,
+          "iou_character": 0.5383
         },
         {
           "frame": 34,
           "timelineFrame": 33,
-          "mae": 6.6929,
-          "pct_pixels_any_channel_gt_40": 4.9377,
-          "iou_foreground": 0.5532,
-          "iou_character": 0.5388
+          "mae": 7.155,
+          "pct_pixels_any_channel_gt_40": 5.2712,
+          "iou_foreground": 0.5337,
+          "iou_character": 0.519
         },
         {
           "frame": 35,
           "timelineFrame": 34,
-          "mae": 6.3494,
-          "pct_pixels_any_channel_gt_40": 4.7688,
-          "iou_foreground": 0.592,
-          "iou_character": 0.5896
+          "mae": 7.4031,
+          "pct_pixels_any_channel_gt_40": 5.4192,
+          "iou_foreground": 0.5328,
+          "iou_character": 0.5269
         },
         {
           "frame": 36,
           "timelineFrame": 35,
-          "mae": 6.2099,
-          "pct_pixels_any_channel_gt_40": 4.8463,
-          "iou_foreground": 0.6049,
-          "iou_character": 0.6004
+          "mae": 5.4884,
+          "pct_pixels_any_channel_gt_40": 4.3169,
+          "iou_foreground": 0.6517,
+          "iou_character": 0.6503
         },
         {
           "frame": 37,
           "timelineFrame": 36,
-          "mae": 6.5181,
-          "pct_pixels_any_channel_gt_40": 5.1436,
-          "iou_foreground": 0.5747,
-          "iou_character": 0.5688
+          "mae": 5.9847,
+          "pct_pixels_any_channel_gt_40": 4.756,
+          "iou_foreground": 0.6107,
+          "iou_character": 0.6076
         },
         {
           "frame": 38,
           "timelineFrame": 37,
-          "mae": 7.6782,
-          "pct_pixels_any_channel_gt_40": 5.8589,
-          "iou_foreground": 0.4682,
-          "iou_character": 0.4576
+          "mae": 8.0106,
+          "pct_pixels_any_channel_gt_40": 6.0933,
+          "iou_foreground": 0.4672,
+          "iou_character": 0.4568
         },
         {
           "frame": 39,
           "timelineFrame": 38,
-          "mae": 5.5801,
-          "pct_pixels_any_channel_gt_40": 4.5849,
-          "iou_foreground": 0.6206,
-          "iou_character": 0.6218
+          "mae": 6.0583,
+          "pct_pixels_any_channel_gt_40": 4.884,
+          "iou_foreground": 0.5951,
+          "iou_character": 0.5938
         },
         {
           "frame": 40,
           "timelineFrame": 39,
-          "mae": 5.533,
-          "pct_pixels_any_channel_gt_40": 4.4627,
-          "iou_foreground": 0.6325,
-          "iou_character": 0.6365
+          "mae": 5.7968,
+          "pct_pixels_any_channel_gt_40": 4.7199,
+          "iou_foreground": 0.6156,
+          "iou_character": 0.6174
         },
         {
           "frame": 41,
           "timelineFrame": 40,
-          "mae": 5.8427,
-          "pct_pixels_any_channel_gt_40": 4.557,
-          "iou_foreground": 0.6367,
-          "iou_character": 0.6379
+          "mae": 5.7619,
+          "pct_pixels_any_channel_gt_40": 4.5656,
+          "iou_foreground": 0.6392,
+          "iou_character": 0.6405
         },
         {
           "frame": 42,
           "timelineFrame": 41,
-          "mae": 5.8255,
-          "pct_pixels_any_channel_gt_40": 4.4199,
-          "iou_foreground": 0.657,
-          "iou_character": 0.6476
+          "mae": 5.4696,
+          "pct_pixels_any_channel_gt_40": 4.223,
+          "iou_foreground": 0.6779,
+          "iou_character": 0.6697
         },
         {
           "frame": 43,
           "timelineFrame": 42,
-          "mae": 5.5895,
-          "pct_pixels_any_channel_gt_40": 4.3281,
-          "iou_foreground": 0.6586,
-          "iou_character": 0.6488
+          "mae": 5.2826,
+          "pct_pixels_any_channel_gt_40": 4.0862,
+          "iou_foreground": 0.6767,
+          "iou_character": 0.6681
         },
         {
           "frame": 44,
           "timelineFrame": 43,
-          "mae": 5.4214,
-          "pct_pixels_any_channel_gt_40": 4.4052,
-          "iou_foreground": 0.6316,
-          "iou_character": 0.6232
+          "mae": 5.2365,
+          "pct_pixels_any_channel_gt_40": 4.1977,
+          "iou_foreground": 0.6437,
+          "iou_character": 0.6362
         },
         {
           "frame": 45,
           "timelineFrame": 44,
-          "mae": 4.8325,
-          "pct_pixels_any_channel_gt_40": 4.0719,
-          "iou_foreground": 0.6311,
-          "iou_character": 0.6307
+          "mae": 4.58,
+          "pct_pixels_any_channel_gt_40": 3.8729,
+          "iou_foreground": 0.6513,
+          "iou_character": 0.6522
         },
         {
           "frame": 46,
           "timelineFrame": 45,
-          "mae": 4.9322,
-          "pct_pixels_any_channel_gt_40": 4.0289,
-          "iou_foreground": 0.6316,
-          "iou_character": 0.6283
+          "mae": 5.1205,
+          "pct_pixels_any_channel_gt_40": 4.1622,
+          "iou_foreground": 0.6223,
+          "iou_character": 0.6187
         },
         {
           "frame": 47,
           "timelineFrame": 46,
-          "mae": 6.0943,
-          "pct_pixels_any_channel_gt_40": 4.6415,
-          "iou_foreground": 0.5704,
-          "iou_character": 0.5594
+          "mae": 6.1215,
+          "pct_pixels_any_channel_gt_40": 4.6797,
+          "iou_foreground": 0.5712,
+          "iou_character": 0.5603
         },
         {
           "frame": 48,
           "timelineFrame": 47,
-          "mae": 5.6869,
-          "pct_pixels_any_channel_gt_40": 4.2785,
-          "iou_foreground": 0.6062,
-          "iou_character": 0.6047
+          "mae": 5.9135,
+          "pct_pixels_any_channel_gt_40": 4.4321,
+          "iou_foreground": 0.6002,
+          "iou_character": 0.5984
         },
         {
           "frame": 49,
           "timelineFrame": 48,
-          "mae": 6.8,
-          "pct_pixels_any_channel_gt_40": 4.9606,
-          "iou_foreground": 0.5392,
-          "iou_character": 0.5363
+          "mae": 6.5182,
+          "pct_pixels_any_channel_gt_40": 4.8033,
+          "iou_foreground": 0.5605,
+          "iou_character": 0.559
         },
         {
           "frame": 50,
           "timelineFrame": 49,
-          "mae": 6.9039,
-          "pct_pixels_any_channel_gt_40": 5.2332,
-          "iou_foreground": 0.5251,
-          "iou_character": 0.5189
+          "mae": 5.5781,
+          "pct_pixels_any_channel_gt_40": 4.3424,
+          "iou_foreground": 0.6129,
+          "iou_character": 0.6141
         },
         {
           "frame": 51,
           "timelineFrame": 50,
-          "mae": 7.2748,
-          "pct_pixels_any_channel_gt_40": 5.4728,
-          "iou_foreground": 0.472,
-          "iou_character": 0.4603
+          "mae": 7.7744,
+          "pct_pixels_any_channel_gt_40": 5.7748,
+          "iou_foreground": 0.4609,
+          "iou_character": 0.4488
         },
         {
           "frame": 52,
           "timelineFrame": 51,
-          "mae": 5.7515,
-          "pct_pixels_any_channel_gt_40": 4.5163,
-          "iou_foreground": 0.5989,
-          "iou_character": 0.5966
+          "mae": 5.5882,
+          "pct_pixels_any_channel_gt_40": 4.4353,
+          "iou_foreground": 0.607,
+          "iou_character": 0.6054
         },
         {
           "frame": 53,
           "timelineFrame": 52,
-          "mae": 4.9812,
-          "pct_pixels_any_channel_gt_40": 3.9526,
-          "iou_foreground": 0.654,
-          "iou_character": 0.656
+          "mae": 5.0888,
+          "pct_pixels_any_channel_gt_40": 4.0059,
+          "iou_foreground": 0.649,
+          "iou_character": 0.6506
         },
         {
           "frame": 54,
           "timelineFrame": 53,
-          "mae": 4.3648,
-          "pct_pixels_any_channel_gt_40": 3.4893,
-          "iou_foreground": 0.7056,
-          "iou_character": 0.7109
+          "mae": 4.5606,
+          "pct_pixels_any_channel_gt_40": 3.5815,
+          "iou_foreground": 0.6945,
+          "iou_character": 0.6989
         },
         {
           "frame": 55,
           "timelineFrame": 54,
-          "mae": 4.3114,
-          "pct_pixels_any_channel_gt_40": 3.2617,
-          "iou_foreground": 0.7291,
-          "iou_character": 0.7307
+          "mae": 4.2775,
+          "pct_pixels_any_channel_gt_40": 3.2215,
+          "iou_foreground": 0.7317,
+          "iou_character": 0.7335
         },
         {
           "frame": 56,
           "timelineFrame": 55,
-          "mae": 4.5137,
-          "pct_pixels_any_channel_gt_40": 3.3364,
-          "iou_foreground": 0.7169,
-          "iou_character": 0.7156
+          "mae": 4.1456,
+          "pct_pixels_any_channel_gt_40": 3.0883,
+          "iou_foreground": 0.7423,
+          "iou_character": 0.743
         },
         {
           "frame": 57,
           "timelineFrame": 56,
-          "mae": 4.7106,
-          "pct_pixels_any_channel_gt_40": 3.6264,
-          "iou_foreground": 0.6724,
-          "iou_character": 0.6702
+          "mae": 4.416,
+          "pct_pixels_any_channel_gt_40": 3.4298,
+          "iou_foreground": 0.6947,
+          "iou_character": 0.6941
         },
         {
           "frame": 58,
           "timelineFrame": 57,
-          "mae": 4.574,
-          "pct_pixels_any_channel_gt_40": 3.68,
-          "iou_foreground": 0.6531,
-          "iou_character": 0.6536
+          "mae": 4.2771,
+          "pct_pixels_any_channel_gt_40": 3.4741,
+          "iou_foreground": 0.6752,
+          "iou_character": 0.6774
         },
         {
           "frame": 59,
           "timelineFrame": 58,
-          "mae": 4.4577,
-          "pct_pixels_any_channel_gt_40": 3.6426,
-          "iou_foreground": 0.6621,
-          "iou_character": 0.6545
+          "mae": 4.9456,
+          "pct_pixels_any_channel_gt_40": 3.9226,
+          "iou_foreground": 0.638,
+          "iou_character": 0.6297
         },
         {
           "frame": 60,
           "timelineFrame": 59,
-          "mae": 5.9603,
-          "pct_pixels_any_channel_gt_40": 4.5877,
-          "iou_foreground": 0.5779,
-          "iou_character": 0.5689
+          "mae": 6.1867,
+          "pct_pixels_any_channel_gt_40": 4.7056,
+          "iou_foreground": 0.5727,
+          "iou_character": 0.5637
         },
         {
           "frame": 61,
           "timelineFrame": 60,
-          "mae": 5.3763,
-          "pct_pixels_any_channel_gt_40": 4.1297,
-          "iou_foreground": 0.6448,
-          "iou_character": 0.6446
+          "mae": 6.3686,
+          "pct_pixels_any_channel_gt_40": 4.7348,
+          "iou_foreground": 0.5852,
+          "iou_character": 0.5812
         },
         {
           "frame": 62,
           "timelineFrame": 61,
-          "mae": 7.1605,
-          "pct_pixels_any_channel_gt_40": 5.3515,
-          "iou_foreground": 0.5375,
-          "iou_character": 0.5305
+          "mae": 6.9342,
+          "pct_pixels_any_channel_gt_40": 5.1369,
+          "iou_foreground": 0.5519,
+          "iou_character": 0.5458
         },
         {
           "frame": 63,
           "timelineFrame": 62,
-          "mae": 6.6532,
-          "pct_pixels_any_channel_gt_40": 5.2042,
-          "iou_foreground": 0.5599,
-          "iou_character": 0.5539
+          "mae": 5.9152,
+          "pct_pixels_any_channel_gt_40": 4.6403,
+          "iou_foreground": 0.6093,
+          "iou_character": 0.6077
         },
         {
           "frame": 64,
           "timelineFrame": 63,
-          "mae": 7.5064,
-          "pct_pixels_any_channel_gt_40": 5.7178,
-          "iou_foreground": 0.473,
-          "iou_character": 0.4629
+          "mae": 7.9746,
+          "pct_pixels_any_channel_gt_40": 6.0209,
+          "iou_foreground": 0.4638,
+          "iou_character": 0.4531
         },
         {
           "frame": 65,
           "timelineFrame": 64,
-          "mae": 6.0546,
-          "pct_pixels_any_channel_gt_40": 4.9042,
-          "iou_foreground": 0.5935,
-          "iou_character": 0.5913
+          "mae": 6.0426,
+          "pct_pixels_any_channel_gt_40": 4.8281,
+          "iou_foreground": 0.6002,
+          "iou_character": 0.5981
         },
         {
           "frame": 66,
           "timelineFrame": 65,
-          "mae": 5.5052,
-          "pct_pixels_any_channel_gt_40": 4.517,
-          "iou_foreground": 0.6333,
-          "iou_character": 0.6361
+          "mae": 5.6811,
+          "pct_pixels_any_channel_gt_40": 4.6032,
+          "iou_foreground": 0.6235,
+          "iou_character": 0.6249
         },
         {
           "frame": 67,
           "timelineFrame": 66,
-          "mae": 5.0823,
-          "pct_pixels_any_channel_gt_40": 4.1232,
-          "iou_foreground": 0.6698,
-          "iou_character": 0.6721
+          "mae": 5.1788,
+          "pct_pixels_any_channel_gt_40": 4.1885,
+          "iou_foreground": 0.664,
+          "iou_character": 0.6657
         },
         {
           "frame": 68,
           "timelineFrame": 67,
-          "mae": 4.6834,
-          "pct_pixels_any_channel_gt_40": 3.7547,
-          "iou_foreground": 0.7125,
-          "iou_character": 0.7141
+          "mae": 4.5174,
+          "pct_pixels_any_channel_gt_40": 3.6344,
+          "iou_foreground": 0.7227,
+          "iou_character": 0.7251
         },
         {
           "frame": 69,
           "timelineFrame": 68,
-          "mae": 5.0165,
-          "pct_pixels_any_channel_gt_40": 4.0032,
-          "iou_foreground": 0.7071,
-          "iou_character": 0.6992
+          "mae": 4.3153,
+          "pct_pixels_any_channel_gt_40": 3.4918,
+          "iou_foreground": 0.7512,
+          "iou_character": 0.746
         },
         {
           "frame": 70,
           "timelineFrame": 69,
-          "mae": 5.2998,
-          "pct_pixels_any_channel_gt_40": 4.3142,
-          "iou_foreground": 0.6497,
-          "iou_character": 0.6483
+          "mae": 4.5087,
+          "pct_pixels_any_channel_gt_40": 3.7332,
+          "iou_foreground": 0.7069,
+          "iou_character": 0.7093
         },
         {
           "frame": 71,
           "timelineFrame": 70,
-          "mae": 5.2045,
-          "pct_pixels_any_channel_gt_40": 4.3152,
-          "iou_foreground": 0.6132,
-          "iou_character": 0.6065
+          "mae": 4.4961,
+          "pct_pixels_any_channel_gt_40": 3.8519,
+          "iou_foreground": 0.6649,
+          "iou_character": 0.662
         },
         {
           "frame": 72,
           "timelineFrame": 71,
-          "mae": 4.6131,
-          "pct_pixels_any_channel_gt_40": 4.0017,
-          "iou_foreground": 0.6396,
-          "iou_character": 0.6383
+          "mae": 4.4193,
+          "pct_pixels_any_channel_gt_40": 3.837,
+          "iou_foreground": 0.6588,
+          "iou_character": 0.6582
         },
         {
           "frame": 73,
           "timelineFrame": 72,
-          "mae": 5.8666,
-          "pct_pixels_any_channel_gt_40": 4.5883,
-          "iou_foreground": 0.5717,
-          "iou_character": 0.5631
+          "mae": 5.899,
+          "pct_pixels_any_channel_gt_40": 4.5732,
+          "iou_foreground": 0.5754,
+          "iou_character": 0.5674
         },
         {
           "frame": 74,
           "timelineFrame": 73,
-          "mae": 5.9169,
-          "pct_pixels_any_channel_gt_40": 4.5354,
-          "iou_foreground": 0.5858,
-          "iou_character": 0.5818
+          "mae": 6.2025,
+          "pct_pixels_any_channel_gt_40": 4.6893,
+          "iou_foreground": 0.5773,
+          "iou_character": 0.5728
         },
         {
           "frame": 75,
           "timelineFrame": 74,
-          "mae": 7.0051,
-          "pct_pixels_any_channel_gt_40": 5.0884,
-          "iou_foreground": 0.5242,
-          "iou_character": 0.5189
+          "mae": 6.9369,
+          "pct_pixels_any_channel_gt_40": 5.074,
+          "iou_foreground": 0.533,
+          "iou_character": 0.5282
         },
         {
           "frame": 76,
           "timelineFrame": 75,
-          "mae": 6.7266,
-          "pct_pixels_any_channel_gt_40": 5.053,
-          "iou_foreground": 0.5387,
-          "iou_character": 0.5326
+          "mae": 5.8698,
+          "pct_pixels_any_channel_gt_40": 4.4894,
+          "iou_foreground": 0.5974,
+          "iou_character": 0.5958
         },
         {
           "frame": 77,
           "timelineFrame": 76,
-          "mae": 7.2916,
-          "pct_pixels_any_channel_gt_40": 5.4854,
-          "iou_foreground": 0.4727,
-          "iou_character": 0.4637
+          "mae": 7.7906,
+          "pct_pixels_any_channel_gt_40": 5.7838,
+          "iou_foreground": 0.4612,
+          "iou_character": 0.4514
         },
         {
           "frame": 78,
           "timelineFrame": 77,
-          "mae": 5.6177,
-          "pct_pixels_any_channel_gt_40": 4.4363,
-          "iou_foreground": 0.6081,
-          "iou_character": 0.6066
+          "mae": 5.597,
+          "pct_pixels_any_channel_gt_40": 4.452,
+          "iou_foreground": 0.609,
+          "iou_character": 0.6075
         },
         {
           "frame": 79,
           "timelineFrame": 78,
-          "mae": 4.7916,
-          "pct_pixels_any_channel_gt_40": 3.8712,
-          "iou_foreground": 0.6662,
-          "iou_character": 0.67
+          "mae": 5.1932,
+          "pct_pixels_any_channel_gt_40": 4.1088,
+          "iou_foreground": 0.6447,
+          "iou_character": 0.6462
         },
         {
           "frame": 80,
           "timelineFrame": 79,
-          "mae": 4.4309,
-          "pct_pixels_any_channel_gt_40": 3.5658,
-          "iou_foreground": 0.698,
-          "iou_character": 0.7046
+          "mae": 4.8199,
+          "pct_pixels_any_channel_gt_40": 3.7866,
+          "iou_foreground": 0.6753,
+          "iou_character": 0.6799
         },
         {
           "frame": 81,
           "timelineFrame": 80,
-          "mae": 4.6272,
-          "pct_pixels_any_channel_gt_40": 3.5048,
-          "iou_foreground": 0.7065,
-          "iou_character": 0.7049
+          "mae": 4.6384,
+          "pct_pixels_any_channel_gt_40": 3.5047,
+          "iou_foreground": 0.7048,
+          "iou_character": 0.703
         },
         {
           "frame": 82,
           "timelineFrame": 81,
-          "mae": 4.5585,
-          "pct_pixels_any_channel_gt_40": 3.4196,
-          "iou_foreground": 0.7082,
-          "iou_character": 0.7067
+          "mae": 4.4669,
+          "pct_pixels_any_channel_gt_40": 3.3476,
+          "iou_foreground": 0.7149,
+          "iou_character": 0.714
         },
         {
           "frame": 83,
           "timelineFrame": 82,
-          "mae": 4.9365,
-          "pct_pixels_any_channel_gt_40": 3.8387,
-          "iou_foreground": 0.655,
-          "iou_character": 0.6521
+          "mae": 4.949,
+          "pct_pixels_any_channel_gt_40": 3.8159,
+          "iou_foreground": 0.6571,
+          "iou_character": 0.6545
         },
         {
           "frame": 84,
           "timelineFrame": 83,
-          "mae": 4.5461,
-          "pct_pixels_any_channel_gt_40": 3.7228,
-          "iou_foreground": 0.6499,
-          "iou_character": 0.6459
+          "mae": 4.8141,
+          "pct_pixels_any_channel_gt_40": 3.8676,
+          "iou_foreground": 0.6356,
+          "iou_character": 0.6307
         },
         {
           "frame": 85,
           "timelineFrame": 84,
-          "mae": 5.2633,
-          "pct_pixels_any_channel_gt_40": 4.1412,
-          "iou_foreground": 0.6132,
-          "iou_character": 0.5993
+          "mae": 5.7294,
+          "pct_pixels_any_channel_gt_40": 4.4117,
+          "iou_foreground": 0.5903,
+          "iou_character": 0.5764
         },
         {
           "frame": 86,
           "timelineFrame": 85,
-          "mae": 5.888,
-          "pct_pixels_any_channel_gt_40": 4.5256,
-          "iou_foreground": 0.5926,
-          "iou_character": 0.5814
+          "mae": 6.3233,
+          "pct_pixels_any_channel_gt_40": 4.8035,
+          "iou_foreground": 0.5727,
+          "iou_character": 0.561
         },
         {
           "frame": 87,
           "timelineFrame": 86,
-          "mae": 5.1944,
-          "pct_pixels_any_channel_gt_40": 4.0394,
-          "iou_foreground": 0.6595,
-          "iou_character": 0.6596
+          "mae": 6.6262,
+          "pct_pixels_any_channel_gt_40": 4.9157,
+          "iou_foreground": 0.5704,
+          "iou_character": 0.5649
         },
         {
           "frame": 88,
           "timelineFrame": 87,
-          "mae": 6.7369,
-          "pct_pixels_any_channel_gt_40": 5.0973,
-          "iou_foreground": 0.5675,
-          "iou_character": 0.5591
+          "mae": 6.2568,
+          "pct_pixels_any_channel_gt_40": 4.7191,
+          "iou_foreground": 0.5961,
+          "iou_character": 0.5896
         },
         {
           "frame": 89,
           "timelineFrame": 88,
-          "mae": 6.308,
-          "pct_pixels_any_channel_gt_40": 4.9875,
-          "iou_foreground": 0.5868,
-          "iou_character": 0.5812
+          "mae": 5.7317,
+          "pct_pixels_any_channel_gt_40": 4.55,
+          "iou_foreground": 0.6262,
+          "iou_character": 0.6237
         },
         {
           "frame": 90,
           "timelineFrame": 89,
-          "mae": 7.5798,
-          "pct_pixels_any_channel_gt_40": 5.7475,
-          "iou_foreground": 0.4735,
-          "iou_character": 0.4603
+          "mae": 7.9879,
+          "pct_pixels_any_channel_gt_40": 6.0143,
+          "iou_foreground": 0.4676,
+          "iou_character": 0.4541
         },
         {
           "frame": 91,
           "timelineFrame": 90,
-          "mae": 5.6327,
-          "pct_pixels_any_channel_gt_40": 4.6332,
-          "iou_foreground": 0.6151,
-          "iou_character": 0.6145
+          "mae": 5.8934,
+          "pct_pixels_any_channel_gt_40": 4.7505,
+          "iou_foreground": 0.6023,
+          "iou_character": 0.5999
         },
         {
           "frame": 92,
           "timelineFrame": 91,
-          "mae": 5.3309,
-          "pct_pixels_any_channel_gt_40": 4.3215,
-          "iou_foreground": 0.642,
-          "iou_character": 0.643
+          "mae": 5.5953,
+          "pct_pixels_any_channel_gt_40": 4.5627,
+          "iou_foreground": 0.6259,
+          "iou_character": 0.6247
         },
         {
           "frame": 93,
           "timelineFrame": 92,
-          "mae": 5.8179,
-          "pct_pixels_any_channel_gt_40": 4.5642,
-          "iou_foreground": 0.6336,
-          "iou_character": 0.6283
+          "mae": 5.7346,
+          "pct_pixels_any_channel_gt_40": 4.5723,
+          "iou_foreground": 0.6371,
+          "iou_character": 0.632
         },
         {
           "frame": 94,
           "timelineFrame": 93,
-          "mae": 5.9702,
-          "pct_pixels_any_channel_gt_40": 4.5229,
-          "iou_foreground": 0.6449,
-          "iou_character": 0.6297
+          "mae": 5.6046,
+          "pct_pixels_any_channel_gt_40": 4.2912,
+          "iou_foreground": 0.6651,
+          "iou_character": 0.6511
         }
       ]
     }

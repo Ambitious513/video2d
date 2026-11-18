@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-17T23:54:49.375Z",
+  "generatedAt": "2026-11-18T18:07:05.700Z",
   "extractionCommands": [
     "ffmpeg -v error -y -i source/input_video.mp4 -start_number 1 fullres/f_%03d.png",
     "ffmpeg -v error -y -i source/input_video.mp4 -vf scale=960:-1 -start_number 1 remotion/public/srcframes/f_%03d.png"
@@ -14,7 +14,7 @@
       "problems": []
     },
     {
-      "dir": "remotion/public/srcframes",
+      "dir": "remotion\\public\\srcframes",
       "expectedCount": 94,
       "actualCount": 94,
       "expectedDims": "960x540",

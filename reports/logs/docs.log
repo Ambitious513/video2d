@@ -1,5 +1,5 @@
-$ /usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-docs.js
-(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d)
+$ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\verify-docs.js
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
 [PASS] every documented repository path resolves (or is documented regenerable) — 74 path references checked across METHOD.md, STATUS.md
 [PASS] every documented npm run script exists — all documented scripts defined

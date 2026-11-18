@@ -55,7 +55,7 @@ function step(name, cmd, args, cwd, {dependsOn = [], env = {}} = {}) {
   const t0 = Date.now();
   const command = `${cmd} ${args.join(' ')}`;
   console.log(`\n=== ${name} ===\n$ (cwd=${cwd}) ${command}`);
-  const r = spawnSync(cmd, args, {cwd, encoding: 'utf8', env: {...process.env, ...env}, maxBuffer: 64 * 1024 * 1024});
+  const r = spawnSync(cmd, args, {cwd, encoding: 'utf8', env: {...process.env, ...env}, maxBuffer: 64 * 1024 * 1024, shell: process.platform === 'win32' && cmd !== process.execPath});
   const seconds = +((Date.now() - t0) / 1000).toFixed(1);
   const output = (r.stdout || '') + (r.stderr || '');
   fs.writeFileSync(path.join(LOGS, `${name}.log`), `$ ${command}\n(cwd=${cwd})\n\n${output}`);
@@ -216,6 +216,13 @@ step('docs', process.execPath, [path.join(TOOLS, 'verify-docs.js')], ROOT);
     /^remotion\/scripts\//,
     /^remotion\/test\//,
     /^remotion\/package(-lock)?\.json$/,
+    // Root render pipeline + tools test config: Windows-portability fixes
+    // (npx/npm.cmd spawn via shell) needed to run this suite on Windows.
+    /^render-lowram\.mjs$/,
+    /^tools\/package\.json$/,
+    // Regenerable verification proof sheets (render-stills.mjs output); the
+    // frozen verify/ comparison frames (cel_*/pup_*/compare) stay protected.
+    /^verify\/(contact-sheet|comparison-contact-sheet)\.png$/,
     /^reports\//,
     /^verify\.mjs$/,
     /^(METHOD|STATUS|SKILL|ROADMAP)\.md$/,

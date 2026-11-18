@@ -1,42 +1,20 @@
-$ npm test
-(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools)
+$ npm.cmd test
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\tools)
 
 
 > tools@1.0.0 test
-> node --test test/
+> node --test
 
-TAP version 13
-# Subtest: palette is the locked 11-color set with matching hex list
-ok 1 - palette is the locked 11-color set with matching hex list
-  ---
-  duration_ms: 1.19548
-  ...
-# Subtest: quantize maps every pixel to an exact palette color
-ok 2 - quantize maps every pixel to an exact palette color
-  ---
-  duration_ms: 1.806708
-  ...
-# Subtest: despeckle preserves multi-pixel features (the eye survives)
-ok 3 - despeckle preserves multi-pixel features (the eye survives)
-  ---
-  duration_ms: 1.266488
-  ...
-# Subtest: despeckle removes a fully isolated single pixel
-ok 4 - despeckle removes a fully isolated single pixel
-  ---
-  duration_ms: 0.676009
-  ...
-# Subtest: CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only
-ok 5 - CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only
-  ---
-  duration_ms: 403.224536
-  ...
-1..5
-# tests 5
-# suites 0
-# pass 5
-# fail 0
-# cancelled 0
-# skipped 0
-# todo 0
-# duration_ms 496.887478
+✔ palette is the locked 11-color set with matching hex list (1.0227ms)
+✔ quantize maps every pixel to an exact palette color (2.1722ms)
+✔ despeckle preserves multi-pixel features (the eye survives) (1.6025ms)
+✔ despeckle removes a fully isolated single pixel (0.8386ms)
+✔ CLI: debug _flat.png is OPT-IN (--flat / FLAT_PNG=1), default emits SVG only (490.7165ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 668.2641

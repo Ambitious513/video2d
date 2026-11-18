@@ -196,3 +196,55 @@ State machine (pure, per frame): `touchdown` (window entry) / `stance` (belt-loc
 - Phase 2.4 measures slip/drift/penetration on the **solved (locked) track** via `node verify.mjs` full suite + the formal scope-audit, then closes Phase 2.
 - `reports/foot-contact-validation.json` (2.2b) already lists the 2.3/2.4 measurements owed; `reports/stance-locking-validation.json` (2.3) carries the solved-track stance numbers.
 - No protected assets touched (cel94/, cel/, flatrace.js, source media, frames/, fullres/, cels.ts semantics, CelRun/CelLoop/Comparison, reports/baseline/* unchanged).
+
+## Phase 2.4 — Phase 2 Gate (COMPLETE)
+
+**Date:** 2026-11-18T18:15Z  **Status:** COMPLETE — full verification suite PASSED; Phase 2 CLOSED.
+
+### What ran
+
+Full `node verify.mjs --install --force-trace` from a clean dependency install on Windows 11 (Node v25.2.1, npm 11.6.2, 8 cores). The suite runs install → extract → source → trace → assets → unit (remotion + tools) → typecheck → compositions → stills → render → fidelity → motion → ik → docs → tracked-audit → scope-audit.
+
+### Result: ALL 19 STEPS PASS; A1–A18 ALL PASS (exit 0)
+
+| Area | Result |
+|---|---|
+| Install | tools 31 pkgs, remotion 178 pkgs, Chrome Headless Shell ensured — all PASS |
+| Source (A1/A2) | 94 frames extracted; committed frames/ 94/94 pixel-identical; 26 fullres byte-identical; audio duration preserved — PASS |
+| Trace/Assets (A3/A4) | 94 unique cel94 SVGs re-traced **byte-identical** to `5d4d13a`; 26 loop cels intact — PASS |
+| Unit | remotion **66/66 PASS** (incl. 12 stance tests); tools **5/5 PASS** — PASS |
+| Typecheck (A17) | `tsc --noEmit` clean — PASS |
+| Compositions (A5/A6) | registry == manifest == METHOD.md; 4 comps 1920×1080 @24fps 94 frames — PASS |
+| Stills (A9) | RunCycle + Comparison stills, contact sheets written — PASS |
+| Render (A7/A10) | 4 compositions × 94 frames @1920×1080 24fps, valid MP4s (audio ×1) — PASS |
+| Fidelity (A11–A13) | cel94 MAE 1.046 / IoU(char) 0.9577; celLoop 2.5423 / 0.8582; puppet 5.671 / 0.6126 (diagnostic, unchanged by Phase 2) — PASS |
+| Test I (motion) | 12/12 PASS (fixed bones 1.421e-13 px; residual 0; bend stable; wrap continuity) — PASS |
+| IK validation | 7/7 gates + 14/14 cases; worst bone error 1.421e-13 px; 0 clamped — PASS |
+| Docs (A15/A16) | paths resolve; scripts exist; no stale claims — PASS |
+| Tracked audit (A18) | no MP4s/node_modules/temp sequences tracked — PASS |
+| Scope audit (A8) | 17 protected paths byte-identical to `5d4d13a`; frozen Phase 0 records byte-identical to `1dd5600`; 84 changed + 2 new paths all in allowed scope — PASS |
+
+### Windows-portability fixes required to run the suite (tooling only, no puppet logic)
+
+The harness was written for Linux. Two spawn sites had to be fixed so the suite runs on Windows:
+1. `verify.mjs` — `spawnSync('npm.cmd'/'npx', …)` needs `shell: true` on Windows (Node cannot execute `.cmd` shims directly; `git` and absolute exe paths like `ffmpeg-static`/`node` stay shell-less because the repo path contains spaces).
+2. `render-lowram.mjs` — the internal `run('npx', ['remotion','render',…])` needed the same `shell` treatment (only for non-absolute commands).
+3. `tools/package.json` — test `node --test test/` → `node --test` (auto-discovery): the directory-arg form fails on Node ≥22 (treated as a module entry point).
+4. `verify.mjs` scope-audit allow-list extended to include `render-lowram.mjs`, `tools/package.json`, and the two regenerable `verify/(contact-sheet|comparison-contact-sheet).png` proof sheets. The frozen `verify/cel_*/pup_*/compare.png` remain protected. No protected reconciliation asset was touched.
+
+### Phase 2 acceptance (master plan §6.5) — all met
+
+- Stance slip < 0.5 px/frame on the solved track: **0.000000** ✓
+- Stance anchor drift ≤ 1.5 px: **0.000000** ✓
+- Ground penetration ≤ 1 px: **0.000000** ✓
+- Touchdown/toe-off continuity (no snap): 60.05 / 76.34 vs p95 295.20 (≤ 1.5×p95) ✓
+- Alternation + mirroring: verified in `test/stance.test.ts` ✓
+- in_place root stable; root_motion contract helper present (synthetic test in `test/stance.test.ts`) ✓
+- Results written to `reports/stance-locking-validation.json` + `reports/test-matrix.json` ✓
+- A1–A18 reconciliation criteria all PASS with protected assets byte-identical ✓
+
+### Evidence
+`reports/test-matrix.json` (A1–A18 PASS), `reports/logs/verify-2.4.log` + all per-step logs, regenerated `reports/*` JSONs, `verify/contact-sheet.png`, `verify/comparison-contact-sheet.png`.
+
+### Next (Phase 3 — visual construction + secondary motion)
+Cohesive tapered limb silhouettes (replace `Seg` cylinders), fuller torso, designed feet, backpack/strap attachment + deterministic lag, deterministic scarf chain, centralized appearance tokens; before/after stills + contact sheet; target character IoU ≥ 0.68 (provisional), MAE ≤ 5.6307. Requires owner go-ahead (init-prompt R3).

@@ -1,10 +1,5 @@
-$ npm ci --no-audit --no-fund
-(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools)
+$ npm.cmd ci --no-audit --no-fund
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\tools)
 
 
-added 34 packages in 11s
-npm notice
-npm notice New major version of npm available! 10.8.2 -> 12.2.2
-npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
-npm notice To update run: npm install -g npm@12.2.2
-npm notice
+added 31 packages in 19s

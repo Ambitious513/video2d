@@ -1,5 +1,5 @@
-$ /usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/verify-assets.js
-(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d)
+$ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\verify-assets.js
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
 cel94: 94/94 files, 94 unique — PASS
 cel:   26/26 files, 26 unique — PASS_WITH_NOTES

@@ -1,11 +1,11 @@
-$ /usr/local/bin/node /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/render-lowram.mjs
-(cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d)
+$ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\render-lowram.mjs
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) npx remotion render CelRun out/celframes --sequence --concurrency=1 --log=error
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render CelRun out/celframes --sequence --concurrency=1 --log=error
 Bundling 6%
 Bundling 17%
-Bundling 60%
+Bundling 61%
 Bundling 69%
 Bundling 74%
 Bundling 80%
@@ -112,20 +112,21 @@ Rendered 93/94
 Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/node_modules/ffmpeg-static/ffmpeg -v error -y -framerate 24 -start_number 0 -i out/celframes/element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-cel.mp4
-✔ out/run-2d-cel.mp4  1358 KB  1920x1080 @ 24/1  3.917s  audio x1  (18s)
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\celframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-cel.mp4
+✔ out/run-2d-cel.mp4  1358 KB  1920x1080 @ 24/1  3.917s  audio x1  (23.9s)
   kept frames: out/celframes
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) npx remotion render CelLoop out/celloopframes --sequence --concurrency=1 --log=error
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render CelLoop out/celloopframes --sequence --concurrency=1 --log=error
 Bundling 6%
 Bundling 17%
-Bundling 60%
-Bundling 69%
-Bundling 74%
-Bundling 80%
-Bundling 85%
-Bundling 90%
-Bundling 95%
+Bundling 59%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
 Bundling 100%
 Copying public dir 10.5 MB
 Getting compositions
@@ -226,20 +227,21 @@ Rendered 93/94
 Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/node_modules/ffmpeg-static/ffmpeg -v error -y -framerate 24 -start_number 0 -i out/celloopframes/element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-cel-loop.mp4
-✔ out/run-2d-cel-loop.mp4  1350 KB  1920x1080 @ 24/1  3.917s  audio x1  (17.8s)
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\celloopframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-cel-loop.mp4
+✔ out/run-2d-cel-loop.mp4  1350 KB  1920x1080 @ 24/1  3.917s  audio x1  (23.1s)
   kept frames: out/celloopframes
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) npx remotion render RunCycle out/puppetframes --sequence --concurrency=1 --log=error
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render RunCycle out/puppetframes --sequence --concurrency=1 --log=error
 Bundling 6%
 Bundling 17%
-Bundling 60%
-Bundling 69%
-Bundling 74%
-Bundling 80%
-Bundling 85%
-Bundling 90%
-Bundling 95%
+Bundling 59%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
 Bundling 100%
 Copying public dir 10.5 MB
 Getting compositions
@@ -340,20 +342,21 @@ Rendered 93/94
 Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/node_modules/ffmpeg-static/ffmpeg -v error -y -framerate 24 -start_number 0 -i out/puppetframes/element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-puppet.mp4
-✔ out/run-2d-puppet.mp4  639 KB  1920x1080 @ 24/1  3.917s  audio x1  (14.8s)
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\puppetframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-puppet.mp4
+✔ out/run-2d-puppet.mp4  662 KB  1920x1080 @ 24/1  3.917s  audio x1  (21.5s)
   kept frames: out/puppetframes
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) npx remotion render Comparison out/compareframes --sequence --concurrency=1 --log=error
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render Comparison out/compareframes --sequence --concurrency=1 --log=error
 Bundling 6%
 Bundling 17%
 Bundling 60%
-Bundling 69%
-Bundling 74%
-Bundling 80%
-Bundling 85%
-Bundling 90%
-Bundling 95%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
 Bundling 100%
 Copying public dir 10.5 MB
 Getting compositions
@@ -454,16 +457,18 @@ Rendered 93/94
 Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
-$ (cwd=/tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/remotion) /tmp/arena/tenants/6d5f18ed-9888-4156-a3f3-9378a0b437ff/sessions/cd1db54b-514a-56f7-8472-60d5d029bce4/workspace/video2d/tools/node_modules/ffmpeg-static/ffmpeg -v error -y -framerate 24 -start_number 0 -i out/compareframes/element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/comparison-source-vs-2d.mp4
-✔ out/comparison-source-vs-2d.mp4  1867 KB  1920x1080 @ 24/1  3.917s  audio x1  (23.2s)
+$ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\compareframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/comparison-source-vs-2d.mp4
+✔ out/comparison-source-vs-2d.mp4  1886 KB  1920x1080 @ 24/1  3.917s  audio x1  (27.6s)
   kept frames: out/compareframes
 
 === render summary ===
 id          frames(exp/act)  dims       fps    dur(s)  size(KB)  time(s)  status
-CelRun       94/ 94        1920x1080  24/1   3.917   1358      18       PASS
-CelLoop      94/ 94        1920x1080  24/1   3.917   1350      17.8     PASS
-RunCycle     94/ 94        1920x1080  24/1   3.917   639       14.8     PASS
-Comparison   94/ 94        1920x1080  24/1   3.917   1867      23.2     PASS
+CelRun       94/ 94        1920x1080  24/1   3.917   1358      23.9     PASS
+CelLoop      94/ 94        1920x1080  24/1   3.917   1350      23.1     PASS
+RunCycle     94/ 94        1920x1080  24/1   3.917   662       21.5     PASS
+Comparison   94/ 94        1920x1080  24/1   3.917   1886      27.6     PASS
 
 report: reports/render-validation.json
 all done
+(node:13760) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)

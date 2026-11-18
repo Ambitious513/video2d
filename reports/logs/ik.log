@@ -1,0 +1,31 @@
+$ npm.cmd run verify:ik
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion)
+
+
+> runner-2d-remotion@1.0.0 verify:ik
+> tsx scripts/ik-validate.ts
+
+[PASS] case: reachable natural distance — exact lengths, end == target, bend side honored
+[PASS] case: target exactly at max reach — EPS margin keeps near-straight solve non-degenerate
+[PASS] case: target 25 px beyond max reach — clamped onto the reach ray; residual reported, never hidden
+[PASS] case: target closer than min reach — folded safely at the inner annulus boundary
+[PASS] case: target coincident with root (zero direction) — documented deterministic +x fallback; no NaN
+[PASS] case: bend side +1 (elbow convention) — mid joint on the requested side of the root->target line
+[PASS] case: bend side -1 (knee convention) — mid joint on the requested side of the root->target line
+[PASS] case: mirrored facing (x mirrored about 960, bend sign flipped) — mirror(x) + flip(bendSign) == mirror(solution)
+[PASS] case: near-straight configuration — finite, correct side, no flip
+[PASS] case: highly folded configuration — finite, correct side, no flip
+[PASS] case: equal-length bones, coincident target — min reach = EPS, still safe
+[PASS] case: invalid bone lengths / bend hint / non-finite points throw — rig errors fail loudly, never render NaN
+[PASS] case: seeded random sweep (500 targets, both signs) — fixed lengths + stable bend side for arbitrary reachable/unreachable targets
+[PASS] case: mirrored limb solve through the shared evaluator path (frame 34) — solveLimb mirrors exactly with flipped hint
+[PASS] every constrained bone within ±0.5 px of configured length (94 frames × 8 bones) — 1.4210854715202004e-13
+[PASS] reachable end-effector residual ≤ 1 px; clamping reported — {"worstResidual":0,"clampedFrameCount":0}
+[PASS] bend side constant and equal to rig hint on every frame (incl. 25->26 wrap) — {"nearLeg":[-1],"farLeg":[-1],"nearArm":[1],"farArm":[1]}
+[PASS] all joints finite and inside 1920x1080 — 0
+[PASS] foot artwork length constant (geometry, not a bone) — 9.947598300641403e-14
+[PASS] out-of-order frame evaluation deterministic — [72,0,45,12,93,25]
+[PASS] all named solver edge cases pass — "14/14"
+
+IK validation: PASS (7/7 gates); worst bone error 1.421e-13 px; clamped frames 0
+wrote reports/ik-validation.json

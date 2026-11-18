@@ -1,94 +1,153 @@
 {
-  "generatedAt": "2026-11-18T00:34:15.076Z",
+  "generatedAt": "2026-11-18T18:11:54.818Z",
   "steps": {
     "install-tools": {
-      "status": "NOT RUN",
-      "reason": "prerequisite; pass --install to run and log npm ci + browser ensure"
+      "status": "PASS",
+      "command": "npm.cmd ci --no-audit --no-fund",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools",
+      "seconds": 19.8,
+      "log": "reports/logs/install-tools.log",
+      "exitCode": 0
     },
     "install-remotion": {
-      "status": "NOT RUN",
-      "reason": "prerequisite; pass --install to run and log npm ci + browser ensure"
+      "status": "PASS",
+      "command": "npm.cmd ci --no-audit --no-fund",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 9.7,
+      "log": "reports/logs/install-remotion.log",
+      "exitCode": 0
     },
     "browser": {
-      "status": "NOT RUN",
-      "reason": "prerequisite; pass --install to run and log npm ci + browser ensure"
+      "status": "PASS",
+      "command": "npx remotion browser ensure",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 41.7,
+      "log": "reports/logs/browser.log",
+      "exitCode": 0
     },
     "extract": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\extract-frames.js",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
+      "seconds": 1.7,
+      "log": "reports/logs/extract.log",
+      "exitCode": 0
     },
     "source": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\verify-source.js",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
+      "seconds": 4.6,
+      "log": "reports/logs/source.log",
+      "exitCode": 0
     },
     "trace": {
       "status": "PASS",
-      "reason": "cel94 already complete (94 SVGs); use --force-trace to regenerate",
-      "seconds": 0
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\trace-all.js",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
+      "seconds": 104.1,
+      "log": "reports/logs/trace.log",
+      "exitCode": 0
     },
     "assets": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\verify-assets.js",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
+      "seconds": 2,
+      "log": "reports/logs/assets.log",
+      "exitCode": 0
     },
     "unit-remotion": {
       "status": "PASS",
-      "command": "npm test",
-      "cwd": "/tmp/arena/tenants/6f80636a-b516-481f-b5fd-517d771de62c/sessions/187b0090-7e21-5f66-b884-49e9b2805745/workspace/video2d/remotion",
-      "seconds": 1.5,
+      "command": "npm.cmd test",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 1.4,
       "log": "reports/logs/unit-remotion.log",
       "exitCode": 0
     },
     "unit-tools": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "npm.cmd test",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools",
+      "seconds": 1.5,
+      "log": "reports/logs/unit-tools.log",
+      "exitCode": 0
     },
     "typecheck": {
       "status": "PASS",
-      "command": "npm run typecheck",
-      "cwd": "/tmp/arena/tenants/6f80636a-b516-481f-b5fd-517d771de62c/sessions/187b0090-7e21-5f66-b884-49e9b2805745/workspace/video2d/remotion",
-      "seconds": 3.8,
+      "command": "npm.cmd run typecheck",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 2.9,
       "log": "reports/logs/typecheck.log",
       "exitCode": 0
     },
     "compositions": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion\\scripts\\verify-compositions.mjs",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 6.1,
+      "log": "reports/logs/compositions.log",
+      "exitCode": 0
     },
     "stills": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion\\scripts\\render-stills.mjs",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 30.3,
+      "log": "reports/logs/stills.log",
+      "exitCode": 0
     },
     "render": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\render-lowram.mjs",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
+      "seconds": 96.2,
+      "log": "reports/logs/render.log",
+      "exitCode": 0
     },
     "fidelity": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
+      "seconds": 40.4,
+      "log": "reports/logs/fidelity.log",
+      "exitCode": 0
     },
     "motion": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "npm.cmd run verify:motion",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 1.8,
+      "log": "reports/logs/motion.log",
+      "exitCode": 0
     },
     "ik": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "npm.cmd run verify:ik",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
+      "seconds": 1.2,
+      "log": "reports/logs/ik.log",
+      "exitCode": 0
     },
     "docs": {
-      "status": "NOT RUN",
-      "reason": "not in --only list"
+      "status": "PASS",
+      "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\verify-docs.js",
+      "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
+      "seconds": 0.4,
+      "log": "reports/logs/docs.log",
+      "exitCode": 0
     },
     "tracked-audit": {
       "status": "PASS",
-      "detail": "365 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
+      "detail": "404 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
       "forbiddenTracked": [],
       "missingRequired": [],
-      "trackedCount": 365,
+      "trackedCount": 404,
       "seconds": 0
     },
     "scope-audit": {
       "status": "PASS",
-      "detail": "17 protected reconciliation paths byte-identical to 5d4d13a (committed + worktree); frozen Phase 0 records byte-identical to 1dd5600; 41 changed + 8 new tracked-candidate paths, all inside allowed upgrade scope",
+      "detail": "17 protected reconciliation paths byte-identical to 5d4d13a (committed + worktree); frozen Phase 0 records byte-identical to 1dd5600; 84 changed + 2 new tracked-candidate paths, all inside allowed upgrade scope",
       "baseline": "5d4d13ab92ac38be0397bd2b8feb27e19eefdf98",
       "phase0Freeze": "1dd5600dd2503942aca43fe24ae01fc222fb9f50",
       "protectedPaths": [
@@ -116,95 +175,95 @@
         "reports/puppet-upgrade-baseline-contact-sheet.png"
       ],
       "outOfScope": [],
-      "changedCount": 41,
-      "untrackedCount": 8,
+      "changedCount": 84,
+      "untrackedCount": 2,
       "seconds": 0
     }
   },
   "acceptanceMatrix": {
     "A1": {
       "criterion": "Source media metadata verified",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/source-media.json"
     },
     "A2": {
       "criterion": "All 94 source frames extractable",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/source-frame-validation.json"
     },
     "A3": {
       "criterion": "94 unique exact SVG cels exist and validate",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/svg-asset-validation.json"
     },
     "A4": {
       "criterion": "26 loop cels intact",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/svg-asset-validation.json"
     },
     "A5": {
       "criterion": "Exact/loop compositions distinct, mapping correct",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/logs/unit-remotion.log + reports/composition-validation.json"
     },
     "A6": {
       "criterion": "Every advertised render job registered",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/composition-validation.json"
     },
     "A7": {
       "criterion": "Low-RAM script works from documented invocation",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/render-validation.json + reports/logs/render.log"
     },
     "A8": {
       "criterion": "Puppet implementation + tests exist and render; reconciliation assets protected",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/test-matrix.json (scope-audit: protected assets vs 5d4d13a + frozen Phase 0 records + allowed-scope audit; replaces the historical puppet-unchanged gate vs 5ab3d64) + reports/still-render-validation.json + reports/logs/unit-remotion.log"
     },
     "A9": {
       "criterion": "All required stills render correctly",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/still-render-validation.json + verify/contact-sheet.png"
     },
     "A10": {
       "criterion": "All compositions render 94 frames @24fps 1920x1080",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/render-validation.json"
     },
     "A11": {
       "criterion": "Exact-cel all-frame fidelity measured",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/fidelity-all-frames.json"
     },
     "A12": {
       "criterion": "26-loop drift measured, described as expected",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/fidelity-all-frames.json + reports/FIDELITY.md"
     },
     "A13": {
       "criterion": "Puppet metrics diagnostic-only",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/fidelity-all-frames.json (objective field)"
     },
     "A14": {
       "criterion": "Comparison composition + proof sheet work",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "verify/comparison-contact-sheet.png + remotion/out/comparison-source-vs-2d.mp4"
     },
     "A15": {
       "criterion": "METHOD.md commands and paths match the implementation",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/doc-validation.json + reports/logs/docs.log"
     },
     "A16": {
       "criterion": "STATUS.md has no contradictory historical/current status",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/doc-validation.json (required handoff sections; stale claims confined to History) + reports/REPRODUCIBILITY_REPORT.md"
     },
     "A17": {
       "criterion": "Clean install + typecheck succeed",
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/logs/typecheck.log + reports/logs/install-*.log (with --install)"
     },
     "A18": {
@@ -215,12 +274,12 @@
   },
   "additionalRequiredTests": {
     "Test I (motion & continuity)": {
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/motion-validation.json",
       "note": "Phase 1: solved bone-length / IK residual / bend-stability gates + continuity. Raw-track variation remains a reported diagnostic (historical 2.891x FAIL preserved in reports/baseline/). Stance-locking / foot-contact solver are Phase 2 future work, not claimed."
     },
     "IK validation (Phase 1)": {
-      "status": "NOT RUN",
+      "status": "PASS",
       "evidence": "reports/ik-validation.json",
       "note": "Solver edge-case matrix + all-94-frame configured-length/residual/bend/bounds/determinism sweep (npm run verify:ik)."
     }
