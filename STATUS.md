@@ -3,7 +3,7 @@
 **Repository:** `Ambitious513/video2d`
 **Active branch:** `feat/constrained-puppet-rig` (the upgraded procedural-puppet work)
 **Baseline branch:** `main` @ `5d4d13ab92ac38be0397bd2b8feb27e19eefdf98` — the unchanged reconciliation experiment (do not modify directly)
-**Current phase:** Phase 3 (visual construction + secondary motion) — **READY FOR OWNER VISUAL SIGN-OFF**
+**Current phase:** Phase 5 (final verification + docs) — **IN PROGRESS**; Phases 0–4 COMPLETE (Phase 3 owner-approved)
 **Single source of truth:** `ROADMAP.md` (this file is a concise pointer/summary only)
 **Detailed technical history:** `reports/PROCEDURAL_RIG_UPGRADE_REPORT.md`
 **Machine-readable evidence:** `reports/test-matrix.json` (A1–A18), `reports/fidelity-all-frames.json`
@@ -40,11 +40,11 @@ The `feat/constrained-puppet-rig` branch upgrades **only** the procedural puppet
 | 2 | Foot contacts + stance locking | **COMPLETE (data model + diagnostics)** — reviewed contact track, ground/treadmill contract, stance/anchor diagnostics. **Rendered continuous foot locking is NOT integrated into `RunCycle` yet** (see §4) |
 | 3a | Cohesive geometry | **COMPLETE** — tapered limb silhouettes, fuller torso, designed feet |
 | 3b | Deterministic scarf + backpack | **COMPLETE** — fixed-length scarf chain, backpack bob/lag |
-| 3c | Visual comparison evidence + closeout | **COMPLETE** — `reports/phase3-final-polish-sheet.png` |
-| 4 | Reusable second character variant | **NOT STARTED — not authorized** |
-| 5 | Final verification + docs | **NOT STARTED** |
+| 3c | Visual comparison evidence + closeout | **COMPLETE** — `reports/phase3-final-polish-sheet.png`; **owner-approved 2026-11-18** |
+| 4 | Reusable second character variant | **COMPLETE** — teal variant on the shared rig/solver/motion; `reports/phase4-variant-comparison.png` |
+| 5 | Final verification + docs | **IN PROGRESS** — clean gate + METHOD/STATUS/report updates |
 
-**Phase 3 is READY FOR OWNER VISUAL SIGN-OFF — not owner-approved.** The owner must review the final contact sheet (`reports/phase3-final-polish-sheet.png`) and the rendered `RunCycle` MP4 and decide.
+**Phase 3 is OWNER-APPROVED (2026-11-18). Phase 4 (second variant) is COMPLETE.** Phases 0–4 are done; Phase 5 (final verification + docs) is in progress. The owner reviews visual evidence (contact sheets) — the agent cannot view images.
 
 ### 2.2 Reconciled baseline detail (main)
 

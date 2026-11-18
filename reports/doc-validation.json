@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T21:21:28.068Z",
+  "generatedAt": "2026-11-18T21:53:03.509Z",
   "documents": [
     "METHOD.md",
     "STATUS.md"
@@ -25,12 +25,12 @@
     "remotion/node_modules/",
     ".remotion/"
   ],
-  "pathReferencesChecked": 72,
+  "pathReferencesChecked": 77,
   "checks": [
     {
       "name": "every documented repository path resolves (or is documented regenerable)",
       "status": "PASS",
-      "detail": "72 path references checked across METHOD.md, STATUS.md"
+      "detail": "77 path references checked across METHOD.md, STATUS.md"
     },
     {
       "name": "every documented npm run script exists",

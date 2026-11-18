@@ -10,7 +10,7 @@ All four compositions share one timeline: **94 frames @ 24 fps, 1920×1080**, wi
 |---|---|---|
 | `out/run-2d-cel.mp4` | `CelRun` | **Exact flat-2D replica — the fidelity deliverable.** One unique vectorized SVG cel per source frame, 94 cels in `public/cel94/`, each played once. All-94-frame MAE vs source **1.046 / 255** at native 1920×1080. |
 | `out/run-2d-cel-loop.mp4` | `CelLoop` | **Lightweight control, NOT the fidelity deliverable.** Only **26** cels in `public/cel/`, selected `(frame % 26) + 1`. All-frame MAE **2.5423** — the source stride is not exactly 26 frames, so the loop drifts out of phase. That drift is expected and measured. |
-| `out/run-2d-puppet.mp4` | `RunCycle` | **Parametric vector puppet.** No traced artwork: skeleton keys + math generate every frame. Fully editable. All-frame MAE **5.6307** — a *diagnostic*, not a fidelity target. |
+| `out/run-2d-puppet.mp4` | `RunCycle` | **Parametric vector puppet (procedural rig).** No traced artwork: a constrained skeleton + two-bone IK generate every frame. Fully editable/reusable. All-frame MAE **5.849** (Phase 3 cohesive geometry) — a *diagnostic*, not a fidelity target. |
 | `out/comparison-source-vs-2d.mp4` | `Comparison` | Four-panel proof: source / exact cel / puppet / 50 % overlay, HTML-labelled, original audio. |
 
 Fidelity figures above come from `reports/fidelity-all-frames.json` (all 94 frames, no resampling). The older **2.71 / 4.25 / 7.24** numbers were computed on **16 sampled frames at six-frame intervals at 960×540** and are kept only as a labelled historical reference in `fidelity.json` — see §7.
@@ -68,15 +68,19 @@ Bulk tracing writes the debug `_flat.png` only with `--flat` / `FLAT_PNG=1`, so 
 
 ## 4. Pipeline B — parametric puppet (`src/puppet/`)
 
-`keys.ts` holds every measured constant; `Runner.tsx` turns them into one SVG per frame. Nothing is traced, so every proportion, color and timing is editable.
+`keys.ts` holds every measured constant; `Runner.tsx` turns them into one SVG per frame. Nothing is traced, so every proportion, color and timing is editable. The puppet was upgraded (Phases 0–4) into a constrained, reusable 2D character rig; the original measured gait still drives the motion intent.
 
+- **Constrained skeleton + two-bone IK (Phase 1)** — `rig.ts` defines fixed rest bone lengths (thigh 186.00 / calf 177.82 / upper arm 115.91 / forearm 91.97 / foot artwork 87.30 px, calibrated from the raw keys); `ik.ts` is a generic analytic law-of-cosines two-bone solver (reach annulus clamp, explicit bend-side hint); `pose.ts` evaluates a pose as a **pure function of (rig, motion, frame)** with fixed bone lengths (solved error ~1e-13 px) and raw-vs-solved targets preserved for diagnostics. Knees bend −1 (front), elbows +1 (trailing); mirroring flips x and the bend sign.
 - **Legs** — 7 measured keys per half-stride (hip/knee/ankle/toe), stored hip-relative, resampled with **Catmull-Rom** into a cyclic 26-sample track. Near leg samples at *f*, far leg at *f + 13* — the symmetry trick, in code.
 - **Bounce** — hip Y and head Y are independent 7-key periodic tracks over the 13-frame step, also Catmull-Rom, so the motion is smooth at non-integer frames.
-- **Arms** — 2 measured extremes (forward / back) blended by `cos(2πf/26)`, plus a `1 − cos²` "bulge" term that drops the elbow and fist through the middle of the swing. That single term is what stops the arms looking like a linear pendulum.
-- **Scarf** — a 6-point centerline behind the knot, each point offset by `amp·sin(2πf/13 − i·0.85)`: a travelling wave with growing amplitude toward the tip. Ribbon edges are the centerline ± half-width along the local perpendicular, smoothed into beziers, with a shade stripe along the lower edge.
-- **Feet** — filled wedges oriented along ankle→toe, so the foot rolls naturally instead of being a stub.
+- **Arms** — 2 measured extremes (forward / back) blended by `cos(2πf/26)`, plus a `1 − cos²` "bulge" term that drops the elbow and fist through the middle of the swing.
+- **Cohesive geometry (Phase 3a)** — each limb (thigh+calf, upper arm+forearm) is ONE closed tapered outline drawn once (no exposed knee/elbow balls, no joint gaps); the torso has a shoulder taper, chest, waist and pelvis; the foot is a designed heel/sole/toe silhouette oriented along the ankle→toe control vector with a stable ankle pivot.
+- **Scarf (Phase 3b)** — a deterministic fixed-length chain (knot + 6 tail nodes, each segment exactly 72 px) whose shape at frame *f* is a pure closed-form traveling wave with per-node phase lag + gravity droop, heading clamped so it never flips (`secondary.ts`). Pure for any frame — no simulation state.
+- **Backpack (Phase 3b)** — torso attachment with a small deterministic bob/lag; the strap's backpack-side endpoint is derived from the same `translate+rotate` transform as the pack (no slide/detach).
+- **Foot contacts / stance (Phase 2, data model + diagnostic)** — a reviewed contact track (`motion/contacts.ts`) and a belt-locked stance/anchor **diagnostic** (`motion/stance.ts`, `reports/stance-locking-validation.json`) describe the treadmill ground contract. **Note:** `Runner.tsx` evaluates `solvePose(frame)` directly; continuous stance-constrained pose integration in the rendered puppet is a follow-up (see §9).
 - **Shadow** — ellipse whose radius and opacity follow `|cos(2πf/26)|`: wide and dark on contact, narrow and light at passing pose.
-- **Draw order** — far limbs → scarf tail → backpack + strap → torso → near leg → scarf knot → head → near arm. Limbs are two stacked round-capped strokes (outline width + 9, then fill width), which is what gives the flat-2D outlined look for free.
+- **Reusable variants (Phase 4)** — the puppet component takes `{frame, rig?, appearance?}`; a second character (teal body / maroon scarf / gold pack, distinct proportions) uses the SAME solver/motion with no duplicated gait (`VARIANT_RIG` / `VARIANT_APPEARANCE` / `PuppetVariant`).
+- **Draw order** — far limbs → scarf tail → backpack + strap → torso → near leg → scarf knot → head → near arm.
 
 ## 5. Remotion wiring
 
@@ -86,12 +90,15 @@ src/Root.tsx        4 compositions, all 1920×1080 @ 24 fps, 94 frames
 src/cels.ts         pure cel-index helpers (exactCelIndex / loopCelIndex) + range validation
 src/CelRun.tsx      <Img> cel94/f_{frame+1}.svg          (exact, 94 unique cels)
 src/CelLoop.tsx     <Img> cel/f_{(frame%26)+1}.svg       (lightweight control, wraps)
-src/RunCycle.tsx    <Runner frame={frame}/>              (parametric)
-src/Comparison.tsx  4 labelled panels + 50% overlay
+src/RunCycle.tsx    <Runner> frame (parametric, runner rig/appearance)
 public/audio.m4a    original audio, ONE <Audio> per composition root (never nested)
 public/cel94/       94 unique traced cels — committed
 public/cel/         26 loop cels — committed, unchanged legacy assets
 public/srcframes/   94 source PNGs at 960×540 — regenerated, gitignored
+src/Comparison.tsx  4 labelled panels + 50% overlay
+src/puppet/         rig.ts (fixed bones), ik.ts (two-bone solver), pose.ts (pure evaluator),
+                    keys.ts (measured motion), Runner.tsx (appearance + variants),
+                    secondary.ts (scarf chain + backpack bob/lag), motion/ (contacts + stance)
 ```
 
 **Composition IDs are the legacy names with corrected semantics.** `CelRun` used to loop 26 cels while the docs claimed 94; it is now genuinely the exact 94-cel variant, and the loop behaviour lives in its own composition `CelLoop`. The mapping is pure logic in `src/cels.ts`, unit-tested at the start, middle, wrap and final frames (`remotion/test/cels.test.ts`), so it is verified without rendering video. Out-of-range or non-integer frames throw instead of silently wrapping.
@@ -171,7 +178,9 @@ All **94** frames, rendered frames vs `fullres/` source frames, **both native 19
 |---|---|---|---|---|---|---|
 | cel94 (`CelRun`) | fidelity deliverable | **1.046** | **0.8006** | **0.9756** | **0.9577** | 99.143 |
 | celLoop (`CelLoop`) | control - drift expected | 2.5423 | 1.8057 | 0.8791 | 0.8582 | 99.156 |
-| puppet (`RunCycle`) | diagnostic only | 5.6307 | 4.3798 | 0.6158 | 0.6116 | n/a |
+| puppet (`RunCycle`) | diagnostic only | 5.849 | 4.5846 | 0.6167 | 0.583 | n/a |
+
+The puppet figures are the **Phase 3 cohesive-geometry** values (pre-upgrade baseline was 5.6307 / 0.6116). The cohesive redesign intentionally trades IoU for cohesion — it fills the knee/elbow/gap regions the thin source leaves white — so the metric is a documented diagnostic, not a regression (master plan §7.8).
 
 Metric definitions (exactly as implemented in `tools/score-fidelity.js`):
 
@@ -252,9 +261,10 @@ Notes:
 
 ## 9. Known limits / next steps
 
-- **The puppet has no bone-length constraint (measured finding, Test I FAIL).** Limb segment lengths vary over the cycle: max/min **2.89x** for knee->ankle against a documented 2.0 tolerance. The origin is measured, not guessed: the raw hand-measured keys already vary **1.96x**, build-time Catmull-Rom resampling into the 26-sample `LEG_CYCLE` amplifies that to 2.89x, and per-frame interpolation adds only **1.19x** overshoot on the maximum. Continuity itself is fine - no joint or pixel pop at the 26-frame wrap. This is a pre-existing property of the unchanged puppet, recorded as future work (bone-length constraints / IK), **not** tuned away to make a test green.
-- **No true IK stance-locking and no measured foot-contact solver exist** in `Runner.tsx` / `keys.ts`. They are future work, never claimed as passing tests.
-- **The puppet is stylized, not exact.** Torso and limbs need more mass, the scarf tail is too ribbon-straight (the source flutters wider and curls), the backpack sits flatter, the feet are cruder. All of it is tuning constants in `keys.ts` / `Runner.tsx` - no re-measuring needed. Its fidelity numbers are diagnostic only.
+- **The puppet's bone-length constraint (RESOLVED Phase 1).** The historical Test I FAIL (limb segment max/min 2.891× knee→ankle) was a property of the *unconstrained* hand-measured keys. Phase 1 replaced it with a constrained rig: solved bone-length error **1.421e-13 px**, and Test I was rewritten to gate the constrained rig (12/12). The raw-track variation (1.958× keys → 2.891× stored track → ≤1.192× interp overshoot) remains a reported non-gating diagnostic; the historical 7/8 FAIL is preserved in `reports/baseline/`.
+- **Contact/stance is a DATA MODEL + DIAGNOSTIC, not integrated rendered foot locking.** `Runner.tsx` evaluates `solvePose(frame)` directly; the belt-lock slip/drift figures in `reports/stance-locking-validation.json` are a diagnostic contract, not a measured multi-frame planted interval in the rendered puppet. **Continuous stance-constrained pose integration + rendered multi-frame foot-slip verification is a follow-up.**
+- **The puppet is cohesive but approximate.** The cohesive redesign (tapered limbs, fuller torso, designed feet, deterministic scarf) reads as one character; it does NOT match the traced cels' fidelity (IoU 0.583 vs 0.9577). Closing that gap is a much larger animation-engine effort (weighted meshes, foot roll, cloth), not a parameter tweak. Its fidelity numbers are diagnostic only.
+- **Reusable variants (Phase 4).** A second character (teal) uses the same rig/solver/motion with no duplicated gait; adding more variants is data (rig + appearance), not new solver code.
 - **The 26-cel loop drifts by design.** It is a lightweight control, not a fidelity deliverable; use `CelRun` when frame accuracy matters.
 - **The cel version is not editable artwork.** It is faithful vector output, but the paths are per-frame; changing the character means re-tracing new source frames. The puppet is the version to edit.
 - **The legacy 26 cels have no `viewBox`** (vtracer emitted width/height only). They are left byte-identical on purpose; the new cel94 set gets a `viewBox="0 0 1920 1080"` metadata normalization that does not alter paths or rendering.

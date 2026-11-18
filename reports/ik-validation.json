@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T21:21:26.810Z",
+  "generatedAt": "2026-11-18T21:53:03.030Z",
   "scope": "Phase 1 constrained skeleton + two-bone IK (master plan §5, §9.1, §9.6). Runner rig, 94 frames @ 1920x1080.",
   "conventions": {
     "coordinates": "canvas pixels, y down, character faces +x",
