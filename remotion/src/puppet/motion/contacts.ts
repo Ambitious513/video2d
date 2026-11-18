@@ -1,14 +1,13 @@
 /**
  * Phase 2.1 — Ground/world coordinate contract + foot-contact track SCHEMA.
- *
- * Owns the DATA CONTRACT for foot contacts and the ground plane. It does NOT
+ * Owns the DATA CONTRACT for foot contacts and the ground plane. Does NOT
  * implement stance locking (Phase 2.3) and does NOT assert any verified stance
  * interval yet (Phase 2.2 review pending).
  *
  * Coordinate contract (master plan §6.1): rig/local coords are 1920x1080 canvas
  * pixels, y-down, 24 fps. For the fixed-camera run-in-place demo world == canvas
  * coords and the root transform is identity. Foot-contact anchors (Phase 2.3)
- * are stored in WORLD coords. The ground plane has world-space height worldY.
+ * are stored in WORLD coords. Ground plane has world-space height worldY.
  *
  * KEY PROVISIONAL FINDING (reports/foot-contact-candidates.json): the measured
  * run-in-place track has NO frame both at contact height AND horizontally slow
@@ -16,50 +15,18 @@
  * treadmill signature of run-in-place. The ground contract carries a treadmill
  * mode + belt-velocity hypothesis, verified:false. Phase 2.2 must validate this
  * against source shadow/contact evidence and manually review the timeline before
- * any 'stance' label is asserted. Per §6.2 the contact-height windows are labelled
- * 'uncertain'; we do NOT fabricate a stance interval to pass a test.
+ * any 'stance' label is asserted. Per §6.2 contact-height windows are 'uncertain';
+ * we do NOT fabricate a stance interval to pass a test.
  */
-
 export type ContactState = 'swing' | 'touchdown' | 'stance' | 'toeOff' | 'uncertain';
 export type RootMode = 'in_place' | 'root_motion';
-
 export interface WorldPoint { x: number; y: number; }
+export interface GroundContract { worldY: number; mode: 'static' | 'treadmill'; beltVelocityX: number; verified: boolean; }
+export interface ContactInterval { start: number; end: number; state: ContactState; reason: string; candidateEvent?: 'touchdown' | 'toeOff'; }
+export interface FootContactTrack { clipName: string; totalFrames: number; rootMode: RootMode; ground: GroundContract; near: ContactInterval[]; far: ContactInterval[]; provisional: boolean; }
+export interface FootContactFrame { frame: number; near: ContactState; far: ContactState; nearReason?: string; farReason?: string; }
 
-export interface GroundContract {
-  worldY: number;
-  mode: 'static' | 'treadmill';
-  beltVelocityX: number;
-  verified: boolean;
-}
-
-export interface ContactInterval {
-  start: number;
-  end: number;
-  state: ContactState;
-  reason: string;
-  candidateEvent?: 'touchdown' | 'toeOff';
-}
-
-export interface FootContactTrack {
-  clipName: string;
-  totalFrames: number;
-  rootMode: RootMode;
-  ground: GroundContract;
-  near: ContactInterval[];
-  far: ContactInterval[];
-  provisional: boolean;
-}
-
-export interface FootContactFrame {
-  frame: number;
-  near: ContactState;
-  far: ContactState;
-  nearReason?: string;
-  farReason?: string;
-}
-
-const UNCERTAIN_REASON =
-  'toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)';
+const UNCERTAIN_REASON = 'toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)';
 
 /**
  * Provisional 94-frame reference contact track. Contact-height windows from
@@ -71,9 +38,7 @@ const UNCERTAIN_REASON =
  * belt hypothesis = mean toe vx at the lowest frames (~ -64.9 px/frame).
  */
 export const runCycleContactTrack: FootContactTrack = {
-  clipName: 'reference-run-94',
-  totalFrames: 94,
-  rootMode: 'in_place',
+  clipName: 'reference-run-94', totalFrames: 94, rootMode: 'in_place',
   ground: { worldY: 974.92, mode: 'treadmill', beltVelocityX: -64.9, verified: false },
   provisional: true,
   near: [
@@ -98,13 +63,9 @@ export function expandTrack(track: FootContactTrack): FootContactFrame[] {
   }
   return out;
 }
-
 export function getContactAtFrame(track: FootContactTrack, frame: number): FootContactFrame {
-  const n = track.totalFrames;
-  const f = ((frame % n) + n) % n;
-  return expandTrack(track)[f];
+  const n = track.totalFrames; const f = ((frame % n) + n) % n; return expandTrack(track)[f];
 }
-
 export function stanceFrames(track: FootContactTrack, side: 'near' | 'far'): number[] {
   return expandTrack(track).filter((r) => r[side] === 'stance').map((r) => r.frame);
 }
