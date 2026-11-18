@@ -3,12 +3,24 @@ import {C, HEAD_R, shadow, Pt, STEP} from './keys';
 import {solvePose} from './pose';
 
 /**
- * Phase 1 rewiring: all limb joints now come from the constrained pose
- * evaluator (pose.ts -> rig.ts + ik.ts). Geometry, stroke widths, palette and
- * draw order are UNCHANGED from the pre-upgrade puppet — visual construction
- * work is deliberately deferred to Phase 3 (master plan §7). The raw measured
- * targets still drive the motion intent; the solver guarantees fixed bone
- * lengths and a stable bend side. See ROADMAP.md §8 for the conventions.
+ * Phase 3a — visual construction. All limb joints still come from the
+ * constrained pose evaluator (pose.ts -> rig.ts + ik.ts); this file now draws
+ * COHESIVE tapered body-part silhouettes instead of independent round-capped
+ * strokes, a fuller torso, and a designed foot with a stable ankle pivot.
+ *
+ * Changes vs Phase 1 (master plan §7):
+ *   - Each limb (thigh+calf, upper arm+forearm) is ONE closed tapered outline
+ *     drawn once (no exposed circular joint balls, no gaps at knee/elbow).
+ *   - The torso has a readable shoulder taper, chest, waist and pelvis.
+ *   - The foot is a designed heel/sole/toe silhouette oriented along the
+ *     ankle->toe control vector (ankle pivot preserved; foot artwork length is
+ *     still rig.footLen, applied at the SOLVED ankle).
+ *   - Colors come only from the central palette C (keys.ts).
+ *
+ * Palette, proportions and draw order otherwise match the pre-upgrade puppet so
+ * the identity (slate body, cream scarf, light pack, dark outline) is intact.
+ * Secondary motion (scarf chain, backpack lag) is Phase 3b; the scarf here is
+ * the same deterministic ribbon as before.
  */
 
 /** Catmull-Rom -> cubic bezier smooth open path through points */
@@ -24,7 +36,56 @@ function smoothPath(pts: Pt[]): string {
   return d;
 }
 
-/** Outlined rounded limb segment (two stacked strokes) */
+/** Offset a polyline sideways by a per-node half-width; sign +1 = left normal. */
+function offsetSide(nodes: { x: number; y: number; w: number }[], sign: 1 | -1): Pt[] {
+  return nodes.map((n, i) => {
+    const prev = nodes[Math.max(0, i - 1)], next = nodes[Math.min(nodes.length - 1, i + 1)];
+    let dx = next.x - prev.x, dy = next.y - prev.y;
+    const len = Math.hypot(dx, dy) || 1; dx /= len; dy /= len;
+    const nx = -dy * sign, ny = dx * sign;
+    return [n.x + nx * n.w * 0.5, n.y + ny * n.w * 0.5];
+  });
+}
+
+/**
+ * One closed tapered outline around a limb centerline (hip->knee->ankle or
+ * shoulder->elbow->fist). Each bone contributes a tapered quad built from its
+ * OWN direction (so widths are preserved), mitered at the middle joint. Smooth
+ * sides, flat caps hidden under the torso/foot.
+ */
+function taperedLimbPath(nodes: { x: number; y: number; w: number }[]): string {
+  const n = nodes.length;
+  const quads: Pt[][] = [];
+  for (let i = 0; i < n - 1; i++) {
+    const A = nodes[i], B = nodes[i + 1];
+    let dx = B.x - A.x, dy = B.y - A.y;
+    const len = Math.hypot(dx, dy) || 1; dx /= len; dy /= len;
+    const nx = -dy, ny = dx;
+    quads.push([
+      [A.x + nx * A.w * 0.5, A.y + ny * A.w * 0.5],
+      [B.x + nx * B.w * 0.5, B.y + ny * B.w * 0.5],
+      [B.x - nx * B.w * 0.5, B.y - ny * B.w * 0.5],
+      [A.x - nx * A.w * 0.5, A.y - ny * A.w * 0.5],
+    ]);
+  }
+  // Outline: forward along each quad's +normal side, back along its -normal
+  // side; at interior joints the next quad's +normal[0] miter-connects.
+  const side = (sign: 1 | -1): Pt[] => {
+    const out: Pt[] = [];
+    for (let i = 0; i < quads.length; i++) {
+      const q = quads[i];
+      if (i === 0) out.push(sign > 0 ? q[0] : q[3]);
+      out.push(sign > 0 ? q[1] : q[2]);
+    }
+    return out;
+  };
+  const plus = side(1);
+  const minus = side(-1).reverse();
+  const all = [...plus, ...minus];
+  return smoothPath(all) + ' Z';
+}
+
+/** Outlined rounded segment (kept for the short neck; limbs use tapered outlines). */
 const Seg: React.FC<{ a: Pt; b: Pt; w: number; fill: string }> = ({ a, b, w, fill }) => (
   <>
     <line x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={C.line} strokeWidth={w + 9} strokeLinecap="round" />
@@ -33,35 +94,48 @@ const Seg: React.FC<{ a: Pt; b: Pt; w: number; fill: string }> = ({ a, b, w, fil
 );
 
 const Leg: React.FC<{ hip: Pt; knee: Pt; ankle: Pt; toe: Pt; fill: string }> = ({ hip, knee, ankle, toe, fill }) => {
-  // filled wedge foot oriented along ankle->toe
+  // Cohesive thigh+calf silhouette: one tapered outline, no exposed knee ball.
+  const leg = taperedLimbPath([
+    { x: hip[0], y: hip[1], w: 50 },
+    { x: knee[0], y: knee[1], w: 38 },
+    { x: ankle[0], y: ankle[1], w: 24 },
+  ]);
+  // Designed foot: heel / sole / toe, oriented along the ankle->toe vector.
+  // Toe tip at the pose toe (foot artwork length = rig.footLen); heel trails
+  // behind the ankle; flat-ish sole. Slight taper, no overshoot.
   const dx = toe[0] - ankle[0], dy = toe[1] - ankle[1];
   const len = Math.hypot(dx, dy) || 1;
-  const ux = dx / len, uy = dy / len;       // foot direction
-  const nx = -uy, ny = ux;                   // perpendicular
-  const w = 15;
-  const foot = `M ${ankle[0] + nx * w} ${ankle[1] + ny * w}
-    L ${toe[0]} ${toe[1]}
-    L ${ankle[0] - nx * w} ${ankle[1] - ny * w}
-    L ${ankle[0] - ux * 24} ${ankle[1] - uy * 24} Z`;
+  const ux = dx / len, uy = dy / len; // along the foot (ankle -> toe), len = footLen
+  const nx = -uy, ny = ux; // across the foot
+  const P = (a: number, b: number): Pt => [ankle[0] + ux * a + nx * b, ankle[1] + uy * a + ny * b];
+  const foot = `M ${P(-14, -13).join(' ')} C ${P(-20, 2).join(' ')} ${P(-9, 16).join(' ')} ${P(12, 16).join(' ')} ` +
+    `L ${P(len * 0.6, 14).join(' ')} Q ${P(len * 0.9, 7).join(' ')} ${P(len, 0).join(' ')} ` +
+    `Q ${P(len * 0.84, -9).join(' ')} ${P(len * 0.5, -10).join(' ')} Z`;
   return (
     <g>
-      <Seg a={hip} b={knee} w={50} fill={fill} />
-      <Seg a={knee} b={ankle} w={38} fill={fill} />
+      <path d={leg} fill={fill} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
       <path d={foot} fill={fill} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
     </g>
   );
 };
 
-const Arm: React.FC<{ sh: Pt; elbow: Pt; fist: Pt; fill: string }> = ({ sh, elbow, fist, fill }) => (
-  <g>
-    <Seg a={sh} b={elbow} w={34} fill={fill} />
-    <Seg a={elbow} b={fist} w={28} fill={fill} />
-    <circle cx={fist[0]} cy={fist[1]} r={25} fill={C.line} />
-    <circle cx={fist[0]} cy={fist[1]} r={21} fill={fill} />
-  </g>
-);
+const Arm: React.FC<{ sh: Pt; elbow: Pt; fist: Pt; fill: string }> = ({ sh, elbow, fist, fill }) => {
+  // Cohesive upper-arm+forearm silhouette ending at the fist center.
+  const arm = taperedLimbPath([
+    { x: sh[0], y: sh[1], w: 34 },
+    { x: elbow[0], y: elbow[1], w: 28 },
+    { x: fist[0], y: fist[1], w: 24 },
+  ]);
+  return (
+    <g>
+      <path d={arm} fill={fill} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
+      <circle cx={fist[0]} cy={fist[1]} r={23} fill={C.line} />
+      <circle cx={fist[0]} cy={fist[1]} r={19} fill={fill} />
+    </g>
+  );
+};
 
-/** Flowing scarf ribbon built from a waving centerline */
+/** Flowing scarf ribbon built from a waving centerline (Phase 3b replaces this). */
 const ScarfTail: React.FC<{ knot: Pt; f: number }> = ({ knot, f }) => {
   const base: Pt[] = [[-70, -18], [-180, -36], [-280, -22], [-360, 12], [-400, 56]];
   const amp = [8, 14, 19, 24, 30];
@@ -71,7 +145,6 @@ const ScarfTail: React.FC<{ knot: Pt; f: number }> = ({ knot, f }) => {
   ]);
   center.unshift([knot[0] - 10, knot[1] - 6]);
   const widths = [40, 40, 36, 30, 26, 30]; // tip flares a touch
-  // perpendiculars
   const top: Pt[] = [], bot: Pt[] = [];
   for (let i = 0; i < center.length; i++) {
     const a = center[Math.max(0, i - 1)], b = center[Math.min(center.length - 1, i + 1)];
@@ -83,7 +156,6 @@ const ScarfTail: React.FC<{ knot: Pt; f: number }> = ({ knot, f }) => {
     bot.push([center[i][0] - nx * w, center[i][1] - ny * w]);
   }
   const outline = smoothPath(top) + ' L ' + bot[bot.length - 1].map((v) => v.toFixed(1)).join(' ') + ' ' + smoothPath([...bot].reverse()).replace(/^M[^C]+/, '') + ' Z';
-  // shade stripe along lower edge
   const shade = smoothPath(bot.map((p, i) => [p[0], p[1] - widths[i] * 0.18]));
   return (
     <g>
@@ -104,13 +176,16 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
   const sh: Pt = pose.shoulder;
   const knot: Pt = pose.knot;
   const pack: Pt = pose.pack;
+  const neckTop: Pt = pose.neckTop;
   const shd = shadow(f);
 
-  // torso quad
-  const torso = `M ${sh[0] - 30} ${sh[1] - 10}
-    C ${sh[0] - 40} ${sh[1] + 70}, ${hip[0] - 36} ${hip[1] - 80}, ${hip[0] - 30} ${hip[1] - 4}
-    L ${hip[0] + 30} ${hip[1] + 8}
-    C ${hip[0] + 40} ${hip[1] - 80}, ${sh[0] + 46} ${sh[1] + 60}, ${sh[0] + 38} ${sh[1] + 6} Z`;
+  // Fuller torso: shoulder taper -> chest -> waist -> pelvis.
+  const torso = `M ${sh[0] - 32} ${sh[1] - 8}
+    C ${sh[0] - 50} ${sh[1] + 40}, ${sh[0] - 46} ${sh[1] + 100}, ${hip[0] - 30} ${hip[1] - 58}
+    C ${hip[0] - 40} ${hip[1] - 20}, ${hip[0] - 36} ${hip[1] + 4}, ${hip[0] - 20} ${hip[1] + 12}
+    L ${hip[0] + 24} ${hip[1] + 12}
+    C ${hip[0] + 42} ${hip[1] + 2}, ${hip[0] + 44} ${hip[1] - 24}, ${hip[0] + 34} ${hip[1] - 58}
+    C ${sh[0] + 54} ${sh[1] + 100}, ${sh[0] + 56} ${sh[1] + 40}, ${sh[0] + 36} ${sh[1] - 4} Z`;
 
   return (
     <svg width={1920} height={1080} viewBox="0 0 1920 1080" style={{ background: C.bg }}>
@@ -138,7 +213,7 @@ export const Runner: React.FC<{ frame: number }> = ({ frame }) => {
 
       {/* torso + neck */}
       <path d={torso} fill={C.body} stroke={C.line} strokeWidth={5} strokeLinejoin="round" />
-      <Seg a={pose.neckTop} b={sh} w={40} fill={C.body} />
+      <Seg a={neckTop} b={sh} w={40} fill={C.body} />
 
       {/* near leg (in front of torso bottom) */}
       <Leg hip={pose.nearLeg.hip} knee={pose.nearLeg.knee} ankle={pose.nearLeg.ankle} toe={pose.nearLeg.toe} fill={C.body} />

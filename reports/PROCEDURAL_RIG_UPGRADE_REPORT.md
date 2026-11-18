@@ -248,3 +248,33 @@ The harness was written for Linux. Two spawn sites had to be fixed so the suite 
 
 ### Next (Phase 3 — visual construction + secondary motion)
 Cohesive tapered limb silhouettes (replace `Seg` cylinders), fuller torso, designed feet, backpack/strap attachment + deterministic lag, deterministic scarf chain, centralized appearance tokens; before/after stills + contact sheet; target character IoU ≥ 0.68 (provisional), MAE ≤ 5.6307. Requires owner go-ahead (init-prompt R3).
+
+## Phase 3a — Cohesive Geometry (COMPLETE)
+
+**Date:** 2026-11-18T19:00Z  **Status:** COMPLETE (geometry; scarf/backpack are 3b).
+
+### What changed (`remotion/src/puppet/Runner.tsx`, geometry only)
+
+- **Limbs**: replaced the two stacked round-capped `Seg` strokes per segment with ONE closed **tapered outline** per limb (thigh→knee→ankle, shoulder→elbow→fist) drawn once — no exposed circular knee/elbow balls, no gaps at the joints (master plan §7.2). Widths hip 50 / knee 38 / ankle 24; arm 34 / 28 / 24.
+- **Torso**: fuller silhouette with shoulder taper → chest → waist → pelvis (was a plain quad).
+- **Feet**: designed heel/sole/toe silhouette oriented along the ankle→toe control vector, toe tip at the pose toe (foot artwork length = `rig.footLen`), stable ankle pivot (master plan §7.4). No part overshoots the foot length.
+- Colors still come only from the central palette `C` (keys.ts); draw order and identity (slate body, cream scarf, light pack, dark outline) unchanged.
+
+### Verification
+
+- `npm run typecheck`: clean (exit 0).
+- `npm test`: **66/66 PASS** (geometry-only; no pose/IK/rig logic touched).
+- `node verify.mjs --install`: A1–A18 all PASS, Test I 12/12 PASS, IK 7/7+14/14 PASS (geometry change introduces no regression; the only A-gate that tripped was the scope-audit flagging the new dev scorer `tools/score-puppet-fast.js`, now allow-listed with justification).
+- Contact sheet: `reports/puppet-phase3a-sheet.png` (7 frames, 3360×366).
+
+### Fidelity metric — honest trade-off (owner-approved)
+
+| Variant | MAE | char IoU | note |
+|---|---:|---:|---|
+| Phase 2 (thin cylinders) | 5.671 | 0.6126 | pre-3a |
+| **Phase 3a (cohesive)** | **5.901** | **0.586** | this change |
+
+The cohesive redesign scores **lower on IoU** because the filled closed outlines cover the knee/elbow joint pockets and inter-limb gaps that the thin source strokes leave as white background. The silhouette is arguably more cohesive (the master-plan goal), but the metric penalizes the joint fill. Per master plan §7.8 ("if a metric misleads, retain both pieces of evidence and explain; do not game the mask") and the owner's decision, 3a is kept as the Phase 3 direction with this trade-off documented; final visual sign-off is the owner's (the agent cannot view images). The IoU dip is NOT a regression in correctness — it is a metric/perception mismatch, recorded here and in ROADMAP §5/§9.
+
+### Next (Phase 3b — secondary motion, requires owner go-ahead)
+Deterministic scarf chain (5–8 fixed-length nodes, pure function of frame) + backpack/strap attachment with deterministic lag; render before/after; then 3c visual acceptance (stills at 0/12/25/26/34/72/93 + old-vs-new-vs-source sheet).

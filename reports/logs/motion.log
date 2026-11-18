@@ -15,7 +15,7 @@ $ npm.cmd run verify:motion
 [PASS] foot artwork length constant at rig.footLen=87.3 px (geometry, not a bone) — max error 9.948e-14 px
 [PASS] joint motion is smooth at the wrap (accel 286.5px <= 1.5 x p95 307.0px) — accel median=54.43px, p95=306.99px, max=306.99px, wrap=286.51px
 [PASS] no one-frame pop at 26-frame wrap (joint delta 13.7px <= 1.5 x p95 295.2px) — wrap(25->26)=13.68px, adjacent-delta median=71.30px, p95=295.20px, max=295.20px
-[PASS] no pixel pop at wrap (MAD 1.36 <= 1.5 x p95 5.41) — wrap(25->26)=1.356, median=3.343, p95=5.408, max=5.497
+[PASS] no pixel pop at wrap (MAD 1.41 <= 1.5 x p95 5.25) — wrap(25->26)=1.413, median=3.337, p95=5.248, max=5.360
 [PASS] character visible (not blank) in every rasterized frame — 94/94 non-blank at 96x54
 
 raw-track diagnostic (not a gate): raw keys max/min=1.958, stored track max/min=2.891, interpolated max/min=2.891, frame-interp overshoot=1.192x
