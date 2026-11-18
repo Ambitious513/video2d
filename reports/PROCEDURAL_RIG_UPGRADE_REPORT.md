@@ -301,3 +301,35 @@ Deterministic scarf chain (5–8 fixed-length nodes, pure function of frame) + b
 
 ### Next (Phase 3c — visual acceptance, requires owner go-ahead)
 Render the Phase 3 stills + an old-vs-new-vs-source comparison sheet at frames 0/12/25/26/34/72/93, finalize the fidelity report, and mark Phase 3 COMPLETE with the owner's visual sign-off (the agent cannot view images).
+
+## Phase 3c — Visual Acceptance (COMPLETE, pending owner visual sign-off)
+
+**Date:** 2026-11-18T19:50Z  **Status:** COMPLETE (artifacts + gate); final Phase 3 sign-off is the owner's visual review.
+
+### Artifacts
+
+- `reports/phase3-comparison-sheet.png` (4528×782): **source (top) vs Phase-3 puppet (bottom)** at frames 0/12/25/26/34/72/93, rendered from actual Remotion stills (`remotion still RunCycle`).
+- `reports/puppet-phase3a-sheet.png`, `reports/puppet-phase3b-sheet.png`: Phase 3a / 3b contact sheets (7 frames each).
+- `reports/puppet-phase3b-sheet.png` is the current Phase 3 look (cohesive geometry + scarf chain + backpack bob).
+
+### Objective state (Phase 3 complete)
+
+| Metric | Phase 2 baseline | Phase 3 (3b) | interpretation |
+|---|---:|---:|---|
+| Puppet MAE | 5.671 | **5.849** | diagnostic; 3a raised it (joint fill), 3b recovered part of it |
+| Puppet char IoU | 0.6126 | **0.583** | lower by construction (filled joints/gaps); owner-approved trade-off per master plan §7.8 |
+
+### Gate
+
+- `npm run typecheck`: clean.
+- `npm test`: **72/72 PASS** (66 + 6 secondary).
+- `node verify.mjs --install`: A1–A18 all PASS, Test I 12/12, IK 7/7+14/14, overall PASS (exit 0).
+- All Phase 3 changes are confined to `remotion/src/puppet/` (Runner.tsx, secondary.ts), `remotion/test/secondary.test.ts`, `remotion/package.json`, `tools/score-puppet-fast.js`, `tools/compare-phase3.mjs`, `verify.mjs` (scope-audit allow-list), `reports/*`, `ROADMAP.md`.
+
+### Owner action
+
+Open `reports/phase3-comparison-sheet.png` (and `reports/puppet-phase3b-sheet.png`) and confirm the character reads as a cohesive slate runner with cream scarf + light pack (identity preserved, no gaps/clipping). If approved, Phase 3 is COMPLETE and the next phase is **Phase 4 — reusable second character variant** (same rig/solver/motion, different appearance). If the owner wants changes, note them and the next agent adjusts `Runner.tsx`/`secondary.ts` before Phase 4.
+
+### Note on the IoU target
+
+The master plan's provisional "IoU ≥ 0.68" was set for the OLD thin-cylinder geometry. The cohesive redesign intentionally trades IoU for cohesion (filled joint/gap regions the source leaves white). Per master plan §7.8, the numeric target does not override visual quality; the owner's visual review is the acceptance gate. Do not revert to cylinders or carve notches to game IoU.

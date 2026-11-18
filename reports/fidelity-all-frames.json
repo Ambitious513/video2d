@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T19:00:57.866Z",
+  "generatedAt": "2026-11-18T19:17:41.011Z",
   "scorer": "tools/score-fidelity.js",
   "samplingMode": "all_frames",
   "comparedFrames": 94,

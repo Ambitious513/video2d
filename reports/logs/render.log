@@ -4,14 +4,15 @@ $ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeove
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render CelRun out/celframes --sequence --concurrency=1 --log=error
 Bundling 6%
-Bundling 17%
-Bundling 60%
-Bundling 69%
-Bundling 74%
-Bundling 80%
-Bundling 85%
-Bundling 90%
-Bundling 95%
+Bundling 16%
+Bundling 58%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
 Bundling 100%
 Copying public dir 10.5 MB
 Getting compositions
@@ -113,19 +114,20 @@ Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\celframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-cel.mp4
-✔ out/run-2d-cel.mp4  1358 KB  1920x1080 @ 24/1  3.917s  audio x1  (48.6s)
+✔ out/run-2d-cel.mp4  1358 KB  1920x1080 @ 24/1  3.917s  audio x1  (49.5s)
   kept frames: out/celframes
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render CelLoop out/celloopframes --sequence --concurrency=1 --log=error
 Bundling 6%
 Bundling 17%
-Bundling 61%
-Bundling 69%
-Bundling 74%
-Bundling 80%
-Bundling 85%
-Bundling 90%
-Bundling 95%
+Bundling 59%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
 Bundling 100%
 Copying public dir 10.5 MB
 Getting compositions
@@ -227,19 +229,20 @@ Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\celloopframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-cel-loop.mp4
-✔ out/run-2d-cel-loop.mp4  1350 KB  1920x1080 @ 24/1  3.917s  audio x1  (48.3s)
+✔ out/run-2d-cel-loop.mp4  1350 KB  1920x1080 @ 24/1  3.917s  audio x1  (50.3s)
   kept frames: out/celloopframes
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render RunCycle out/puppetframes --sequence --concurrency=1 --log=error
 Bundling 6%
-Bundling 17%
-Bundling 62%
-Bundling 69%
-Bundling 74%
-Bundling 80%
-Bundling 85%
-Bundling 90%
-Bundling 95%
+Bundling 16%
+Bundling 58%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
 Bundling 100%
 Copying public dir 10.5 MB
 Getting compositions
@@ -341,19 +344,20 @@ Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\puppetframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/run-2d-puppet.mp4
-✔ out/run-2d-puppet.mp4  594 KB  1920x1080 @ 24/1  3.917s  audio x1  (42.5s)
+✔ out/run-2d-puppet.mp4  594 KB  1920x1080 @ 24/1  3.917s  audio x1  (45.2s)
   kept frames: out/puppetframes
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) npx remotion render Comparison out/compareframes --sequence --concurrency=1 --log=error
 Bundling 6%
 Bundling 17%
-Bundling 61%
-Bundling 69%
-Bundling 74%
-Bundling 80%
-Bundling 85%
-Bundling 90%
-Bundling 95%
+Bundling 60%
+Bundling 65%
+Bundling 71%
+Bundling 76%
+Bundling 81%
+Bundling 87%
+Bundling 92%
+Bundling 98%
 Bundling 100%
 Copying public dir 10.5 MB
 Getting compositions
@@ -455,17 +459,17 @@ Rendered 94/94
 sequence OK: 94 frames, pattern element-%02d.png (start 0)
 
 $ (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion) D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\node_modules\ffmpeg-static\ffmpeg.exe -v error -y -framerate 24 -start_number 0 -i out\compareframes\element-%02d.png -i public/audio.m4a -c:v libx264 -pix_fmt yuv420p -threads 1 -crf 18 -preset medium -c:a aac -b:a 128k -shortest out/comparison-source-vs-2d.mp4
-✔ out/comparison-source-vs-2d.mp4  1860 KB  1920x1080 @ 24/1  3.917s  audio x1  (57s)
+✔ out/comparison-source-vs-2d.mp4  1860 KB  1920x1080 @ 24/1  3.917s  audio x1  (71.6s)
   kept frames: out/compareframes
 
 === render summary ===
 id          frames(exp/act)  dims       fps    dur(s)  size(KB)  time(s)  status
-CelRun       94/ 94        1920x1080  24/1   3.917   1358      48.6     PASS
-CelLoop      94/ 94        1920x1080  24/1   3.917   1350      48.3     PASS
-RunCycle     94/ 94        1920x1080  24/1   3.917   594       42.5     PASS
-Comparison   94/ 94        1920x1080  24/1   3.917   1860      57       PASS
+CelRun       94/ 94        1920x1080  24/1   3.917   1358      49.5     PASS
+CelLoop      94/ 94        1920x1080  24/1   3.917   1350      50.3     PASS
+RunCycle     94/ 94        1920x1080  24/1   3.917   594       45.2     PASS
+Comparison   94/ 94        1920x1080  24/1   3.917   1860      71.6     PASS
 
 report: reports/render-validation.json
 all done
-(node:28164) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(node:31276) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
 (Use `node --trace-deprecation ...` to show where the warning was created)

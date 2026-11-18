@@ -21,3 +21,6 @@ verify/stills/
 # OS / editor noise
 .DS_Store
 *.log.tmp
+
+# Phase 3c regenerable comparison stills
+reports/p3c-new/
