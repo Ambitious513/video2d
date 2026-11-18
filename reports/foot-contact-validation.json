@@ -1,0 +1,105 @@
+{
+  "schema": "foot-contact-validation/1",
+  "generatedAt": "2026-11-18T15:20:00.000Z",
+  "purpose": "Phase 2.2b reviewed foot-contact track: treadmill-vs-root_motion resolution, reviewed labels, and the measurements Phase 2.3/2.4 must build on.",
+  "method": {
+    "derivation": "npm run verify:contacts (solved toe height <= 8 px windows) + npm run verify:contact-evidence (pure solvePose central-difference velocities)",
+    "evidenceSources": [
+      "reports/foot-contact-candidates.json (derived windows, provisional)",
+      "reports/foot-contact-evidence.json (per-window toe/ankle height + vx/vy vs belt)",
+      "reports/source-root-stability.json (independent SOURCE-image body-centroid drift, 960x540 frames)",
+      "reports/foot-contact-timeline.svg (deterministic labelled timeline)",
+      "reports/foot-contact-window-sheet.png (12 ACTUAL Remotion stills at the window frames)",
+      "source frames frames/f_005-f_007 and f_018-f_020 (manual visual review; +26/+52 repeats identical)"
+    ],
+    "reviewNotes": "Manual review of the source frames confirms a brief ~3-frame ground contact per window: the planted foot rests on the soft ground shadow at the bottom frame while the body stays centered; the foot slides backward relative to the fixed body across the window. This is the run-in-place treadmill signature, not a static-ground stance and not root motion."
+  },
+  "groundContract": {
+    "worldY": 974.916180333009,
+    "mode": "treadmill",
+    "beltVelocityX": -64.90774054581459,
+    "verified": true,
+    "justification": "Root motion ruled out (puppet hip x range 0.000000 px; independent source body-centroid drift -0.87 px over 94 frames, range 5.58 px at 960 width). One belt speed explains the bottom instant of all 7 contact windows (spread 0.00 px/frame). The bottom instant has toe height 0.00 px, vx == belt, |vy| <= 2 px/frame, matching a foot planted on a backward-moving belt."
+  },
+  "rootMode": {
+    "decision": "in_place",
+    "rootMotionRuledOut": true,
+    "evidence": {
+      "puppetHipXRange": 0,
+      "sourceCentroidX960": { "min": 442.3599651145154, "max": 447.9364569258299, "range": 5.576491811314497, "driftSlopePxPerFrame": -0.009384436774943833, "totalDriftOverClipPx": -0.8727526200697764 },
+      "sourceCentroidX1920": { "range": 11.152983622628994, "totalDriftOverClipPx": -1.7455052401395528 }
+    }
+  },
+  "beltConsistency": {
+    "windowCount": 7,
+    "bottomToeVxMin": -64.90774054581459,
+    "bottomToeVxMax": -64.90774054581459,
+    "bottomToeVxSpread": 0,
+    "oneBeltSpeedExplainsAllBottomInstants": true,
+    "windowsWhereBeltExplainsWholeWindow": 0,
+    "totalStanceCandidateFrames": 7,
+    "interpretation": "Only the bottom frame of each window is belt-locked. The raw track has no sustained multi-frame stance; the window edges are touchdown approach and toe-off release. Phase 2.3 must ENFORCE belt-locking over the reviewed stance interval; Phase 2.4 measures slip on the SOLVED (locked) track, not on this raw track."
+  },
+  "contactHeightWindows": {
+    "near": [{ "start": 17, "end": 19 }, { "start": 43, "end": 45 }, { "start": 69, "end": 71 }],
+    "far": [{ "start": 4, "end": 6 }, { "start": 30, "end": 32 }, { "start": 56, "end": 58 }, { "start": 82, "end": 84 }]
+  },
+  "reviewedLabels": {
+    "provisional": false,
+    "perFoot": {
+      "near": [
+        { "start": 17, "end": 17, "state": "touchdown", "confidence": "reviewed" },
+        { "start": 18, "end": 18, "state": "stance", "confidence": "reviewed" },
+        { "start": 19, "end": 19, "state": "toeOff", "confidence": "reviewed" },
+        { "start": 43, "end": 43, "state": "touchdown", "confidence": "reviewed" },
+        { "start": 44, "end": 44, "state": "stance", "confidence": "reviewed" },
+        { "start": 45, "end": 45, "state": "toeOff", "confidence": "reviewed" },
+        { "start": 69, "end": 69, "state": "touchdown", "confidence": "reviewed" },
+        { "start": 70, "end": 70, "state": "stance", "confidence": "reviewed" },
+        { "start": 71, "end": 71, "state": "toeOff", "confidence": "reviewed" }
+      ],
+      "far": [
+        { "start": 4, "end": 4, "state": "touchdown", "confidence": "reviewed" },
+        { "start": 5, "end": 5, "state": "stance", "confidence": "reviewed" },
+        { "start": 6, "end": 6, "state": "toeOff", "confidence": "reviewed" },
+        { "start": 30, "end": 30, "state": "touchdown", "confidence": "reviewed" },
+        { "start": 31, "end": 31, "state": "stance", "confidence": "reviewed" },
+        { "start": 32, "end": 32, "state": "toeOff", "confidence": "reviewed" },
+        { "start": 56, "end": 56, "state": "touchdown", "confidence": "reviewed" },
+        { "start": 57, "end": 57, "state": "stance", "confidence": "reviewed" },
+        { "start": 58, "end": 58, "state": "toeOff", "confidence": "reviewed" },
+        { "start": 82, "end": 82, "state": "touchdown", "confidence": "reviewed" },
+        { "start": 83, "end": 83, "state": "stance", "confidence": "reviewed" },
+        { "start": 84, "end": 84, "state": "toeOff", "confidence": "reviewed" }
+      ]
+    },
+    "stanceFrames": { "near": [18, 44, 70], "far": [5, 31, 57, 83] }
+  },
+  "perWindowMeasurements": [
+    { "side": "near", "start": 17, "end": 19, "entry": { "frame": 17, "toeHeight": 5.53, "toeVx": -66.72, "toeVy": 9.42, "slipVsBelt": 1.82 }, "bottom": { "frame": 18, "toeHeight": 0.0, "toeVx": -64.91, "toeVy": -0.6, "slipVsBelt": 0.0 }, "exit": { "frame": 19, "toeHeight": 6.72, "toeVx": -29.47, "toeVy": -16.48, "slipVsBelt": 35.44 } },
+    { "side": "near", "start": 43, "end": 45, "entry": { "frame": 43, "toeHeight": 5.53, "toeVx": -66.72, "toeVy": 9.42, "slipVsBelt": 1.82 }, "bottom": { "frame": 44, "toeHeight": 0.0, "toeVx": -64.91, "toeVy": -0.6, "slipVsBelt": 0.0 }, "exit": { "frame": 45, "toeHeight": 6.72, "toeVx": -29.47, "toeVy": -16.48, "slipVsBelt": 35.44 } },
+    { "side": "near", "start": 69, "end": 71, "entry": { "frame": 69, "toeHeight": 5.53, "toeVx": -66.72, "toeVy": 9.42, "slipVsBelt": 1.82 }, "bottom": { "frame": 70, "toeHeight": 0.0, "toeVx": -64.91, "toeVy": -0.6, "slipVsBelt": 0.0 }, "exit": { "frame": 71, "toeHeight": 6.72, "toeVx": -29.47, "toeVy": -16.48, "slipVsBelt": 35.44 } },
+    { "side": "far", "start": 4, "end": 6, "entry": { "frame": 4, "toeHeight": 5.53, "toeVx": -66.72, "toeVy": 9.42, "slipVsBelt": 1.82 }, "bottom": { "frame": 5, "toeHeight": 0.0, "toeVx": -64.91, "toeVy": -0.6, "slipVsBelt": 0.0 }, "exit": { "frame": 6, "toeHeight": 6.72, "toeVx": -29.47, "toeVy": -16.48, "slipVsBelt": 35.44 } },
+    { "side": "far", "start": 30, "end": 32, "entry": { "frame": 30, "toeHeight": 5.53, "toeVx": -66.72, "toeVy": 9.42, "slipVsBelt": 1.82 }, "bottom": { "frame": 31, "toeHeight": 0.0, "toeVx": -64.91, "toeVy": -0.6, "slipVsBelt": 0.0 }, "exit": { "frame": 32, "toeHeight": 6.72, "toeVx": -29.47, "toeVy": -16.48, "slipVsBelt": 35.44 } },
+    { "side": "far", "start": 56, "end": 58, "entry": { "frame": 56, "toeHeight": 5.53, "toeVx": -66.72, "toeVy": 9.42, "slipVsBelt": 1.82 }, "bottom": { "frame": 57, "toeHeight": 0.0, "toeVx": -64.91, "toeVy": -0.6, "slipVsBelt": 0.0 }, "exit": { "frame": 58, "toeHeight": 6.72, "toeVx": -29.47, "toeVy": -16.48, "slipVsBelt": 35.44 } },
+    { "side": "far", "start": 82, "end": 84, "entry": { "frame": 82, "toeHeight": 5.53, "toeVx": -66.72, "toeVy": 9.42, "slipVsBelt": 1.82 }, "bottom": { "frame": 83, "toeHeight": 0.0, "toeVx": -64.91, "toeVy": -0.6, "slipVsBelt": 0.0 }, "exit": { "frame": 84, "toeHeight": 6.72, "toeVx": -29.47, "toeVy": -16.48, "slipVsBelt": 35.44 } }
+  ],
+  "uncertainItems": [],
+  "knownLimitations": [
+    "The raw track's stance is a single belt-locked frame per window (a brief tap), not a sustained stance. The reviewed labels describe the raw measurements; Phase 2.3 must enforce belt-locking over the stance interval and Phase 2.4 must measure slip on the solved (locked) track.",
+    "The 94-frame reference clip is NOT declared cyclic; no 93->0 loop seam is asserted.",
+    "The treadmill belt speed and ground height are estimates from the solved track and source shadow, not measured from a physical ground plane."
+  ],
+  "evidencePaths": {
+    "candidates": "reports/foot-contact-candidates.json",
+    "evidence": "reports/foot-contact-evidence.json",
+    "sourceRootStability": "reports/source-root-stability.json",
+    "timeline": "reports/foot-contact-timeline.svg",
+    "windowSheet": "reports/foot-contact-window-sheet.png",
+    "sourceFrames": ["frames/f_005.png", "frames/f_006.png", "frames/f_007.png", "frames/f_018.png", "frames/f_019.png", "frames/f_020.png"]
+  },
+  "nextMeasurementsFor23And24": [
+    "Phase 2.3: capture a world-space foot anchor at touchdown, solve hip/knee/ankle by IK to the anchor during stance (belt-locked), release at toe-off, smooth swing trajectory; in_place vs root_motion contract.",
+    "Phase 2.4: measure stance contact-point slip (<0.5 px/frame vs belt), anchor drift (<=1.5 px), ground penetration (<=1 px), continuity at all transitions, alternation, mirroring, and a synthetic root_motion test; write the results into this report's successor."
+  ]
+}

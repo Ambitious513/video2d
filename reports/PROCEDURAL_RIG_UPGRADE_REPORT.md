@@ -79,3 +79,86 @@ No source/test code was changed in 2.2a. The key finding stands: no static-groun
 
 ### Next (Phase 2.2)
 Validate treadmill-belt vs root_motion against source shadow/contact evidence; render a labelled contact timeline; manually review; finalize labels; write `reports/foot-contact-validation.json`. Stance locking is Phase 2.3.
+
+## Phase 2.2b — Contact Verification + Treadmill Resolution (COMPLETE)
+
+**Date:** 2026-11-18T15:20Z  **Status:** COMPLETE — sub-task gates all PASS.
+
+### Decision: in_place root + treadmill ground (both evidence-backed)
+
+- **root_motion RULED OUT.** Puppet track: solved hip X is constant across all 94 frames (`hipXRange = 0.000000`, `translatesHorizontally = false`). Independent SOURCE-image confirmation (not the puppet's own assumptions): body-pixel centroid of `frames/f_001..f_094.png` (960x540) stays in a 5.58 px band (442.36–447.94 px) with a least-squares drift slope of −0.0094 px/frame → **−0.87 px total drift over the whole clip** (`inPlaceConfirmed = true`). The character runs in place; the ground moves, not the character.
+- **Treadmill ground SUPPORTED.** ground worldY = **974.916180333009** (max solved toe Y, y-down), belt velocity = **−64.90774054581459 px/frame**. One single belt speed explains the bottom instant of ALL 7 contact-height windows (spread = **0.000000**). The bottom instant has toe height 0.00 px, vx == belt (slip 0.000), |vy| = 0.597 ≤ 2 — exactly a foot planted on a backward-moving belt.
+- **The raw track's stance is a brief tap, not a sustained stance.** Only the bottom frame of each 3-frame window is belt-locked (`windowsWhereBeltExplainsWholeWindow = 0`); entry frames are still descending (vy = +9.42, vx = −66.72) and exit frames are already lifting (vy = −16.48, vx = −29.47, slip 35.4). Source-frame manual review (frames f_005–007 / f_018–020 + the +26/+52 repeats) confirms the same: descend → flat-bottom on the ground shadow → roll-off. Consequence recorded for 2.3/2.4: stance locking must ENFORCE belt-locking over the stance interval, and slip is measured on the SOLVED track.
+
+### Labels finalized (evidence-reviewed)
+
+Each contact-height window (near 17-19/43-45/69-71; far 4-6/30-32/56-58/82-84) now carries explicit per-frame labels in `remotion/src/puppet/motion/contacts.ts`: entry = `touchdown`, bottom = `stance`, exit = `toeOff`. `provisional` flipped to **false**, `ground.verified` flipped to **true**, with the justification recorded in `reports/foot-contact-validation.json` → `groundContract.justification`. No frame was promoted to stance without belt-lock evidence (master plan §6.2 — no fabricated stance). Stance frames: near [18, 44, 70], far [5, 31, 57, 83].
+
+### New tooling (2.2b)
+
+- `remotion/scripts/contact-evidence.ts` (`npm run verify:contact-evidence`) — pure solvePose per-window diagnostic: heights, central-difference velocities, slip vs belt, one-belt-speed consistency. Windows now read from the exported `CONTACT_HEIGHT_WINDOWS` constant so the diagnostic stays a 3-frame window analysis independent of the per-frame reviewed labels.
+- `remotion/scripts/source-root-stability.mjs` (`npm run verify:source-root`) — independent SOURCE-image root-stability measurement (body-pixel centroid over all 94 committed frames; sharp from tools/).
+- `remotion/scripts/contact-timeline.mjs` (`npm run contact:timeline`) — deterministic labelled SVG timeline (`reports/foot-contact-timeline.svg`, 1480x640): state bands, toe-height/vx curves, belt line, window markers.
+- `reports/foot-contact-window-sheet.png` — 12 ACTUAL Remotion stills at the window frames (2880x366), re-rendered with the reviewed caption.
+
+### Verification (all fresh this session; Windows workspace, Node v25.2.1, npm 11.6.2)
+
+| Command (cwd `remotion/`) | Exit | Result | Log |
+|---|---|---|---|
+| `npm run verify:contact-evidence` | 0 | groundY 974.916180, belt −64.907741, hipXRange 0, belt spread 0, 7 windows exact | `reports/logs/contact-evidence.log` |
+| `npm run contact:timeline` | 0 | wrote timeline SVG, frames=94, windows=21 | `reports/logs/contact-timeline.log` |
+| `npm run verify:contacts` | 0 | groundY 974.916180, belt −64.907741, staticStance 0; windows near 17-19/43-45/69-71, far 4-6/30-32/56-58/82-84 (unchanged) | `reports/logs/contacts-derive.log` |
+| `npm run typecheck` (full-project tsc --noEmit) | 0 | clean | `reports/logs/contacts-typecheck.log` |
+| `npm test` | 0 | **54 tests / 54 pass / 0 fail** (9 contacts incl. updated honesty guard) | `reports/logs/contacts-unit.log` |
+| `npm run verify:motion` | 0 | **12/12 PASS** (no regression; wrap 13.68 px vs p95 295.20, MAD 1.356 vs 5.408) | `reports/logs/motion-2.2b.log` |
+| `npm run verify:ik` | 0 | **7/7 gates + 14/14 cases PASS**; worst bone error 1.421e-13 px; 0 clamped frames | `reports/logs/ik-2.2b.log` |
+
+Environment note: installs this session — `remotion/` 178 packages exit 0; `tools/` 31 packages exit 0 (sharp needed by verify:motion and the sheet render). Remotion headless Chrome downloaded on first render (Windows; no libgobject issue here). Full `node verify.mjs` suite + formal scope-audit remain deferred to Phase 2.4 per the sub-task plan.
+
+### Deliverable
+
+`reports/foot-contact-validation.json` (v1): schema, method + evidence sources, ground contract (worldY, mode treadmill, belt, verified + justification), root-mode decision with both evidence paths, belt-consistency, contact-height windows, reviewed labels per foot with stance frames, per-window entry/bottom/exit measurements, known limitations, and the exact 2.3/2.4 measurements still owed.
+
+### Next (Phase 2.3 — stance locking, requires owner go-ahead)
+Capture a world-space foot anchor at touchdown; during stance solve hip/knee/ankle by IK to the belt-locked anchor; heel-to-toe roll only if evidenced; release at toe-off with a smooth swing trajectory; in_place vs root_motion contract; unit tests per master plan §9.2.
+
+## Phase 2.2b — Contact Verification + Treadmill Resolution (COMPLETE)
+
+**Date:** 2026-11-18  **Sub-task status:** COMPLETE (evidence-reviewed labels + validation JSON; Phase 2 gate NOT yet met — 2.3/2.4 remain).
+
+### Context recovery
+The 2.2b session ran out of tokens immediately after editing `ROADMAP.md`, before committing or pushing. The partial work survived only in the owner's workspace tarball and was recovered by the next agent: the 3 diagnostic scripts, the 2 evidence JSONs, the timeline SVG, the window contact sheet, and the `+3` npm scripts were committed as checkpoint `d9927fe` and pushed before this completion work began. No evidence was lost.
+
+### Evidence gathered
+1. **Treadmill-vs-root_motion resolved.** Two independent measurements agree:
+   - Puppet track (`remotion/scripts/contact-evidence.ts` → `reports/foot-contact-evidence.json`): hip x range **0.000000 px** over 94 frames → root motion ruled out. ONE belt speed (−64.90774054581459 px/frame) explains the bottom instant of all 7 contact-height windows (spread 0.00 px/frame). Only the bottom frame per window is belt-locked (slip 0.00); window edges deviate (entry +1.82, exit −35.44 px/frame vs belt) → the raw track's stance is a brief ~3-frame tap, not a sustained stance.
+   - Source pixels (`remotion/scripts/source-root-stability.mjs` → `reports/source-root-stability.json`): body-centroid range 5.58 px at 960-wide (11.15 px at 1920), drift slope −0.0094 px/frame → −0.87 px total drift over the clip → `in_place` confirmed from ground truth, not the puppet's own keys.
+2. **Manual source review.** Frames f_005–f_007 (far window 4–6) and f_018–f_020 (near window 17–19) show a descend → flat-bottom → roll-off: the planted foot rests on the soft ground shadow at the bottom frame while the body stays centered; the foot slides backward relative to the fixed body across the window. This is the run-in-place treadmill signature.
+3. **Rendered evidence.** `reports/foot-contact-timeline.svg` (deterministic labelled timeline: per-foot state bands, toe-height curve, toe-vx curve, belt line, window markers) and `reports/foot-contact-window-sheet.png` (12 actual Remotion stills at the window frames, re-rendered after label finalization with the reviewed caption).
+
+### Label decision (recorded per master plan §6.2 / ROADMAP §8)
+The 7 contact-height windows are finalized as **touchdown (entry, descending vy>0) / stance (bottom, toe height 0, vx == belt, |vy| ≤ 2) / toeOff (exit, rising vy<0)** in `remotion/src/puppet/motion/contacts.ts`. `provisional:false`, `ground.verified:true`. The honesty guard tests were updated to assert the reviewed truth (stance frames exactly near 18/44/70, far 5/31/57/83; no window frame left 'uncertain') — the guard's intent (no fabricated stance) is preserved: the labels match the measured evidence, and stance remains a single belt-locked frame per window in the raw track. `CONTACT_HEIGHT_WINDOWS` was added so diagnostics keep analyzing 3-frame windows while the track stores per-frame reviewed intervals. Stance locking is NOT implemented here (Phase 2.3).
+
+### Deliverables
+- `reports/foot-contact-validation.json` (v1): ground contract (worldY 974.916180333009, treadmill, belt −64.90774054581459, verified:true + justification), root-mode decision + evidence, belt consistency, reviewed per-frame labels with confidence, per-window measurements, uncertain items (none), evidence paths, and the measurements 2.3/2.4 must still take.
+- `remotion/src/puppet/motion/contacts.ts`: reviewed track (`provisional:false`, `ground.verified:true`, per-frame touchdown/stance/toeOff intervals, `CONTACT_HEIGHT_WINDOWS`).
+- `remotion/test/contacts.test.ts`: honesty guard updated to the reviewed truth; window-label assertions added; alternation test now uses `CONTACT_HEIGHT_WINDOWS`.
+- `remotion/scripts/contact-evidence.ts`: windows now read from `CONTACT_HEIGHT_WINDOWS` (independent of the per-frame reviewed intervals).
+
+### Verification (Windows 11, Node v25.2.1, npm 11.6.2; `remotion/` install 178 packages exit 0, `tools/` install 31 packages exit 0)
+
+| Command (cwd `remotion/`) | Exit | Result | Log |
+|---|---|---|---|
+| `npm run verify:contact-evidence` | 0 | groundY 974.916180, belt −64.907741, hipXRange 0, totalStanceCandidateFrames 7; all 7 windows: bottom slip 0.000, `stanceCand=[bottom]` | `reports/logs/contact-evidence.log` |
+| `npm run contact:timeline` | 0 | `reports/foot-contact-timeline.svg` regenerated (1480x640, 94 frames, 21 reviewed intervals) | `reports/logs/contact-timeline.log` |
+| `npm run verify:contacts` | 0 | groundY 974.92, belt −64.91, staticStance 0; windows unchanged | `reports/logs/contacts-derive.log` |
+| `npm run typecheck` | 0 | clean | `reports/logs/contacts-typecheck.log` |
+| `npm test` | 0 | **54 tests / 54 pass / 0 fail** (honesty guard now asserts the reviewed truth) | `reports/logs/contacts-unit.log` |
+| `npm run verify:motion` | 0 | **12/12 PASS** (raw-track diagnostic unchanged: 1.958×/2.891×/1.192×) | `reports/logs/motion-2.2b.log` |
+| `npm run verify:ik` | 0 | **7/7 gates + 14/14 cases PASS**; worst bone error 1.421e-13 px; clamped 0 | `reports/logs/ik-2.2b.log` |
+| `node remotion/scripts/puppet-contact-sheet.mjs --comp RunCycle --frames 4,5,6,17,18,19 ...` | 0 | `reports/foot-contact-window-sheet.png` re-rendered (2880x366) with the reviewed caption | — |
+
+No protected assets touched: cel94/, cel/, flatrace.js, source media, frames/, fullres/, cels.ts semantics, CelRun/CelLoop/Comparison, reports/baseline/* all unchanged (formal scope-audit runs with the 2.4 full suite).
+
+### Next (Phase 2.3)
+Stance locking: world-space anchor capture at touchdown, IK-to-anchor during stance with belt-locking, heel-to-toe roll if evidenced, release at toe-off, smooth swing; in_place vs root_motion contract; unit tests per master plan §9.2. Phase 2.4 then runs the full `node verify.mjs --install --force-trace` suite + formal scope-audit and closes Phase 2.

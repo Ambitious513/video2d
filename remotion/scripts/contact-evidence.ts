@@ -29,7 +29,7 @@ import {dirname, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {solvePose, type SolvedPose, type LegPose} from '../src/puppet/pose';
 import {DURATION, HIP_X} from '../src/puppet/keys';
-import {runCycleContactTrack, expandTrack} from '../src/puppet/motion/contacts';
+import {runCycleContactTrack, expandTrack, CONTACT_HEIGHT_WINDOWS} from '../src/puppet/motion/contacts';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, '../../reports/foot-contact-evidence.json');
@@ -151,8 +151,8 @@ export function deriveContactEvidence() {
     };
   };
   const windows = {
-    near: runCycleContactTrack.near.map((iv) => analyzeWindow('near', iv)),
-    far: runCycleContactTrack.far.map((iv) => analyzeWindow('far', iv)),
+    near: CONTACT_HEIGHT_WINDOWS.near.map((iv) => analyzeWindow('near', iv)),
+    far: CONTACT_HEIGHT_WINDOWS.far.map((iv) => analyzeWindow('far', iv)),
   };
   const allWindows = [...windows.near, ...windows.far];
   const bottomVxs = allWindows.map((w) => w.bottomToeVx);
@@ -182,7 +182,7 @@ export function deriveContactEvidence() {
     // Phase 2.3 must ENFORCE belt-locking over the reviewed stance interval and
     // Phase 2.4 measures slip on the SOLVED (locked) track, not the raw track.
     rawTrackStanceIsBriefTap: beltConsistency.windowsWhereBeltExplainsWholeWindow === 0,
-    note: 'Measurements only; no stance asserted here. Reviewed labels are finalized in contacts.ts after manual source review.',
+    note: 'Measurements only; no stance asserted here. Phase 2.2b evidence review finalized the labels in contacts.ts (touchdown/stance/toeOff per window).',
   };
 
   return {
@@ -195,7 +195,7 @@ export function deriveContactEvidence() {
       slipEpsPxPerFrame: SLIP_EPS, beltMatchEpsPxPerFrame: BELT_MATCH_EPS, vyEpsPxPerFrame: VY_EPS,
       velocity: 'central difference (f+1 - f-1)/2 on solved toe/ankle; gait tracks cyclic period 26',
       beltEstimate: 'mean toe vx at frames where toe height <= 1 px (the belt-locked bottom instant)',
-      windows: 'taken from runCycleContactTrack intervals (contact-height windows)',
+      windows: 'taken from CONTACT_HEIGHT_WINDOWS (contact-height windows; independent of the per-frame reviewed intervals)',
     },
     groundY, beltVxEstimatePxPerFrame: belt,
     root, beltConsistency, decision,

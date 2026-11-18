@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T14:41:21.928Z",
+  "generatedAt": "2026-11-18T15:53:49.409Z",
   "schema": "foot-contact-evidence/1",
   "purpose": "Phase 2.2b treadmill-vs-root_motion evidence (pure solvePose measurements)",
   "method": {
@@ -11,7 +11,7 @@
     "vyEpsPxPerFrame": 2,
     "velocity": "central difference (f+1 - f-1)/2 on solved toe/ankle; gait tracks cyclic period 26",
     "beltEstimate": "mean toe vx at frames where toe height <= 1 px (the belt-locked bottom instant)",
-    "windows": "taken from runCycleContactTrack intervals (contact-height windows)"
+    "windows": "taken from CONTACT_HEIGHT_WINDOWS (contact-height windows; independent of the per-frame reviewed intervals)"
   },
   "groundY": 974.916180333009,
   "beltVxEstimatePxPerFrame": -64.90774054581459,
@@ -42,70 +42,161 @@
     "groundWorldYEstimate": 974.916180333009,
     "treadmillSupportedByTrack": true,
     "rawTrackStanceIsBriefTap": true,
-    "note": "Measurements only; no stance asserted here. Reviewed labels are finalized in contacts.ts after manual source review."
+    "note": "Measurements only; no stance asserted here. Phase 2.2b evidence review finalized the labels in contacts.ts (touchdown/stance/toeOff per window)."
   },
   "contactTrack": {
     "clipName": "reference-run-94",
     "totalFrames": 94,
     "rootMode": "in_place",
-    "provisional": true,
+    "provisional": false,
     "ground": {
       "worldY": 974.92,
       "mode": "treadmill",
       "beltVelocityX": -64.9,
-      "verified": false
+      "verified": true
     },
     "near": [
       {
         "start": 17,
-        "end": 19,
-        "state": "uncertain",
-        "reason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)",
+        "end": 17,
+        "state": "touchdown",
+        "reason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)",
         "candidateEvent": "touchdown"
+      },
+      {
+        "start": 18,
+        "end": 18,
+        "state": "stance",
+        "reason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
+      },
+      {
+        "start": 19,
+        "end": 19,
+        "state": "toeOff",
+        "reason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)",
+        "candidateEvent": "toeOff"
       },
       {
         "start": 43,
-        "end": 45,
-        "state": "uncertain",
-        "reason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)",
+        "end": 43,
+        "state": "touchdown",
+        "reason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)",
         "candidateEvent": "touchdown"
       },
       {
+        "start": 44,
+        "end": 44,
+        "state": "stance",
+        "reason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
+      },
+      {
+        "start": 45,
+        "end": 45,
+        "state": "toeOff",
+        "reason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)",
+        "candidateEvent": "toeOff"
+      },
+      {
         "start": 69,
-        "end": 71,
-        "state": "uncertain",
-        "reason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)",
+        "end": 69,
+        "state": "touchdown",
+        "reason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)",
         "candidateEvent": "touchdown"
+      },
+      {
+        "start": 70,
+        "end": 70,
+        "state": "stance",
+        "reason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
+      },
+      {
+        "start": 71,
+        "end": 71,
+        "state": "toeOff",
+        "reason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)",
+        "candidateEvent": "toeOff"
       }
     ],
     "far": [
       {
         "start": 4,
-        "end": 6,
-        "state": "uncertain",
-        "reason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)",
+        "end": 4,
+        "state": "touchdown",
+        "reason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)",
         "candidateEvent": "touchdown"
+      },
+      {
+        "start": 5,
+        "end": 5,
+        "state": "stance",
+        "reason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
+      },
+      {
+        "start": 6,
+        "end": 6,
+        "state": "toeOff",
+        "reason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)",
+        "candidateEvent": "toeOff"
       },
       {
         "start": 30,
-        "end": 32,
-        "state": "uncertain",
-        "reason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)",
+        "end": 30,
+        "state": "touchdown",
+        "reason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)",
         "candidateEvent": "touchdown"
+      },
+      {
+        "start": 31,
+        "end": 31,
+        "state": "stance",
+        "reason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
+      },
+      {
+        "start": 32,
+        "end": 32,
+        "state": "toeOff",
+        "reason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)",
+        "candidateEvent": "toeOff"
       },
       {
         "start": 56,
-        "end": 58,
-        "state": "uncertain",
-        "reason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)",
+        "end": 56,
+        "state": "touchdown",
+        "reason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)",
         "candidateEvent": "touchdown"
       },
       {
+        "start": 57,
+        "end": 57,
+        "state": "stance",
+        "reason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
+      },
+      {
+        "start": 58,
+        "end": 58,
+        "state": "toeOff",
+        "reason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)",
+        "candidateEvent": "toeOff"
+      },
+      {
         "start": 82,
-        "end": 84,
-        "state": "uncertain",
-        "reason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)",
+        "end": 82,
+        "state": "touchdown",
+        "reason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)",
         "candidateEvent": "touchdown"
+      },
+      {
+        "start": 83,
+        "end": 83,
+        "state": "stance",
+        "reason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
+      },
+      {
+        "start": 84,
+        "end": 84,
+        "state": "toeOff",
+        "reason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)",
+        "candidateEvent": "toeOff"
       }
     ]
   },
@@ -133,20 +224,20 @@
     {
       "frame": 4,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "touchdown",
+      "farReason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 5,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "stance",
+      "farReason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
     },
     {
       "frame": 6,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "toeOff",
+      "farReason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 7,
@@ -200,21 +291,21 @@
     },
     {
       "frame": 17,
-      "near": "uncertain",
+      "near": "touchdown",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 18,
-      "near": "uncertain",
+      "near": "stance",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
     },
     {
       "frame": 19,
-      "near": "uncertain",
+      "near": "toeOff",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 20,
@@ -269,20 +360,20 @@
     {
       "frame": 30,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "touchdown",
+      "farReason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 31,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "stance",
+      "farReason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
     },
     {
       "frame": 32,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "toeOff",
+      "farReason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 33,
@@ -336,21 +427,21 @@
     },
     {
       "frame": 43,
-      "near": "uncertain",
+      "near": "touchdown",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 44,
-      "near": "uncertain",
+      "near": "stance",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
     },
     {
       "frame": 45,
-      "near": "uncertain",
+      "near": "toeOff",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 46,
@@ -405,20 +496,20 @@
     {
       "frame": 56,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "touchdown",
+      "farReason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 57,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "stance",
+      "farReason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
     },
     {
       "frame": 58,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "toeOff",
+      "farReason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 59,
@@ -472,21 +563,21 @@
     },
     {
       "frame": 69,
-      "near": "uncertain",
+      "near": "touchdown",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 70,
-      "near": "uncertain",
+      "near": "stance",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
     },
     {
       "frame": 71,
-      "near": "uncertain",
+      "near": "toeOff",
       "far": "swing",
-      "nearReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "nearReason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 72,
@@ -541,20 +632,20 @@
     {
       "frame": 82,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "touchdown",
+      "farReason": "contact-height window entry: descending toward ground (vy>0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 83,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "stance",
+      "farReason": "bottom of contact-height window: toe height 0 px, vx == treadmill belt (-64.91 px/frame), |vy| <= 2 px/frame; foot planted on the moving belt; evidence-reviewed Phase 2.2b"
     },
     {
       "frame": 84,
       "near": "swing",
-      "far": "uncertain",
-      "farReason": "toe at contact height but |vx|~65 px/frame vs static ground; treadmill/root-motion resolution + manual review required (Phase 2.2)"
+      "far": "toeOff",
+      "farReason": "contact-height window exit: rising away from ground (vy<0); evidence-reviewed Phase 2.2b (source frames + solved track)"
     },
     {
       "frame": 85,
