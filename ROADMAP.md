@@ -2,7 +2,7 @@
 
 **Repository:** https://github.com/Ambitious513/video2d
 **Shared branch:** feat/constrained-puppet-rig
-**Current status:** IN PROGRESS (Phase 0 COMPLETE; Phase 1 COMPLETE; **Phase 2 COMPLETE** — 2.1, 2.2a, 2.2b, 2.3, 2.4 all COMPLETE; Phase 3 next)
+**Current status:** IN PROGRESS (Phase 0 COMPLETE; Phase 1 COMPLETE; **Phase 2 COMPLETE** — 2.1–2.4 all COMPLETE; **Phase 3 IN PROGRESS** — sub-task 3a geometry)
 **Last updated:** 2026-11-18T18:15Z (UTC)
 **Last verified remote commit:** `762b835f274e142dd141026e4ceac35438a8957a` (2.4 COMPLETION — Phase 2 gate PASSED, A1–A18 PASS; verified via `git ls-remote` 2026-11-18). Prior checkpoints: `4025207` (2.3 SHA follow-up), `421d55c` (2.3 completion), `d172657` (2.2b SHA follow-up), `3c9077c` (2.2b completion), `d9927fe` (2.2b partial recovery). Bootstrap HEAD `05295310d493df6d71960b6559cc7339fdd282f6` matched the handoff expectation exactly.
 **Latest pushed roadmap checkpoint:** `762b835f274e142dd141026e4ceac35438a8957a` (2.4 completion; this SHA-recording update lands in the follow-up checkpoint on top). Canonical Phase 2.1 checkpoint `4a080e75e96f75ccba7ac1e54cd8090c83b0dfc3`; 2.2a `75d5311720cfed35455626dbf47afc8ac4ce5d64`; 2.2b `3c9077c38af333cc3fce688d8742cace245b9edc`; 2.3 `421d55ce7d98f954ec626dfb51bab85443c17a2e`.
@@ -13,7 +13,7 @@ Upgrade only the existing procedural puppet into a constrained, reusable 2D char
 
 ## 2. Current state — read this first
 - **Active phase:** Phase 3 (Visual construction + secondary motion)
-- **Phase status:** Phase 2 **COMPLETE** (2.1/2.2a/2.2b/2.3/2.4 all COMPLETE); Phase 3 NOT STARTED, awaiting owner go-ahead
+- **Phase status:** Phase 2 **COMPLETE**; Phase 3 **IN PROGRESS** (owner approved start; sub-task 3a = tapered limb silhouettes + fuller torso + designed feet; NOTE: the takeover agent cannot view images — objective IoU/MAE + rendered contact sheets are the gate, with human visual sign-off required)
 - **What is already complete:**
   - Remote baseline verified: `origin/main` = `5d4d13ab92ac38be0397bd2b8feb27e19eefdf98` (documented reconciled baseline, not advanced). Feature branch created from it and pushed.
   - Phase 0 COMPLETE (`1dd5600`): full suite reproduced (`node verify.mjs --install --force-trace` → A1–A18 PASS; Test I pre-existing FAIL 7/8); baseline frozen in `reports/puppet-upgrade-baseline.json` + contact sheet + `reports/baseline/`.
@@ -44,7 +44,7 @@ Do not modify: `remotion/public/cel94/`, `remotion/public/cel/`, `tools/flatrace
 | 0. Bootstrap/baseline | Initialize this roadmap; confirm remote baseline and reproduce existing state | COMPLETE | 1dd5600dd2503942aca43fe24ae01fc222fb9f50 | `reports/puppet-upgrade-baseline.json`, `reports/puppet-upgrade-baseline-contact-sheet.png`, `reports/baseline/`, regenerated `reports/test-matrix.json` + logs | done |
 | 1. Fixed-length skeleton + IK | Rig definitions, generic two-bone solver, raw vs solved targets | COMPLETE | `aacdb61` | `reports/ik-validation.json`, `reports/motion-validation.json`, `reports/logs/*` | All configured bones within ±0.5 px (max error 1.421e-13 px); IK edge tests pass; Test I rewritten per master plan |
 | 2. Foot contacts + stance locking | Contact track, world-space anchors, root modes, foot-slip tests | **COMPLETE** | `762b835` (2.4 gate) | 2.1: `reports/foot-contact-candidates.json`, `remotion/src/puppet/motion/contacts.ts`; 2.2a: `reports/logs/contacts-*.log`, `motion-reverify.log`, `ik-reverify.log`; 2.2b (`3c9077c`): `reports/foot-contact-validation.json`, `reports/foot-contact-evidence.json`, `reports/source-root-stability.json`, `reports/foot-contact-timeline.svg`, `reports/foot-contact-window-sheet.png`, reviewed labels in `contacts.ts`; 2.3 (`421d55c`): `reports/stance-locking-validation.json`, `remotion/src/puppet/motion/stance.ts`, `remotion/scripts/stance-validate.ts`, `remotion/test/stance.test.ts`; **2.4: `reports/test-matrix.json` (A1–A18 PASS), `reports/logs/verify-2.4.log`, regenerated reports + `verify/*.png`** | Phase 3 visual construction |
-| 3. Visual construction + secondary motion | Cohesive silhouettes, torso/feet, backpack, deterministic scarf | NOT STARTED | — | — | Visual review + no regressions; IoU ≥0.68 target, MAE ≤5.6307 |
+| 3. Visual construction + secondary motion | Cohesive silhouettes, torso/feet, backpack, deterministic scarf | IN PROGRESS (3a) | — | — | Visual review + no regressions; IoU ≥0.68 target, MAE ≤5.6307 |
 | 4. Reusable second character | Second appearance/rig profile uses shared solver and motion | NOT STARTED | — | — | Both variants pass same tests without duplicated gait |
 | 5. Final verification + docs | Clean clone suite, reports, final technical handoff | NOT STARTED | — | — | All acceptance tests PASS or explicitly approved exceptions |
 
