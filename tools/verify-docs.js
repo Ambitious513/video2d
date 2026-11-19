@@ -228,6 +228,31 @@ const staleStatusNext = /Phase [345][^\n]*(next task|recommended)/i.test(statusN
 checks.push(check('STATUS.md does not recommend a completed phase as the next task', !staleStatusNext,
   staleStatusNext ? `STATUS recommends a completed phase: ${statusNextPhase.slice(0, 80)}` : 'STATUS next-task guidance is consistent'));
 
+// Stance-locking honesty: ROADMAP must NOT claim stance locking is
+// "IMPLEMENTED + VALIDATED" while also stating continuous rendered foot
+// locking is not integrated. Detect the contradiction across current sections
+// (history excluded).
+const outsideHistoryAll = [status.replace(historyText, ''), roadmap].join('\n');
+const claimsStanceImplemented = /stance locking\s+(is\s+)?IMPLEMENTED\s*\+\s*VALIDATED/i.test(outsideHistoryAll)
+  || /stance[- ]locking[^\n]{0,40}implemented[^\n]{0,20}validated/i.test(outsideHistoryAll);
+const statesNotIntegrated = /not\s+integrated|not\s+consum|data model \+\s*diagnostic|future locomotion-engine follow-?up/i.test(outsideHistoryAll);
+checks.push(check('ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated',
+  !(claimsStanceImplemented && statesNotIntegrated),
+  claimsStanceImplemented && statesNotIntegrated
+    ? 'contradiction: stance locking claimed IMPLEMENTED+VALIDATED but continuous rendered foot locking is documented as not integrated'
+    : 'stance-locking claim is consistent with the diagnostic-model limitation'));
+
+// Phase 4 reusability honesty: STATUS must say Phase 4 proved reuse of the same
+// solver+motion (Runner+Teal) and must NOT say it is "not started".
+const claimsPhase4NotStarted = /Phase 4[^\n]{0,60}(not started|has not started)/i.test(outsideHistoryAll);
+const claimsPhase4Reuse = /Phase 4[^\n]{0,80}(reuse|reusab)[^\n]{0,80}(same solver|same motion|runner|teal)/i.test(outsideHistoryAll)
+  || /(same solver|same motion)[^\n]{0,80}(runner|teal)/i.test(outsideHistoryAll);
+checks.push(check('STATUS Phase 4 reusability statement is correct (proved reuse; not "not started")',
+  !claimsPhase4NotStarted && claimsPhase4Reuse,
+  claimsPhase4NotStarted ? 'STATUS says Phase 4 is "not started" but Phase 4 is COMPLETE'
+    : !claimsPhase4Reuse ? 'STATUS does not state Phase 4 proved reuse of the same solver/motion'
+    : 'Phase 4 reuse statement is accurate'));
+
 const report = {
   generatedAt: new Date().toISOString(),
   documents: DOCS,

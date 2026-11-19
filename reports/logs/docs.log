@@ -13,4 +13,6 @@ $ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeove
 [PASS] ROADMAP next-agent instructions are not stale (no completed phase told to start) — next-agent block is consistent with the phase table
 [PASS] ROADMAP Variant reuse status is a verified result (not NOT RUN) — Variant reuse: **PASS**
 [PASS] STATUS.md does not recommend a completed phase as the next task — STATUS next-task guidance is consistent
+[PASS] ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated — stance-locking claim is consistent with the diagnostic-model limitation
+[PASS] STATUS Phase 4 reusability statement is correct (proved reuse; not "not started") — Phase 4 reuse statement is accurate
 A15/A16 documentation: PASS

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T12:11:12.339Z",
+  "generatedAt": "2026-11-19T12:55:29.729Z",
   "documents": [
     "METHOD.md",
     "STATUS.md",
@@ -87,6 +87,16 @@
       "name": "STATUS.md does not recommend a completed phase as the next task",
       "status": "PASS",
       "detail": "STATUS next-task guidance is consistent"
+    },
+    {
+      "name": "ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated",
+      "status": "PASS",
+      "detail": "stance-locking claim is consistent with the diagnostic-model limitation"
+    },
+    {
+      "name": "STATUS Phase 4 reusability statement is correct (proved reuse; not \"not started\")",
+      "status": "PASS",
+      "detail": "Phase 4 reuse statement is accurate"
     }
   ],
   "note": "A15 (paths/commands match the implementation) is fully automated here. A16 (no contradictory status) is checked structurally; the prose itself was rewritten and reviewed by the agent — see reports/REPRODUCIBILITY_REPORT.md.",

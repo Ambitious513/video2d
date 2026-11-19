@@ -76,7 +76,7 @@ The `feat/constrained-puppet-rig` branch upgrades **only** the procedural puppet
 3. **Test I (motion) is PASS (12/12)** after the Phase 1 constrained rig; the historical pre-upgrade 7/8 FAIL (2.891× segment variation) is preserved in `reports/baseline/`.
 4. **The 26-cel loop drifts by design** (a control variant).
 5. **Traced cels are not editable artwork** — per-frame paths.
-6. **Pixel fidelity ≠ generalization.** Nothing here proves rig reusability or new actions; Phase 4 (second variant) is the reusability proof and is not started.
+6. **Pixel fidelity ≠ generalization.** Nothing here proves arbitrary new actions. Phase 4 demonstrated reuse of the SAME solver + motion across two character variants (Runner + Teal) — it is the reusability proof, and it does NOT demonstrate arbitrary new actions (that is a separate motion-authoring task).
 
 ## 5. History (context only — not current claims)
 
