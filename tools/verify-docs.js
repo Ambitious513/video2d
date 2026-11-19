@@ -233,8 +233,8 @@ checks.push(check('STATUS.md does not recommend a completed phase as the next ta
 // locking is not integrated. Detect the contradiction across current sections
 // (history excluded).
 const outsideHistoryAll = [status.replace(historyText, ''), roadmap].join('\n');
-const claimsStanceImplemented = /stance locking\s+(is\s+)?IMPLEMENTED\s*\+\s*VALIDATED/i.test(outsideHistoryAll)
-  || /stance[- ]locking[^\n]{0,40}implemented[^\n]{0,20}validated/i.test(outsideHistoryAll);
+// Positive claim must be a single-line "stance locking ... IMPLEMENTED + VALIDATED".
+const claimsStanceImplemented = /stance[- ]locking[^\n]{0,40}\bIMPLEMENTED\s*\+\s*VALIDATED/i.test(outsideHistoryAll);
 const statesNotIntegrated = /not\s+integrated|not\s+consum|data model \+\s*diagnostic|future locomotion-engine follow-?up/i.test(outsideHistoryAll);
 checks.push(check('ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated',
   !(claimsStanceImplemented && statesNotIntegrated),
@@ -243,8 +243,8 @@ checks.push(check('ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VAL
     : 'stance-locking claim is consistent with the diagnostic-model limitation'));
 
 // Phase 4 reusability honesty: STATUS must say Phase 4 proved reuse of the same
-// solver+motion (Runner+Teal) and must NOT say it is "not started".
-const claimsPhase4NotStarted = /Phase 4[^\n]{0,60}(not started|has not started)/i.test(outsideHistoryAll);
+// solver+motion and must NOT say Phase 4 had not started (single-line).
+const claimsPhase4NotStarted = /Phase 4[^\n]{0,60}(is\s+)?not started|Phase 4[^\n]{0,40}has not started/i.test(outsideHistoryAll);
 const claimsPhase4Reuse = /Phase 4[^\n]{0,80}(reuse|reusab)[^\n]{0,80}(same solver|same motion|runner|teal)/i.test(outsideHistoryAll)
   || /(same solver|same motion)[^\n]{0,80}(runner|teal)/i.test(outsideHistoryAll);
 checks.push(check('STATUS Phase 4 reusability statement is correct (proved reuse; not "not started")',

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T12:55:29.321Z",
+  "generatedAt": "2026-11-19T13:07:57.797Z",
   "schema": "variant-render-validation/1",
   "purpose": "Phase 4 regression: variant stills render the CURRENT timeline frame (not a hardcoded frame) and both variants are distinct + deterministic.",
   "frames": [
