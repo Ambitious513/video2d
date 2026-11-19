@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-19T12:55:29.729Z",
+  "generatedAt": "2026-11-19T13:00:35.232Z",
   "documents": [
     "METHOD.md",
     "STATUS.md",
@@ -40,8 +40,8 @@
     },
     {
       "name": "every mentioned composition ID is registered",
-      "status": "PASS",
-      "detail": "registered: CelRun, CelLoop, RunCycle, Comparison"
+      "status": "FAIL",
+      "detail": "ROADMAP.md: composition `Runner` is mentioned but not registered in Root.tsx"
     },
     {
       "name": "every documented regenerable location is really gitignored",
@@ -90,15 +90,15 @@
     },
     {
       "name": "ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated",
-      "status": "PASS",
-      "detail": "stance-locking claim is consistent with the diagnostic-model limitation"
+      "status": "FAIL",
+      "detail": "contradiction: stance locking claimed IMPLEMENTED+VALIDATED but continuous rendered foot locking is documented as not integrated"
     },
     {
       "name": "STATUS Phase 4 reusability statement is correct (proved reuse; not \"not started\")",
-      "status": "PASS",
-      "detail": "Phase 4 reuse statement is accurate"
+      "status": "FAIL",
+      "detail": "STATUS says Phase 4 is \"not started\" but Phase 4 is COMPLETE"
     }
   ],
   "note": "A15 (paths/commands match the implementation) is fully automated here. A16 (no contradictory status) is checked structurally; the prose itself was rewritten and reviewed by the agent — see reports/REPRODUCIBILITY_REPORT.md.",
-  "status": "PASS"
+  "status": "FAIL"
 }
