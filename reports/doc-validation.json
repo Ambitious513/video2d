@@ -1,8 +1,9 @@
 {
-  "generatedAt": "2026-11-17T23:07:49.068Z",
+  "generatedAt": "2026-11-19T13:11:27.798Z",
   "documents": [
     "METHOD.md",
-    "STATUS.md"
+    "STATUS.md",
+    "ROADMAP.md"
   ],
   "registeredCompositions": [
     "CelRun",
@@ -25,12 +26,12 @@
     "remotion/node_modules/",
     ".remotion/"
   ],
-  "pathReferencesChecked": 74,
+  "pathReferencesChecked": 142,
   "checks": [
     {
       "name": "every documented repository path resolves (or is documented regenerable)",
       "status": "PASS",
-      "detail": "74 path references checked across METHOD.md, STATUS.md"
+      "detail": "142 path references checked across METHOD.md, STATUS.md, ROADMAP.md"
     },
     {
       "name": "every documented npm run script exists",
@@ -66,6 +67,36 @@
       "name": "no stale unfinished-work claims outside the labelled History section",
       "status": "PASS",
       "detail": "historical claims are confined to the History section"
+    },
+    {
+      "name": "ROADMAP.md current-state header agrees with the phase table",
+      "status": "PASS",
+      "detail": "header and phase table are consistent"
+    },
+    {
+      "name": "ROADMAP next-agent instructions are not stale (no completed phase told to start)",
+      "status": "PASS",
+      "detail": "next-agent block is consistent with the phase table"
+    },
+    {
+      "name": "ROADMAP Variant reuse status is a verified result (not NOT RUN)",
+      "status": "PASS",
+      "detail": "Variant reuse: **PASS**"
+    },
+    {
+      "name": "STATUS.md does not recommend a completed phase as the next task",
+      "status": "PASS",
+      "detail": "STATUS next-task guidance is consistent"
+    },
+    {
+      "name": "ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated",
+      "status": "PASS",
+      "detail": "stance-locking claim is consistent with the diagnostic-model limitation"
+    },
+    {
+      "name": "STATUS Phase 4 reusability statement is correct (proved reuse; not \"not started\")",
+      "status": "PASS",
+      "detail": "Phase 4 reuse statement is accurate"
     }
   ],
   "note": "A15 (paths/commands match the implementation) is fully automated here. A16 (no contradictory status) is checked structurally; the prose itself was rewritten and reviewed by the agent — see reports/REPRODUCIBILITY_REPORT.md.",

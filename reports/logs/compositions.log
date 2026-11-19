@@ -1,5 +1,5 @@
-$ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/scripts/verify-compositions.mjs
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion)
+$ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion\scripts\verify-compositions.mjs
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion)
 
 bundling remotion entry point...
 [PASS] no duplicate composition IDs — CelRun, CelLoop, RunCycle, Comparison
@@ -7,8 +7,8 @@ bundling remotion entry point...
 [PASS] registry IDs == METHOD.md deliverables IDs — registry=[CelRun,CelLoop,RunCycle,Comparison] method=[CelRun,CelLoop,RunCycle,Comparison]
 [PASS] every documented npm run script exists — documented=[render:all:lowram,extract,trace:all,verify:source,verify:assets,verify:docs,typecheck,verify:motion,studio] missing=[]
 [PASS] typecheck script exists — tsc --noEmit
-[PASS] tools test script is real (not placeholder exit 1) — node --test test/
-[PASS] remotion test script exists — node --import tsx --test test/cels.test.ts
+[PASS] tools test script is real (not placeholder exit 1) — node --test
+[PASS] remotion test script exists — node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts test/secondary.test.ts test/variant.test.ts
 [PASS] CelRun: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
 [PASS] CelLoop: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames
 [PASS] RunCycle: 1920x1080 @ 24fps, 94 frames — 1920x1080 @ 24fps, 94 frames

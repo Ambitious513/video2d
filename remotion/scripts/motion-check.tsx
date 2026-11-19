@@ -3,19 +3,34 @@
  *
  *   npx tsx remotion/scripts/motion-check.tsx   (from anywhere; or npm run verify:motion)
  *
- * Checks, over ALL 94 timeline frames:
- *  - determinism: same frame + same inputs -> byte-identical SSR SVG;
+ * Phase 1 update (master plan §9.7): the old primary gate "limb segment
+ * max/min <= 2.0" measured an UNCONSTRAINED puppet and failed at 2.891x
+ * (knee->ankle). That historical result is preserved verbatim in
+ * reports/baseline/motion-validation.json. The puppet now has a constrained
+ * skeleton (rig.ts + ik.ts + pose.ts), so the primary gates are:
+ *
+ *   - solved bone-length consistency: every constrained bone within ±0.5 px
+ *     of its configured rig length on ALL 94 frames (analytic solver actually
+ *     achieves ~1e-13 px; the measured max is reported);
+ *   - IK end-effector residual: <= 1 px for reachable targets; clamped
+ *     (unreachable) targets are counted and reported per frame, never hidden;
+ *   - bend-side stability: knee/elbow side constant and equal to the rig hint
+ *     across adjacent frames including the 25->26 cycle wrap;
+ *   - foot artwork length constant (geometry, not a bone).
+ *
+ * The raw hand-measured track variation is STILL measured and reported as a
+ * diagnostic (three levels: raw keys -> stored 26-sample track -> interpolated
+ * frames), so the historical finding remains visible and classifiable. It is
+ * no longer a pass/fail gate: noisy reference data is expected; the solver's
+ * job is to not stretch bones while following it.
+ *
+ * Also checked over ALL 94 timeline frames:
+ *  - determinism: same frame + same inputs -> byte-identical SSR SVG, both
+ *    repeated and OUT-OF-ORDER (72,0,45,12,93,25 requested twice);
  *  - no NaN / Infinity / undefined / missing coordinates in the markup;
  *  - shadow, scarf and body elements present in every frame;
  *  - every computed joint coordinate finite and inside the 1920x1080 canvas;
- *  - limb segment lengths: min/max/mean reported; max/min ratio must stay
- *    within the documented tolerance 2.0 (Catmull-Rom resampling of measured
- *    keys legitimately varies lengths somewhat — this bounds "unexpected");
- *    when it fails, the report separates the variation already present in the
- *    STORED track samples from the overshoot added by frame interpolation, so
- *    the finding can be classified instead of hidden;
- *  - smoothness: joint acceleration (2nd difference) series, to distinguish
- *    "lengths vary smoothly" from "a one-frame pop";
+ *  - smoothness: joint acceleration (2nd difference) series;
  *  - continuity: max joint displacement between adjacent frames, and the
  *    26-frame cycle wrap (25->26) must not pop: wrap delta <= 1.5 x p95 of
  *    all adjacent deltas (documented heuristic);
@@ -23,12 +38,13 @@
  *    MAD series; the wrap MAD must satisfy the same 1.5 x p95 rule.
  *
  * Cel asset selection monotonicity is covered by the pure unit tests
- * (remotion/test/cels.test.ts) — exact is strictly +1 per frame, loop wraps
- * by design every 26 frames.
+ * (remotion/test/cels.test.ts). IK edge cases + per-frame solver evidence:
+ * remotion/test/ik.test.ts, rig.test.ts, pose.test.ts and npm run verify:ik
+ * (reports/ik-validation.json).
  *
- * HONESTY NOTE: the current Runner.tsx / keys.ts have NO true IK
- * stance-locking and NO measured foot-contact solver. Those are future work,
- * not passing tests. This script does not claim them.
+ * HONESTY NOTE: stance-locking and a measured foot-contact solver do NOT exist
+ * yet (Phase 2). Those are future work, not passing tests. This script does
+ * not claim them.
  *
  * Writes reports/motion-validation.json.
  */
@@ -40,8 +56,11 @@ import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import {Runner} from '../src/puppet/Runner';
 import {
-  HIP_X, HEAD_X, hipY, headY, cycleSample, LEG_CYCLE, armPose, shadow, DURATION, LOOP, STEP,
+  hipY, headY, cycleSample, LEG_CYCLE, armPose, shadow, DURATION, LOOP, STEP,
+  NEAR_LEG_RAW, FAR_LEG_RAW,
 } from '../src/puppet/keys';
+import {solvePose, diagnosePose} from '../src/puppet/pose';
+import {RUNNER_RIG, boneLengths, BONE_IDS} from '../src/puppet/rig';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -60,9 +79,23 @@ interface FrameJoints {
   nearElbow: Pt; nearFist: Pt; farElbow: Pt; farFist: Pt;
 }
 
+/** SOLVED joints — what the puppet actually renders (Phase 1 constrained rig). */
 function joints(f: number): FrameJoints {
-  const hip: Pt = [HIP_X, hipY(f)];
-  const head: Pt = [HEAD_X, headY(f)];
+  const p = solvePose(f);
+  return {
+    hip: p.hip, head: p.head, shoulder: p.shoulder, knot: p.knot, pack: p.pack,
+    nearKnee: p.nearLeg.knee, nearAnkle: p.nearLeg.ankle, nearToe: p.nearLeg.toe,
+    farKnee: p.farLeg.knee, farAnkle: p.farLeg.ankle, farToe: p.farLeg.toe,
+    nearElbow: p.nearArm.elbow, nearFist: p.nearArm.fist,
+    farElbow: p.farArm.elbow, farFist: p.farArm.fist,
+  };
+}
+
+/** RAW unconstrained track joints — the pre-upgrade math, kept as a diagnostic
+ *  so the historical length-variation finding stays measurable and visible. */
+function rawJoints(f: number): FrameJoints {
+  const hip: Pt = [RUNNER_RIG.anchors.hipX, hipY(f)];
+  const head: Pt = [RUNNER_RIG.anchors.headX, headY(f)];
   const sh: Pt = [922, headY(f) + 154];
   const knot: Pt = [940, headY(f) + 112];
   const pack: Pt = [818, headY(f) + 222];
@@ -79,8 +112,11 @@ function joints(f: number): FrameJoints {
   };
 }
 
-const LENGTH_TOLERANCE = 2.0; // documented max/min segment-length ratio
+const BONE_LENGTH_TOLERANCE = 0.5; // master plan §5.5: px at 1920x1080, per configured bone
+const IK_RESIDUAL_TOLERANCE = 1.0; // master plan §9.6: px, reachable targets
+const FOOT_LENGTH_TOLERANCE = 1e-6; // foot artwork is constant by construction
 const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
+const OUT_OF_ORDER = [72, 0, 45, 12, 93, 25];
 
 (async () => {
   const checks: ReturnType<typeof check>[] = [];
@@ -112,11 +148,75 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
     if (![shd.rx, shd.ry, shd.opacity].every(Number.isFinite)) boundsProblems.push(`frame ${f}: shadow params not finite`);
   }
 
+  // Out-of-order determinism (master plan §9.3): request the same frames again
+  // after interleaving others; Remotion may render frame 72 before frame 71.
+  const firstPass = OUT_OF_ORDER.map((f) => renderToStaticMarkup(React.createElement(Runner, {frame: f})));
+  for (const f of [3, 17, 88, 51]) renderToStaticMarkup(React.createElement(Runner, {frame: f}));
+  const secondPass = OUT_OF_ORDER.map((f) => renderToStaticMarkup(React.createElement(Runner, {frame: f})));
+  const outOfOrderProblems = OUT_OF_ORDER.filter((_, i) => firstPass[i] !== secondPass[i]).map((f) => `frame ${f}`);
+
   checks.push(check('deterministic SSR: same frame -> identical SVG (94 frames x2)', determinismProblems.length === 0, determinismProblems.join('; ') || '94/94 identical'));
+  checks.push(check(`out-of-order frame requests -> identical SVG (${OUT_OF_ORDER.join(',')} twice, interleaved)`, outOfOrderProblems.length === 0, outOfOrderProblems.length ? `differs: ${outOfOrderProblems.join('; ')}` : '6/6 identical'));
   checks.push(check('no NaN/Infinity/undefined; shadow+scarf+body present every frame', markupProblems.length === 0, markupProblems.join('; ') || 'clean'));
   checks.push(check('all joint coordinates finite and inside 1920x1080', boundsProblems.length === 0, boundsProblems.join('; ') || `${DURATION * 15} points in bounds`));
 
-  // Segment lengths across the cycle
+  // --- Phase 1 primary gates: constrained skeleton ---------------------------
+  const cfg = boneLengths(RUNNER_RIG);
+  const boneErrMax: Record<string, number> = Object.fromEntries(BONE_IDS.map((b) => [b, 0]));
+  const limbNames = ['nearLeg', 'farLeg', 'nearArm', 'farArm'] as const;
+  const residualMax: Record<string, number> = Object.fromEntries(limbNames.map((l) => [l, 0]));
+  const midDevMax: Record<string, number> = Object.fromEntries(limbNames.map((l) => [l, 0]));
+  const midDevSumSq: Record<string, number> = Object.fromEntries(limbNames.map((l) => [l, 0]));
+  const bendSidesSeen: Record<string, Set<number>> = Object.fromEntries(limbNames.map((l) => [l, new Set<number>()]));
+  const clampedFrames: {frame: number; limb: string; kind: string; residual: number}[] = [];
+  const boneProblems: string[] = [];
+  const residualProblems: string[] = [];
+  const bendProblems: string[] = [];
+  const footProblems: string[] = [];
+  let prevBend: Record<string, number> | null = null;
+  let footLenMaxErr = 0;
+  const perFrameRig: unknown[] = [];
+
+  for (let f = 0; f < DURATION; f++) {
+    const d = diagnosePose(solvePose(f));
+    for (const id of BONE_IDS) {
+      boneErrMax[id] = Math.max(boneErrMax[id], d.boneLengthError[id]);
+      if (!(d.boneLengthError[id] <= BONE_LENGTH_TOLERANCE)) boneProblems.push(`frame ${f} ${id}: ${d.boneLengthError[id].toFixed(4)} px`);
+    }
+    for (const l of limbNames) {
+      residualMax[l] = Math.max(residualMax[l], d.endResidual[l]);
+      midDevMax[l] = Math.max(midDevMax[l], d.midDeviation[l]);
+      midDevSumSq[l] += d.midDeviation[l] ** 2;
+      bendSidesSeen[l].add(d.bendSide[l]);
+      if (d.clamped[l] !== 'none') {
+        clampedFrames.push({frame: f, limb: l, kind: d.clamped[l], residual: +d.endResidual[l].toFixed(4)});
+      } else if (!(d.endResidual[l] <= IK_RESIDUAL_TOLERANCE)) {
+        residualProblems.push(`frame ${f} ${l}: reachable residual ${d.endResidual[l].toFixed(4)} px`);
+      }
+      const expected = l.includes('Leg') ? RUNNER_RIG.legs.near.bendSign : RUNNER_RIG.arms.near.bendSign;
+      if (d.bendSide[l] !== expected) bendProblems.push(`frame ${f} ${l}: side ${d.bendSide[l]} != hint ${expected}`);
+      if (prevBend && d.bendSide[l] !== prevBend[l]) bendProblems.push(`flip ${f - 1}->${f} ${l}`);
+    }
+    prevBend = d.bendSide;
+    footLenMaxErr = Math.max(footLenMaxErr, Math.abs(d.footLength.near - RUNNER_RIG.footLen), Math.abs(d.footLength.far - RUNNER_RIG.footLen));
+    if (!(Math.abs(d.footLength.near - RUNNER_RIG.footLen) <= FOOT_LENGTH_TOLERANCE) || !(Math.abs(d.footLength.far - RUNNER_RIG.footLen) <= FOOT_LENGTH_TOLERANCE)) {
+      footProblems.push(`frame ${f}: near ${d.footLength.near.toFixed(4)} far ${d.footLength.far.toFixed(4)}`);
+    }
+    perFrameRig.push({frame: f, boneLengthError: d.boneLengthError, endResidual: d.endResidual, midDeviation: d.midDeviation, bendSide: d.bendSide, clamped: d.clamped});
+  }
+  const worstBoneErr = Math.max(...Object.values(boneErrMax));
+  const worstResidual = Math.max(...Object.values(residualMax));
+
+  checks.push(check(`solved bone lengths within ±${BONE_LENGTH_TOLERANCE} px of configured rig lengths (94 frames x 8 bones)`, boneProblems.length === 0,
+    boneProblems.length ? boneProblems.slice(0, 10).join('; ') : `worst error ${worstBoneErr.toExponential(3)} px (analytic solve; gate ±${BONE_LENGTH_TOLERANCE})`));
+  checks.push(check(`IK end-effector residual <= ${IK_RESIDUAL_TOLERANCE} px for reachable targets; clamped targets reported`, residualProblems.length === 0,
+    residualProblems.length ? residualProblems.slice(0, 10).join('; ') : `worst residual ${worstResidual.toExponential(3)} px; clamped frames: ${clampedFrames.length}${clampedFrames.length ? ' (see report)' : ''}`));
+  checks.push(check('knee/elbow bend side stable and equal to rig hint (no flips incl. 25->26 wrap)', bendProblems.length === 0,
+    bendProblems.length ? bendProblems.slice(0, 10).join('; ') : `knees ${[...bendSidesSeen.nearLeg]}, elbows ${[...bendSidesSeen.nearArm]} on all 94 frames`));
+  checks.push(check(`foot artwork length constant at rig.footLen=${RUNNER_RIG.footLen} px (geometry, not a bone)`, footProblems.length === 0,
+    footProblems.length ? footProblems.slice(0, 10).join('; ') : `max error ${footLenMaxErr.toExponential(3)} px`));
+
+  // --- Solved segment statistics (ratios now ~1.000 by construction) ---------
   const segDefs: [string, (j: FrameJoints) => [Pt, Pt]][] = [
     ['near hip->knee', (j) => [j.hip, j.nearKnee]],
     ['near knee->ankle', (j) => [j.nearKnee, j.nearAnkle]],
@@ -129,26 +229,27 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
     ['far shoulder->elbow', (j) => [j.shoulder, j.farElbow]],
     ['far elbow->fist', (j) => [j.farElbow, j.farFist]],
   ];
-  const segmentStats = segDefs.map(([name, sel]) => {
-    const lens = allJoints.map((j) => { const [a, b] = sel(j); return dist(a, b); });
+  const statsOf = (pool: FrameJoints[]) => segDefs.map(([name, sel]) => {
+    const lens = pool.map((j) => { const [a, b] = sel(j); return dist(a, b); });
     const min = Math.min(...lens), max = Math.max(...lens), mean = lens.reduce((s, v) => s + v, 0) / lens.length;
     return {segment: name, min: +min.toFixed(1), max: +max.toFixed(1), mean: +mean.toFixed(1), maxOverMin: +(max / min).toFixed(3)};
   });
-  const lenBad = segmentStats.filter((s) => s.maxOverMin > LENGTH_TOLERANCE);
-  checks.push(check(`limb segment length variation within documented tolerance (max/min <= ${LENGTH_TOLERANCE})`, lenBad.length === 0,
-    lenBad.length ? lenBad.map((s) => `${s.segment}: ${s.maxOverMin}`).join('; ') : `worst ratio ${Math.max(...segmentStats.map((s) => s.maxOverMin))}`));
+  const segmentStats = statsOf(allJoints);
 
-  // --- Diagnostic: where does the length variation come from? ---------------
-  // The puppet has NO bone-length constraint: keys.ts stores hand-measured
-  // joint positions, and Catmull-Rom resampling adds overshoot between them.
-  // Compare (a) lengths at the 26 STORED leg-cycle samples / the 2 measured arm
-  // extremes with (b) lengths at all 94 interpolated frames. This classifies
-  // the finding; it does NOT change the tolerance or the puppet.
+  // --- Diagnostic (NOT a gate): raw unconstrained track variation ------------
+  // The historical Test I failure lives here. Three levels, measured separately:
+  // raw hand-measured keys -> stored 26-sample LEG_CYCLE (build-time Catmull-Rom)
+  // -> all 94 interpolated frames. The solver now absorbs this noise without
+  // stretching bones; the numbers stay visible for comparison with the baseline.
+  const rawAll: FrameJoints[] = [];
+  for (let f = 0; f < DURATION; f++) rawAll.push(rawJoints(f));
+  const rawSegmentStats = statsOf(rawAll);
+
   const legSampleJoints: FrameJoints[] = [];
   for (let s = 0; s < LEG_CYCLE.length; s++) {
     const k = LEG_CYCLE[s];
     const kf = LEG_CYCLE[(s + STEP) % LEG_CYCLE.length]; // far limb = near + 13 (symmetry trick)
-    const base = joints(0);
+    const base = rawJoints(0);
     legSampleJoints.push({
       ...base,
       nearKnee: add(k.knee, base.hip), nearAnkle: add(k.ankle, base.hip), nearToe: add(k.toe, base.hip),
@@ -156,7 +257,7 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
     });
   }
   const armSampleJoints: FrameJoints[] = [0, STEP].map((f) => {
-    const base = joints(f);
+    const base = rawJoints(f);
     const a = armPose(f, 0);
     const b = armPose(f, STEP);
     return {...base,
@@ -167,7 +268,7 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
     const pool = name.includes('shoulder') || name.includes('elbow->fist') ? armSampleJoints : legSampleJoints;
     const lens = pool.map((j) => { const [a, b] = sel(j); return dist(a, b); });
     const min = Math.min(...lens), max = Math.max(...lens);
-    const interp = segmentStats.find((s) => s.segment === name)!;
+    const interp = rawSegmentStats.find((s) => s.segment === name)!;
     return {
       segment: name,
       storedMin: +min.toFixed(1), storedMax: +max.toFixed(1),
@@ -180,44 +281,17 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
   const worstInterp = Math.max(...storedStats.map((s) => s.interpolatedMaxOverMin));
   const worstOvershoot = Math.max(...storedStats.map((s) => s.interpolationOvershoot));
 
-  // Third level: the RAW hand-measured keys. keys.ts does not export them (and
-  // must not be modified for this task), so they are read from the source text
-  // read-only. If the literals ever change shape this degrades to null rather
-  // than guessing — the finding above never depends on it.
-  let rawKeyStats: unknown = null;
-  try {
-    const src = fs.readFileSync(path.join(ROOT, 'remotion', 'src', 'puppet', 'keys.ts'), 'utf8');
-    const grab = (name: string) => {
-      const m = src.match(new RegExp(`const ${name}[^=]*=\\s*\\[([\\s\\S]*?)\\n\\];`));
-      if (!m) return null;
-      const objs = [...m[1].matchAll(/\{([^}]*)\}/g)].map((o) => {
-        const pts: Record<string, Pt> = {};
-        for (const p of o[1].matchAll(/(hip|knee|ankle|toe):\s*\[\s*(-?\d+)\s*,\s*(-?\d+)\s*\]/g)) {
-          pts[p[1]] = [Number(p[2]), Number(p[3])];
-        }
-        return pts;
-      });
-      return objs.length === 7 && objs.every((o) => o.hip && o.knee && o.ankle && o.toe) ? objs : null;
-    };
-    const legs = {near: grab('nearLegRaw'), far: grab('farLegRaw')};
-    if (legs.near && legs.far) {
-      const segs: [string, (k: Record<string, Pt>) => [Pt, Pt]][] = [
-        ['hip->knee', (k) => [k.hip, k.knee]],
-        ['knee->ankle', (k) => [k.knee, k.ankle]],
-        ['ankle->toe', (k) => [k.ankle, k.toe]],
-      ];
-      rawKeyStats = segs.map(([name, sel]) => {
-        const lens = [...legs.near!, ...legs.far!].map((k) => { const [a, b] = sel(k); return dist(a, b); });
-        const min = Math.min(...lens), max = Math.max(...lens);
-        return {segment: name, rawKeyMin: +min.toFixed(1), rawKeyMax: +max.toFixed(1), rawKeyMaxOverMin: +(max / min).toFixed(3)};
-      });
-    }
-  } catch {
-    rawKeyStats = null;
-  }
-  const worstRaw = Array.isArray(rawKeyStats)
-    ? Math.max(...(rawKeyStats as {rawKeyMaxOverMin: number}[]).map((s) => s.rawKeyMaxOverMin))
-    : null;
+  // Raw hand-measured keys — now exported read-only by keys.ts (Phase 1).
+  const rawKeyStats = ([
+    ['hip->knee', (k: {hip: Pt; knee: Pt}) => [k.hip, k.knee] as [Pt, Pt]],
+    ['knee->ankle', (k: {knee: Pt; ankle: Pt}) => [k.knee, k.ankle] as [Pt, Pt]],
+    ['ankle->toe', (k: {ankle: Pt; toe: Pt}) => [k.ankle, k.toe] as [Pt, Pt]],
+  ] as [string, (k: {hip: Pt; knee: Pt; ankle: Pt; toe: Pt}) => [Pt, Pt]][]).map(([name, sel]) => {
+    const lens = [...NEAR_LEG_RAW, ...FAR_LEG_RAW].map((k) => { const [a, b] = sel(k); return dist(a, b); });
+    const min = Math.min(...lens), max = Math.max(...lens);
+    return {segment: name, rawKeyMin: +min.toFixed(1), rawKeyMax: +max.toFixed(1), rawKeyMaxOverMin: +(max / min).toFixed(3)};
+  });
+  const worstRaw = Math.max(...rawKeyStats.map((s) => s.rawKeyMaxOverMin));
 
   // --- Smoothness: joint acceleration (2nd difference) ---------------------
   const accels: number[] = [];
@@ -274,28 +348,43 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
   const findings = failed.map((c) => ({
     check: c.name,
     detail: c.detail,
-    classification: c.name.startsWith('limb segment length')
-      ? 'PRE-EXISTING DESIGN LIMITATION (not a regression): Runner.tsx / keys.ts are byte-identical to the pre-reconciliation baseline commit 5ab3d64. The puppet has NO bone-length constraint. Three levels are measured separately: the raw hand-measured keys already vary, build-time Catmull-Rom resampling into the 26-sample LEG_CYCLE amplifies that, and per-frame interpolation adds only a small overshoot on top. The dominant source is the unconstrained measured geometry, not a continuity bug.'
-      : 'UNEXPECTED — investigate',
-    regression: false,
-    evidence: {
-      rawMeasuredKeyMaxOverMin: worstRaw,
-      storedTrackSampleMaxOverMin: worstStored,
-      interpolatedFrameMaxOverMin: worstInterp,
-      maxInterpolationOvershoot: worstOvershoot,
-      tolerance: LENGTH_TOLERANCE,
-    },
-    action: 'Recorded as future work. NOT tuned and NOT re-thresholded as part of this reconciliation (contract rules 1 and 3).',
+    classification: 'UNEXPECTED — investigate. The constrained rig (rig.ts/ik.ts/pose.ts) should guarantee fixed bone lengths, stable bend side and reachable-target accuracy; a failure here is a regression or a rig/track defect, not the historical unconstrained-track finding.',
+    regression: true,
+    action: 'Stop, record failing frames/cases, and repair per master plan §14. Do not widen thresholds.',
   }));
 
   const report = {
     generatedAt: new Date().toISOString(),
-    scope: 'RunCycle procedural puppet, frames 0..93; cel selection monotonicity covered by remotion/test/cels.test.ts',
-    tolerances: {segmentLengthMaxOverMin: LENGTH_TOLERANCE, wrapPopFactor: POP_FACTOR, pixelThumb: '96x54 grayscale-free RGB MAD'},
+    scope: 'RunCycle procedural puppet (Phase 1 constrained rig), frames 0..93; cel selection monotonicity covered by remotion/test/cels.test.ts; solver edge cases by test/ik.test.ts + reports/ik-validation.json',
+    tolerances: {
+      solvedBoneLengthErrorPx: BONE_LENGTH_TOLERANCE,
+      ikReachableResidualPx: IK_RESIDUAL_TOLERANCE,
+      footArtworkLengthErrorPx: FOOT_LENGTH_TOLERANCE,
+      wrapPopFactor: POP_FACTOR,
+      pixelThumb: '96x54 grayscale-free RGB MAD',
+    },
     checks,
+    solvedRig: {
+      rigId: RUNNER_RIG.id,
+      configuredBoneLengths: cfg,
+      boneLengthErrorMax: Object.fromEntries(BONE_IDS.map((b) => [b, +boneErrMax[b].toExponential(4)])),
+      worstBoneLengthErrorPx: +worstBoneErr.toExponential(4),
+      endResidualMax: Object.fromEntries(limbNames.map((l) => [l, +residualMax[l].toExponential(4)])),
+      clampedFrames,
+      midDeviationFromRawTargets: {
+        note: 'Expected nonzero: raw knee/elbow readings are noisy hand measurements (hip->knee varies 1.958x). The solver prioritizes end-effector accuracy + fixed bone lengths. Per-frame values below — never hidden.',
+        max: Object.fromEntries(limbNames.map((l) => [l, +midDevMax[l].toFixed(2)])),
+        rms: Object.fromEntries(limbNames.map((l) => [l, +Math.sqrt(midDevSumSq[l] / DURATION).toFixed(2)])),
+      },
+      bendSides: Object.fromEntries(limbNames.map((l) => [l, [...bendSidesSeen[l]]])),
+      footArtworkLength: {configured: RUNNER_RIG.footLen, maxErrorPx: +footLenMaxErr.toExponential(4)},
+      perFrame: perFrameRig,
+    },
     segmentLengthStats: segmentStats,
+    segmentLengthStatsNote: 'SOLVED joints (what renders). Constrained bones have ratio ~1.000 by construction; ankle->toe is constant foot artwork. The historical unconstrained variation is preserved below and in reports/baseline/.',
+    rawTrackSegmentLengthStats: rawSegmentStats,
     segmentLengthOrigin: {
-      note: 'Three levels, measured separately: rawMeasuredKeys (7 hand-measured poses per leg, read read-only from keys.ts) -> storedTrack (26-sample LEG_CYCLE after build-time Catmull-Rom) -> interpolatedFrames (all 94). interpolationOvershoot = interpolated max / stored max. Diagnostic only — the tolerance above and the puppet itself are unchanged.',
+      note: 'DIAGNOSTIC ONLY (not a gate since Phase 1). Three levels of the RAW unconstrained track, measured separately: rawMeasuredKeys (7 hand-measured poses per leg, exported read-only by keys.ts) -> storedTrack (26-sample LEG_CYCLE after build-time Catmull-Rom) -> interpolatedFrames (all 94). interpolationOvershoot = interpolated max / stored max. The constrained solver absorbs this noise without stretching bones.',
       rawMeasuredKeys: rawKeyStats,
       worstRawMeasuredKeyMaxOverMin: worstRaw,
       perSegment: storedStats,
@@ -303,13 +392,21 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
       worstInterpolatedMaxOverMin: +worstInterp.toFixed(3),
       worstInterpolationOvershoot: +worstOvershoot.toFixed(3),
     },
+    historicalBaseline: {
+      commit: '5d4d13ab92ac38be0397bd2b8feb27e19eefdf98',
+      oldPrimaryGate: 'limb segment length max/min <= 2.0 (unconstrained puppet)',
+      oldResult: 'FAIL 7/8 checks; worst ratio 2.891x knee->ankle',
+      preservedIn: 'reports/baseline/motion-validation.json (verbatim) + reports/puppet-upgrade-baseline.json',
+      replacedBy: 'per-bone configured-length error ±0.5 px + IK residual + bend stability (master plan §9.7)',
+    },
     adjacentJointDeltaPx: {median: +sorted[Math.floor(sorted.length / 2)].toFixed(2), p95: +p95.toFixed(2), max: +sorted[sorted.length - 1].toFixed(2), wrap25to26: +wrapDelta.toFixed(2)},
     jointAccelerationPx: {median: +as[Math.floor(as.length / 2)].toFixed(2), p95: +ap95.toFixed(2), max: +as[as.length - 1].toFixed(2), wrap25to26: +wrapAccel.toFixed(2)},
     adjacentPixelMad: {median: +ms[Math.floor(ms.length / 2)].toFixed(3), p95: +mp95.toFixed(3), max: +ms[ms.length - 1].toFixed(3), wrap25to26: +wrapMad.toFixed(3)},
     notPresent_futureWork: [
-      'true IK stance-locking (not implemented in Runner.tsx / keys.ts)',
-      'measured foot-contact solver (not implemented)',
-      'bone-length constraints on the limb segments (lengths are unconstrained by design)',
+      'true IK stance-locking (Phase 2 — not implemented yet)',
+      'measured foot-contact solver / verified contact track (Phase 2 — baseline candidates are UNCERTAIN)',
+      'cohesive limb/torso/foot silhouettes + deterministic scarf chain (Phase 3)',
+      'second character variant (Phase 4)',
     ],
     findings,
     summary: {total: checks.length, passed: checks.length - failed.length, failed: failed.length, failedChecks: failed.map((c) => c.name)},
@@ -318,7 +415,8 @@ const POP_FACTOR = 1.5; // wrap delta must be <= 1.5 x p95 of adjacent deltas
   fs.mkdirSync(path.join(ROOT, 'reports'), {recursive: true});
   fs.writeFileSync(path.join(ROOT, 'reports', 'motion-validation.json'), JSON.stringify(report, null, 2));
   for (const c of checks) console.log(`[${c.status}] ${c.name} — ${c.detail}`);
-  for (const f of findings) console.log(`\nFINDING: ${f.check}\n  ${f.classification}\n  raw keys max/min=${worstRaw ?? 'n/a'}, stored track max/min=${worstStored.toFixed(2)}, interpolated max/min=${worstInterp.toFixed(2)}, frame-interp overshoot=${worstOvershoot.toFixed(2)}x`);
+  console.log(`\nraw-track diagnostic (not a gate): raw keys max/min=${worstRaw}, stored track max/min=${worstStored.toFixed(3)}, interpolated max/min=${worstInterp.toFixed(3)}, frame-interp overshoot=${worstOvershoot.toFixed(3)}x`);
+  for (const f of findings) console.log(`\nFINDING: ${f.check}\n  ${f.classification}`);
   console.log(`\nTest I motion: ${report.status} (${report.summary.passed}/${report.summary.total} checks pass)`);
   process.exit(report.status === 'PASS' ? 0 : 1);
 })().catch((err) => { console.error(err); process.exit(1); });

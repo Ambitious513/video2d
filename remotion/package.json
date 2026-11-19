@@ -1,1 +1,39 @@
-{"name": "runner-2d-remotion", "version": "1.0.0", "private": true, "scripts": {"studio": "remotion studio --port 3000 --host 0.0.0.0", "render:puppet": "remotion render RunCycle out/run-2d-puppet.mp4", "render:cel": "remotion render CelRun out/run-2d-cel.mp4", "render:cel-loop": "remotion render CelLoop out/run-2d-cel-loop.mp4", "render:comparison": "remotion render Comparison out/comparison-source-vs-2d.mp4", "render:still": "remotion still RunCycle out/puppet-still.png --frame=0", "render:all:lowram": "node ../render-lowram.mjs", "typecheck": "tsc --noEmit", "test": "node --import tsx --test test/cels.test.ts", "verify": "node ../verify.mjs", "verify:compositions": "node scripts/verify-compositions.mjs", "verify:stills": "node scripts/render-stills.mjs", "verify:motion": "tsx scripts/motion-check.tsx"}, "dependencies": {"@remotion/cli": "4.0.240", "react": "18.3.1", "react-dom": "18.3.1", "remotion": "4.0.240"}, "devDependencies": {"@types/react": "18.3.12", "tsx": "^4.23.15", "typescript": "5.6.3"}}
+{
+  "name": "runner-2d-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio --port 3000 --host 0.0.0.0",
+    "render:puppet": "remotion render RunCycle out/run-2d-puppet.mp4",
+    "render:cel": "remotion render CelRun out/run-2d-cel.mp4",
+    "render:cel-loop": "remotion render CelLoop out/run-2d-cel-loop.mp4",
+    "render:comparison": "remotion render Comparison out/comparison-source-vs-2d.mp4",
+    "render:still": "remotion still RunCycle out/puppet-still.png --frame=0",
+    "render:all:lowram": "node ../render-lowram.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/cels.test.ts test/ik.test.ts test/rig.test.ts test/pose.test.ts test/contacts.test.ts test/stance.test.ts test/secondary.test.ts test/variant.test.ts",
+    "verify": "node ../verify.mjs",
+    "verify:compositions": "node scripts/verify-compositions.mjs",
+    "verify:stills": "node scripts/render-stills.mjs",
+    "verify:motion": "tsx scripts/motion-check.tsx",
+    "puppet:baseline": "tsx scripts/puppet-baseline.ts",
+    "puppet:sheet": "node scripts/puppet-contact-sheet.mjs",
+    "verify:ik": "tsx scripts/ik-validate.ts",
+    "verify:contacts": "tsx scripts/contact-candidates.ts",
+    "verify:contact-evidence": "tsx scripts/contact-evidence.ts",
+    "verify:source-root": "node scripts/source-root-stability.mjs",
+    "contact:timeline": "node scripts/contact-timeline.mjs",
+    "verify:stance": "tsx scripts/stance-validate.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.240",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.240"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "tsx": "^4.23.15",
+    "typescript": "5.6.3"
+  }
+}

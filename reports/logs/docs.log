@@ -1,7 +1,7 @@
-$ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/verify-docs.js
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo)
+$ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\verify-docs.js
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
-[PASS] every documented repository path resolves (or is documented regenerable) — 74 path references checked across METHOD.md, STATUS.md
+[PASS] every documented repository path resolves (or is documented regenerable) — 142 path references checked across METHOD.md, STATUS.md, ROADMAP.md
 [PASS] every documented npm run script exists — all documented scripts defined
 [PASS] every mentioned composition ID is registered — registered: CelRun, CelLoop, RunCycle, Comparison
 [PASS] every documented regenerable location is really gitignored — 6 regenerable locations confirmed against .gitignore
@@ -9,4 +9,10 @@ $ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/se
 [PASS] no document describes CelRun as the 26-cel loop — CelRun is documented as the exact 94-cel variant
 [PASS] STATUS.md has the required current-handoff sections — current state / not-in-GitHub / limitations / history / resume all present
 [PASS] no stale unfinished-work claims outside the labelled History section — historical claims are confined to the History section
+[PASS] ROADMAP.md current-state header agrees with the phase table — header and phase table are consistent
+[PASS] ROADMAP next-agent instructions are not stale (no completed phase told to start) — next-agent block is consistent with the phase table
+[PASS] ROADMAP Variant reuse status is a verified result (not NOT RUN) — Variant reuse: **PASS**
+[PASS] STATUS.md does not recommend a completed phase as the next task — STATUS next-task guidance is consistent
+[PASS] ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated — stance-locking claim is consistent with the diagnostic-model limitation
+[PASS] STATUS Phase 4 reusability statement is correct (proved reuse; not "not started") — Phase 4 reuse statement is accurate
 A15/A16 documentation: PASS

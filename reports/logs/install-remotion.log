@@ -1,5 +1,5 @@
-$ npm ci --no-audit --no-fund
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion)
+$ npm.cmd ci --no-audit --no-fund
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion)
 
 
-added 179 packages in 6s
+added 178 packages in 7s

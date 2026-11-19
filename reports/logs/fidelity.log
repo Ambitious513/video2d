@@ -1,22 +1,22 @@
-$ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo)
+$ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
 scoring cel94 <- remotion/out/celframes
-  cel94: 20/94 (3s)
-  cel94: 40/94 (6s)
-  cel94: 60/94 (9s)
-  cel94: 80/94 (11s)
+  cel94: 20/94 (2s)
+  cel94: 40/94 (4s)
+  cel94: 60/94 (6s)
+  cel94: 80/94 (8s)
 scoring celLoop <- remotion/out/celloopframes
-  celLoop: 20/94 (3s)
-  celLoop: 40/94 (5s)
-  celLoop: 60/94 (8s)
-  celLoop: 80/94 (10s)
+  celLoop: 20/94 (2s)
+  celLoop: 40/94 (4s)
+  celLoop: 60/94 (6s)
+  celLoop: 80/94 (8s)
 scoring puppet <- remotion/out/puppetframes
-  puppet: 20/94 (3s)
-  puppet: 40/94 (5s)
-  puppet: 60/94 (7s)
-  puppet: 80/94 (10s)
+  puppet: 20/94 (2s)
+  puppet: 40/94 (3s)
+  puppet: 60/94 (5s)
+  puppet: 80/94 (7s)
 wrote reports/fidelity-all-frames.json + reports/FIDELITY.md
 cel94: MAE 1.046, %>40 0.8006, IoU(fg) 0.9756, IoU(char) 0.9577
 celLoop: MAE 2.5423, %>40 1.8057, IoU(fg) 0.8791, IoU(char) 0.8582
-puppet: MAE 5.6307, %>40 4.3798, IoU(fg) 0.6158, IoU(char) 0.6116
+puppet: MAE 5.85, %>40 4.4777, IoU(fg) 0.5876, IoU(char) 0.5833

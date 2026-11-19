@@ -1,21 +1,23 @@
-$ npm run verify:motion
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion)
+$ npm.cmd run verify:motion
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion)
 
 
 > runner-2d-remotion@1.0.0 verify:motion
 > tsx scripts/motion-check.tsx
 
 [PASS] deterministic SSR: same frame -> identical SVG (94 frames x2) — 94/94 identical
+[PASS] out-of-order frame requests -> identical SVG (72,0,45,12,93,25 twice, interleaved) — 6/6 identical
 [PASS] no NaN/Infinity/undefined; shadow+scarf+body present every frame — clean
 [PASS] all joint coordinates finite and inside 1920x1080 — 1410 points in bounds
-[FAIL] limb segment length variation within documented tolerance (max/min <= 2) — near hip->knee: 2.034; near knee->ankle: 2.891; far hip->knee: 2.034; far knee->ankle: 2.891; near elbow->fist: 2.705; far elbow->fist: 2.705
-[PASS] joint motion is smooth at the wrap (accel 276.3px <= 1.5 x p95 298.6px) — accel median=46.65px, p95=298.55px, max=298.55px, wrap=276.29px
-[PASS] no one-frame pop at 26-frame wrap (joint delta 17.2px <= 1.5 x p95 276.1px) — wrap(25->26)=17.18px, adjacent-delta median=73.30px, p95=276.13px, max=276.13px
-[PASS] no pixel pop at wrap (MAD 1.28 <= 1.5 x p95 5.08) — wrap(25->26)=1.278, median=3.254, p95=5.082, max=5.151
+[PASS] solved bone lengths within ±0.5 px of configured rig lengths (94 frames x 8 bones) — worst error 1.421e-13 px (analytic solve; gate ±0.5)
+[PASS] IK end-effector residual <= 1 px for reachable targets; clamped targets reported — worst residual 0.000e+0 px; clamped frames: 0
+[PASS] knee/elbow bend side stable and equal to rig hint (no flips incl. 25->26 wrap) — knees -1, elbows 1 on all 94 frames
+[PASS] foot artwork length constant at rig.footLen=87.3 px (geometry, not a bone) — max error 9.948e-14 px
+[PASS] joint motion is smooth at the wrap (accel 286.5px <= 1.5 x p95 307.0px) — accel median=54.43px, p95=306.99px, max=306.99px, wrap=286.51px
+[PASS] no one-frame pop at 26-frame wrap (joint delta 13.7px <= 1.5 x p95 295.2px) — wrap(25->26)=13.68px, adjacent-delta median=71.30px, p95=295.20px, max=295.20px
+[PASS] no pixel pop at wrap (MAD 1.23 <= 1.5 x p95 4.59) — wrap(25->26)=1.230, median=3.084, p95=4.590, max=5.299
 [PASS] character visible (not blank) in every rasterized frame — 94/94 non-blank at 96x54
 
-FINDING: limb segment length variation within documented tolerance (max/min <= 2)
-  PRE-EXISTING DESIGN LIMITATION (not a regression): Runner.tsx / keys.ts are byte-identical to the pre-reconciliation baseline commit 5ab3d64. The puppet has NO bone-length constraint. Three levels are measured separately: the raw hand-measured keys already vary, build-time Catmull-Rom resampling into the 26-sample LEG_CYCLE amplifies that, and per-frame interpolation adds only a small overshoot on top. The dominant source is the unconstrained measured geometry, not a continuity bug.
-  raw keys max/min=1.958, stored track max/min=2.89, interpolated max/min=2.89, frame-interp overshoot=1.19x
+raw-track diagnostic (not a gate): raw keys max/min=1.958, stored track max/min=2.891, interpolated max/min=2.891, frame-interp overshoot=1.192x
 
-Test I motion: FAIL (7/8 checks pass)
+Test I motion: PASS (12/12 checks pass)

@@ -1,5 +1,5 @@
-$ npm run typecheck
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion)
+$ npm.cmd run typecheck
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion)
 
 
 > runner-2d-remotion@1.0.0 typecheck

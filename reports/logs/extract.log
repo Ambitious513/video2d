@@ -1,8 +1,8 @@
-$ /usr/local/bin/node /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/tools/extract-frames.js
-(cwd=/tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo)
+$ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\extract-frames.js
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
-$ ffmpeg -v error -y -i /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/source/input_video.mp4 -start_number 1 /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/fullres/f_%03d.png
-$ ffmpeg -v error -y -i /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/source/input_video.mp4 -vf scale=960:-1 -start_number 1 /tmp/arena/tenants/f1c4fb8a-11d6-43c5-8344-738e33805cda/sessions/93a20ce1-cb6c-576e-9511-5ea2b67a2237/workspace/repo/remotion/public/srcframes/f_%03d.png
+$ ffmpeg -v error -y -i D:\downloads\ONGOING PROGRESS\video2d-takeover\source\input_video.mp4 -start_number 1 D:\downloads\ONGOING PROGRESS\video2d-takeover\fullres\f_%03d.png
+$ ffmpeg -v error -y -i D:\downloads\ONGOING PROGRESS\video2d-takeover\source\input_video.mp4 -vf scale=960:-1 -start_number 1 D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion\public\srcframes\f_%03d.png
 fullres: 94 frames
 srcframes: 94 frames
 extraction OK

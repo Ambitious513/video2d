@@ -28,7 +28,7 @@ const {spawnSync} = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const REMOTION = path.join(ROOT, 'remotion');
-const DOCS = ['METHOD.md', 'STATUS.md'];
+const DOCS = ['METHOD.md', 'STATUS.md', 'ROADMAP.md'];
 
 // Owner-supplied acceptance contract, referenced for provenance but not part of
 // this repository (it is not a deliverable of the experiment).
@@ -172,6 +172,86 @@ const stalePatterns = [/never produced/i, /items are outstanding/i, /likely unfi
 const staleOutside = stalePatterns.filter((re) => re.test(outsideHistory)).map(String);
 checks.push(check('no stale unfinished-work claims outside the labelled History section', staleOutside.length === 0,
   staleOutside.length ? `stale claims in current sections: ${staleOutside.join(', ')}` : 'historical claims are confined to the History section'));
+
+// ROADMAP.md consistency: the top current-state block must agree with the
+// phase table. Detect contradictory "current state" statements (e.g. the header
+// says COMPLETE while the phase table says IN PROGRESS, or a phase is marked
+// both NOT STARTED and COMPLETE). History rows are ignored.
+const roadmap = texts['ROADMAP.md'] || '';
+if (!roadmap) {
+  checks.push(check('ROADMAP.md is loaded and non-empty', false, 'ROADMAP.md missing from DOCS collection'));
+}
+const headerMatch = roadmap.match(/^\*\*Current status:\*\*\s*(.+)$/im);
+const headerStatus = headerMatch ? headerMatch[1].trim() : '';
+const topBlock = roadmap.split(/\n##\s/)[0] || '';
+const phaseTableRows = roadmap.split('\n').filter((l) => /^\|\s*\d\.\s/.test(l));
+const phaseStates = {};
+for (const row of phaseTableRows) {
+  const cells = row.split('|').map((c) => c.trim());
+  const ph = cells[1] || '';
+  const st = (cells[3] || '').toUpperCase();
+  if (/^\d\./.test(ph)) phaseStates[ph.replace(/\..*$/, '')] = st;
+}
+const contradictions = [];
+const hdr = headerStatus.toUpperCase();
+if (/COMPLETE/.test(hdr) && !/IN PROGRESS|PARTIAL|BLOCKED/.test(hdr)) {
+  const notComplete = Object.entries(phaseStates).filter(([, st]) => st && !/COMPLETE/.test(st));
+  if (notComplete.length) contradictions.push(`header says COMPLETE but phase(s) not COMPLETE: ${notComplete.map(([p]) => p).join(', ')}`);
+}
+if (/NOT STARTED/.test(hdr) && Object.values(phaseStates).some((st) => /COMPLETE/.test(st))) {
+  contradictions.push('header says NOT STARTED but a phase is COMPLETE');
+}
+for (const [ph, st] of Object.entries(phaseStates)) {
+  if (/NOT STARTED/.test(st) && /COMPLETE/.test(st)) contradictions.push(`phase ${ph} marked both NOT STARTED and COMPLETE`);
+  if (/IN PROGRESS/.test(st) && /COMPLETE/.test(st) && !/IN PROGRESS \(.*COMPLETE/.test(st)) contradictions.push(`phase ${ph} marked both IN PROGRESS and COMPLETE`);
+}
+checks.push(check('ROADMAP.md current-state header agrees with the phase table', contradictions.length === 0,
+  contradictions.length ? `contradictions: ${contradictions.join('; ')}` : 'header and phase table are consistent'));
+
+// ROADMAP must not tell the next agent a completed phase is still in progress,
+// and must record a verified Variant reuse result (not NOT RUN).
+const nextAgentBlock = (roadmap.match(/### NEXT AGENT START HERE[\s\S]*?(?=\n##\s|\s*$)/i) || [''])[0];
+const staleNext = [];
+if (/BEGIN\s+\*{0,2}Phase\s*3/i.test(nextAgentBlock) && /Phase 3[\s\S]{0,40}COMPLETE/i.test(headerStatus)) staleNext.push('next-agent says begin Phase 3 but Phase 3 is COMPLETE');
+if (/BEGIN\s+\*{0,2}Phase\s*4/i.test(nextAgentBlock) && /Phase 4[\s\S]{0,40}COMPLETE/i.test(headerStatus)) staleNext.push('next-agent says begin Phase 4 but Phase 4 is COMPLETE');
+checks.push(check('ROADMAP next-agent instructions are not stale (no completed phase told to start)', staleNext.length === 0,
+  staleNext.length ? staleNext.join('; ') : 'next-agent block is consistent with the phase table'));
+
+const variantReuseRow = (roadmap.match(/Variant reuse\s*\|\s*([^|\n]+)/i) || [])[1] || '';
+const variantReuseBad = /NOT RUN/i.test(variantReuseRow);
+checks.push(check('ROADMAP Variant reuse status is a verified result (not NOT RUN)', !variantReuseBad && variantReuseRow.trim().length > 0,
+  variantReuseBad ? `Variant reuse still says NOT RUN` : `Variant reuse: ${variantReuseRow.trim().slice(0, 80)}`));
+
+// STATUS.md must not recommend a completed phase as the next task.
+const statusNextPhase = (status.match(/next task[^\n]*/i) || [''])[0];
+const staleStatusNext = /Phase [345][^\n]*(next task|recommended)/i.test(statusNextPhase) && /ALL PHASES \(0[–-]5\) COMPLETE/i.test(status);
+checks.push(check('STATUS.md does not recommend a completed phase as the next task', !staleStatusNext,
+  staleStatusNext ? `STATUS recommends a completed phase: ${statusNextPhase.slice(0, 80)}` : 'STATUS next-task guidance is consistent'));
+
+// Stance-locking honesty: ROADMAP must NOT claim stance locking is
+// "IMPLEMENTED + VALIDATED" while also stating continuous rendered foot
+// locking is not integrated. Detect the contradiction across current sections
+// (history excluded).
+const outsideHistoryAll = [status.replace(historyText, ''), roadmap].join('\n');
+// Positive claim must be a single-line "stance locking ... IMPLEMENTED + VALIDATED".
+const claimsStanceImplemented = /stance[- ]locking[^\n]{0,40}\bIMPLEMENTED\s*\+\s*VALIDATED/i.test(outsideHistoryAll);
+const statesNotIntegrated = /not\s+integrated|not\s+consum|data model \+\s*diagnostic|future locomotion-engine follow-?up/i.test(outsideHistoryAll);
+checks.push(check('ROADMAP/STATUS do not claim stance locking is IMPLEMENTED+VALIDATED while foot locking is not integrated',
+  !(claimsStanceImplemented && statesNotIntegrated),
+  claimsStanceImplemented && statesNotIntegrated
+    ? 'contradiction: stance locking claimed IMPLEMENTED+VALIDATED but continuous rendered foot locking is documented as not integrated'
+    : 'stance-locking claim is consistent with the diagnostic-model limitation'));
+
+// Phase 4 reusability honesty: STATUS must say Phase 4 proved reuse of the same
+// solver+motion and must NOT say Phase 4 had not started (single-line).
+const claimsPhase4NotStarted = /Phase 4[^\n]{0,60}(is\s+)?not started|Phase 4[^\n]{0,40}has not started/i.test(outsideHistoryAll);
+const claimsPhase4Reuse = /Phase 4[^\n]{0,80}(reuse|reusab)[^\n]{0,80}(same solver|same motion|runner|teal)/i.test(outsideHistoryAll)
+  || /(same solver|same motion)[^\n]{0,80}(runner|teal)/i.test(outsideHistoryAll);
+checks.push(check('STATUS Phase 4 reusability statement is correct (proved reuse; not "not started")',
+  !claimsPhase4NotStarted && claimsPhase4Reuse,
+  claimsPhase4NotStarted ? 'STATUS says Phase 4 is "not started" but Phase 4 is COMPLETE'
+    : !claimsPhase4Reuse ? 'STATUS does not state Phase 4 proved reuse of the same solver/motion'
+    : 'Phase 4 reuse statement is accurate'));
 
 const report = {
   generatedAt: new Date().toISOString(),

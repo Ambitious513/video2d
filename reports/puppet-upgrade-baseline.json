@@ -1,0 +1,3990 @@
+{
+  "generatedAt": "2026-11-17T23:59:28.557Z",
+  "purpose": "Phase 0 frozen pre-change baseline for the procedural puppet upgrade (master plan §4). Read-only characterization; no puppet code changed.",
+  "baselineCommit": "5d4d13ab92ac38be0397bd2b8feb27e19eefdf98",
+  "branch": "feat/constrained-puppet-rig",
+  "verificationCommand": "node verify.mjs --install --force-trace",
+  "timeline": {
+    "frames": 94,
+    "fps": 24,
+    "width": 1920,
+    "height": 1080,
+    "cycle": 26,
+    "step": 13,
+    "cyclic": "26-frame gait cycle; the 94-frame clip itself is NOT an exact loop"
+  },
+  "committedBaselineEvidence": {
+    "provenance": "reports/baseline/ (verbatim copies at 5d4d13ab92ac38be0397bd2b8feb27e19eefdf98)",
+    "testI": {
+      "status": "FAIL",
+      "summary": {
+        "total": 8,
+        "passed": 7,
+        "failed": 1,
+        "failedChecks": [
+          "limb segment length variation within documented tolerance (max/min <= 2)"
+        ]
+      },
+      "segmentLengthStats": [
+        {
+          "segment": "near hip->knee",
+          "min": 117.1,
+          "max": 238.2,
+          "mean": 163,
+          "maxOverMin": 2.034
+        },
+        {
+          "segment": "near knee->ankle",
+          "min": 73.5,
+          "max": 212.4,
+          "mean": 161.4,
+          "maxOverMin": 2.891
+        },
+        {
+          "segment": "near ankle->toe",
+          "min": 51,
+          "max": 94.3,
+          "mean": 81.5,
+          "maxOverMin": 1.849
+        },
+        {
+          "segment": "far hip->knee",
+          "min": 117.1,
+          "max": 238.2,
+          "mean": 164.3,
+          "maxOverMin": 2.034
+        },
+        {
+          "segment": "far knee->ankle",
+          "min": 73.5,
+          "max": 212.4,
+          "mean": 160.2,
+          "maxOverMin": 2.891
+        },
+        {
+          "segment": "far ankle->toe",
+          "min": 51,
+          "max": 94.3,
+          "mean": 81.5,
+          "maxOverMin": 1.849
+        },
+        {
+          "segment": "near shoulder->elbow",
+          "min": 114.6,
+          "max": 139.7,
+          "mean": 127,
+          "maxOverMin": 1.219
+        },
+        {
+          "segment": "near elbow->fist",
+          "min": 48.5,
+          "max": 131.1,
+          "mean": 82.4,
+          "maxOverMin": 2.705
+        },
+        {
+          "segment": "far shoulder->elbow",
+          "min": 114.6,
+          "max": 139.7,
+          "mean": 127.1,
+          "maxOverMin": 1.219
+        },
+        {
+          "segment": "far elbow->fist",
+          "min": 48.5,
+          "max": 131.1,
+          "mean": 83.1,
+          "maxOverMin": 2.705
+        }
+      ],
+      "segmentLengthOrigin": {
+        "note": "Three levels, measured separately: rawMeasuredKeys (7 hand-measured poses per leg, read read-only from keys.ts) -> storedTrack (26-sample LEG_CYCLE after build-time Catmull-Rom) -> interpolatedFrames (all 94). interpolationOvershoot = interpolated max / stored max. Diagnostic only — the tolerance above and the puppet itself are unchanged.",
+        "rawMeasuredKeys": [
+          {
+            "segment": "hip->knee",
+            "rawKeyMin": 121.7,
+            "rawKeyMax": 238.2,
+            "rawKeyMaxOverMin": 1.958
+          },
+          {
+            "segment": "knee->ankle",
+            "rawKeyMin": 111.1,
+            "rawKeyMax": 210.1,
+            "rawKeyMaxOverMin": 1.89
+          },
+          {
+            "segment": "ankle->toe",
+            "rawKeyMin": 69.2,
+            "rawKeyMax": 91.6,
+            "rawKeyMaxOverMin": 1.324
+          }
+        ],
+        "worstRawMeasuredKeyMaxOverMin": 1.958,
+        "perSegment": [
+          {
+            "segment": "near hip->knee",
+            "storedMin": 117.1,
+            "storedMax": 238.2,
+            "storedMaxOverMin": 2.034,
+            "interpolatedMaxOverMin": 2.034,
+            "interpolationOvershoot": 1
+          },
+          {
+            "segment": "near knee->ankle",
+            "storedMin": 73.5,
+            "storedMax": 212.4,
+            "storedMaxOverMin": 2.891,
+            "interpolatedMaxOverMin": 2.891,
+            "interpolationOvershoot": 1
+          },
+          {
+            "segment": "near ankle->toe",
+            "storedMin": 51,
+            "storedMax": 94.3,
+            "storedMaxOverMin": 1.849,
+            "interpolatedMaxOverMin": 1.849,
+            "interpolationOvershoot": 1
+          },
+          {
+            "segment": "far hip->knee",
+            "storedMin": 117.1,
+            "storedMax": 238.2,
+            "storedMaxOverMin": 2.034,
+            "interpolatedMaxOverMin": 2.034,
+            "interpolationOvershoot": 1
+          },
+          {
+            "segment": "far knee->ankle",
+            "storedMin": 73.5,
+            "storedMax": 212.4,
+            "storedMaxOverMin": 2.891,
+            "interpolatedMaxOverMin": 2.891,
+            "interpolationOvershoot": 1
+          },
+          {
+            "segment": "far ankle->toe",
+            "storedMin": 51,
+            "storedMax": 94.3,
+            "storedMaxOverMin": 1.849,
+            "interpolatedMaxOverMin": 1.849,
+            "interpolationOvershoot": 1
+          },
+          {
+            "segment": "near shoulder->elbow",
+            "storedMin": 114.6,
+            "storedMax": 117.2,
+            "storedMaxOverMin": 1.023,
+            "interpolatedMaxOverMin": 1.219,
+            "interpolationOvershoot": 1.192
+          },
+          {
+            "segment": "near elbow->fist",
+            "storedMin": 92,
+            "storedMax": 131.1,
+            "storedMaxOverMin": 1.425,
+            "interpolatedMaxOverMin": 2.705,
+            "interpolationOvershoot": 1
+          },
+          {
+            "segment": "far shoulder->elbow",
+            "storedMin": 114.6,
+            "storedMax": 117.2,
+            "storedMaxOverMin": 1.023,
+            "interpolatedMaxOverMin": 1.219,
+            "interpolationOvershoot": 1.192
+          },
+          {
+            "segment": "far elbow->fist",
+            "storedMin": 92,
+            "storedMax": 131.1,
+            "storedMaxOverMin": 1.425,
+            "interpolatedMaxOverMin": 2.705,
+            "interpolationOvershoot": 1
+          }
+        ],
+        "worstStoredMaxOverMin": 2.891,
+        "worstInterpolatedMaxOverMin": 2.891,
+        "worstInterpolationOvershoot": 1.192
+      }
+    },
+    "fidelity": {
+      "puppet": {
+        "objective": "diagnostic only — objective is editability + plausible motion, NOT pixel equality",
+        "renderSequence": {
+          "dir": "remotion/out/puppetframes",
+          "startIndex": 0,
+          "exampleFile": "element-00.png",
+          "frames": 94
+        },
+        "aggregate": {
+          "mae": 5.6307,
+          "pct_pixels_any_channel_gt_40": 4.3798,
+          "iou_foreground": 0.6158,
+          "iou_character": 0.6116
+        },
+        "perFrameStats": {
+          "mae": {
+            "min": 4.0723,
+            "median": 5.533,
+            "p95": 7.2916,
+            "max": 7.6782
+          },
+          "pct_pixels_any_channel_gt_40": {
+            "min": 3.0954,
+            "median": 4.3456,
+            "p95": 5.4854,
+            "max": 5.8589
+          },
+          "iou_foreground": {
+            "min": 0.4682,
+            "median": 0.6316,
+            "p95": 0.7082,
+            "max": 0.7481
+          },
+          "iou_character": {
+            "min": 0.456,
+            "median": 0.6283,
+            "p95": 0.7109,
+            "max": 0.7493
+          }
+        },
+        "worst5FramesByMae": [
+          {
+            "frame": 38,
+            "mae": 7.6782,
+            "pct_pixels_any_channel_gt_40": 5.8589,
+            "iou_character": 0.4576
+          },
+          {
+            "frame": 90,
+            "mae": 7.5798,
+            "pct_pixels_any_channel_gt_40": 5.7475,
+            "iou_character": 0.4603
+          },
+          {
+            "frame": 12,
+            "mae": 7.5146,
+            "pct_pixels_any_channel_gt_40": 5.7859,
+            "iou_character": 0.4614
+          },
+          {
+            "frame": 64,
+            "mae": 7.5064,
+            "pct_pixels_any_channel_gt_40": 5.7178,
+            "iou_character": 0.4629
+          },
+          {
+            "frame": 25,
+            "mae": 7.4309,
+            "pct_pixels_any_channel_gt_40": 5.5332,
+            "iou_character": 0.456
+          }
+        ],
+        "frames": [
+          {
+            "frame": 1,
+            "timelineFrame": 0,
+            "mae": 4.9346,
+            "pct_pixels_any_channel_gt_40": 3.9463,
+            "iou_foreground": 0.6556,
+            "iou_character": 0.6563
+          },
+          {
+            "frame": 2,
+            "timelineFrame": 1,
+            "mae": 4.5824,
+            "pct_pixels_any_channel_gt_40": 3.5879,
+            "iou_foreground": 0.7001,
+            "iou_character": 0.7027
+          },
+          {
+            "frame": 3,
+            "timelineFrame": 2,
+            "mae": 4.0723,
+            "pct_pixels_any_channel_gt_40": 3.0954,
+            "iou_foreground": 0.7481,
+            "iou_character": 0.7493
+          },
+          {
+            "frame": 4,
+            "timelineFrame": 3,
+            "mae": 4.4366,
+            "pct_pixels_any_channel_gt_40": 3.3444,
+            "iou_foreground": 0.7194,
+            "iou_character": 0.7131
+          },
+          {
+            "frame": 5,
+            "timelineFrame": 4,
+            "mae": 4.661,
+            "pct_pixels_any_channel_gt_40": 3.6154,
+            "iou_foreground": 0.6729,
+            "iou_character": 0.6692
+          },
+          {
+            "frame": 6,
+            "timelineFrame": 5,
+            "mae": 4.6024,
+            "pct_pixels_any_channel_gt_40": 3.7665,
+            "iou_foreground": 0.6528,
+            "iou_character": 0.653
+          },
+          {
+            "frame": 7,
+            "timelineFrame": 6,
+            "mae": 4.4729,
+            "pct_pixels_any_channel_gt_40": 3.6694,
+            "iou_foreground": 0.6613,
+            "iou_character": 0.652
+          },
+          {
+            "frame": 8,
+            "timelineFrame": 7,
+            "mae": 5.9697,
+            "pct_pixels_any_channel_gt_40": 4.5487,
+            "iou_foreground": 0.5815,
+            "iou_character": 0.5717
+          },
+          {
+            "frame": 9,
+            "timelineFrame": 8,
+            "mae": 5.221,
+            "pct_pixels_any_channel_gt_40": 4.0203,
+            "iou_foreground": 0.6594,
+            "iou_character": 0.6611
+          },
+          {
+            "frame": 10,
+            "timelineFrame": 9,
+            "mae": 6.9453,
+            "pct_pixels_any_channel_gt_40": 5.2683,
+            "iou_foreground": 0.552,
+            "iou_character": 0.5455
+          },
+          {
+            "frame": 11,
+            "timelineFrame": 10,
+            "mae": 6.3455,
+            "pct_pixels_any_channel_gt_40": 5.081,
+            "iou_foreground": 0.577,
+            "iou_character": 0.572
+          },
+          {
+            "frame": 12,
+            "timelineFrame": 11,
+            "mae": 7.5146,
+            "pct_pixels_any_channel_gt_40": 5.7859,
+            "iou_foreground": 0.4703,
+            "iou_character": 0.4614
+          },
+          {
+            "frame": 13,
+            "timelineFrame": 12,
+            "mae": 5.774,
+            "pct_pixels_any_channel_gt_40": 4.7319,
+            "iou_foreground": 0.6097,
+            "iou_character": 0.6104
+          },
+          {
+            "frame": 14,
+            "timelineFrame": 13,
+            "mae": 5.4053,
+            "pct_pixels_any_channel_gt_40": 4.3527,
+            "iou_foreground": 0.6446,
+            "iou_character": 0.6498
+          },
+          {
+            "frame": 15,
+            "timelineFrame": 14,
+            "mae": 5.6169,
+            "pct_pixels_any_channel_gt_40": 4.3456,
+            "iou_foreground": 0.6533,
+            "iou_character": 0.6579
+          },
+          {
+            "frame": 16,
+            "timelineFrame": 15,
+            "mae": 5.5511,
+            "pct_pixels_any_channel_gt_40": 4.1648,
+            "iou_foreground": 0.6754,
+            "iou_character": 0.6687
+          },
+          {
+            "frame": 17,
+            "timelineFrame": 16,
+            "mae": 5.664,
+            "pct_pixels_any_channel_gt_40": 4.3737,
+            "iou_foreground": 0.6533,
+            "iou_character": 0.6421
+          },
+          {
+            "frame": 18,
+            "timelineFrame": 17,
+            "mae": 5.5825,
+            "pct_pixels_any_channel_gt_40": 4.462,
+            "iou_foreground": 0.6202,
+            "iou_character": 0.611
+          },
+          {
+            "frame": 19,
+            "timelineFrame": 18,
+            "mae": 4.855,
+            "pct_pixels_any_channel_gt_40": 4.0156,
+            "iou_foreground": 0.6352,
+            "iou_character": 0.6306
+          },
+          {
+            "frame": 20,
+            "timelineFrame": 19,
+            "mae": 5.4728,
+            "pct_pixels_any_channel_gt_40": 4.2854,
+            "iou_foreground": 0.5902,
+            "iou_character": 0.5826
+          },
+          {
+            "frame": 21,
+            "timelineFrame": 20,
+            "mae": 5.8723,
+            "pct_pixels_any_channel_gt_40": 4.4191,
+            "iou_foreground": 0.5841,
+            "iou_character": 0.5729
+          },
+          {
+            "frame": 22,
+            "timelineFrame": 21,
+            "mae": 5.3777,
+            "pct_pixels_any_channel_gt_40": 4.0393,
+            "iou_foreground": 0.626,
+            "iou_character": 0.6279
+          },
+          {
+            "frame": 23,
+            "timelineFrame": 22,
+            "mae": 5.9693,
+            "pct_pixels_any_channel_gt_40": 4.559,
+            "iou_foreground": 0.5841,
+            "iou_character": 0.5808
+          },
+          {
+            "frame": 24,
+            "timelineFrame": 23,
+            "mae": 6.3094,
+            "pct_pixels_any_channel_gt_40": 4.9061,
+            "iou_foreground": 0.559,
+            "iou_character": 0.5528
+          },
+          {
+            "frame": 25,
+            "timelineFrame": 24,
+            "mae": 7.4309,
+            "pct_pixels_any_channel_gt_40": 5.5332,
+            "iou_foreground": 0.4683,
+            "iou_character": 0.456
+          },
+          {
+            "frame": 26,
+            "timelineFrame": 25,
+            "mae": 5.1669,
+            "pct_pixels_any_channel_gt_40": 4.1309,
+            "iou_foreground": 0.6369,
+            "iou_character": 0.6369
+          },
+          {
+            "frame": 27,
+            "timelineFrame": 26,
+            "mae": 4.8646,
+            "pct_pixels_any_channel_gt_40": 3.8339,
+            "iou_foreground": 0.6639,
+            "iou_character": 0.6666
+          },
+          {
+            "frame": 28,
+            "timelineFrame": 27,
+            "mae": 5.3145,
+            "pct_pixels_any_channel_gt_40": 3.9508,
+            "iou_foreground": 0.6566,
+            "iou_character": 0.6547
+          },
+          {
+            "frame": 29,
+            "timelineFrame": 28,
+            "mae": 5.1583,
+            "pct_pixels_any_channel_gt_40": 3.7188,
+            "iou_foreground": 0.6811,
+            "iou_character": 0.6727
+          },
+          {
+            "frame": 30,
+            "timelineFrame": 29,
+            "mae": 5.5136,
+            "pct_pixels_any_channel_gt_40": 4.0128,
+            "iou_foreground": 0.64,
+            "iou_character": 0.6356
+          },
+          {
+            "frame": 31,
+            "timelineFrame": 30,
+            "mae": 5.4669,
+            "pct_pixels_any_channel_gt_40": 4.1959,
+            "iou_foreground": 0.6167,
+            "iou_character": 0.6134
+          },
+          {
+            "frame": 32,
+            "timelineFrame": 31,
+            "mae": 5.321,
+            "pct_pixels_any_channel_gt_40": 4.1145,
+            "iou_foreground": 0.6136,
+            "iou_character": 0.6065
+          },
+          {
+            "frame": 33,
+            "timelineFrame": 32,
+            "mae": 6.2535,
+            "pct_pixels_any_channel_gt_40": 4.7052,
+            "iou_foreground": 0.565,
+            "iou_character": 0.5518
+          },
+          {
+            "frame": 34,
+            "timelineFrame": 33,
+            "mae": 6.6929,
+            "pct_pixels_any_channel_gt_40": 4.9377,
+            "iou_foreground": 0.5532,
+            "iou_character": 0.5388
+          },
+          {
+            "frame": 35,
+            "timelineFrame": 34,
+            "mae": 6.3494,
+            "pct_pixels_any_channel_gt_40": 4.7688,
+            "iou_foreground": 0.592,
+            "iou_character": 0.5896
+          },
+          {
+            "frame": 36,
+            "timelineFrame": 35,
+            "mae": 6.2099,
+            "pct_pixels_any_channel_gt_40": 4.8463,
+            "iou_foreground": 0.6049,
+            "iou_character": 0.6004
+          },
+          {
+            "frame": 37,
+            "timelineFrame": 36,
+            "mae": 6.5181,
+            "pct_pixels_any_channel_gt_40": 5.1436,
+            "iou_foreground": 0.5747,
+            "iou_character": 0.5688
+          },
+          {
+            "frame": 38,
+            "timelineFrame": 37,
+            "mae": 7.6782,
+            "pct_pixels_any_channel_gt_40": 5.8589,
+            "iou_foreground": 0.4682,
+            "iou_character": 0.4576
+          },
+          {
+            "frame": 39,
+            "timelineFrame": 38,
+            "mae": 5.5801,
+            "pct_pixels_any_channel_gt_40": 4.5849,
+            "iou_foreground": 0.6206,
+            "iou_character": 0.6218
+          },
+          {
+            "frame": 40,
+            "timelineFrame": 39,
+            "mae": 5.533,
+            "pct_pixels_any_channel_gt_40": 4.4627,
+            "iou_foreground": 0.6325,
+            "iou_character": 0.6365
+          },
+          {
+            "frame": 41,
+            "timelineFrame": 40,
+            "mae": 5.8427,
+            "pct_pixels_any_channel_gt_40": 4.557,
+            "iou_foreground": 0.6367,
+            "iou_character": 0.6379
+          },
+          {
+            "frame": 42,
+            "timelineFrame": 41,
+            "mae": 5.8255,
+            "pct_pixels_any_channel_gt_40": 4.4199,
+            "iou_foreground": 0.657,
+            "iou_character": 0.6476
+          },
+          {
+            "frame": 43,
+            "timelineFrame": 42,
+            "mae": 5.5895,
+            "pct_pixels_any_channel_gt_40": 4.3281,
+            "iou_foreground": 0.6586,
+            "iou_character": 0.6488
+          },
+          {
+            "frame": 44,
+            "timelineFrame": 43,
+            "mae": 5.4214,
+            "pct_pixels_any_channel_gt_40": 4.4052,
+            "iou_foreground": 0.6316,
+            "iou_character": 0.6232
+          },
+          {
+            "frame": 45,
+            "timelineFrame": 44,
+            "mae": 4.8325,
+            "pct_pixels_any_channel_gt_40": 4.0719,
+            "iou_foreground": 0.6311,
+            "iou_character": 0.6307
+          },
+          {
+            "frame": 46,
+            "timelineFrame": 45,
+            "mae": 4.9322,
+            "pct_pixels_any_channel_gt_40": 4.0289,
+            "iou_foreground": 0.6316,
+            "iou_character": 0.6283
+          },
+          {
+            "frame": 47,
+            "timelineFrame": 46,
+            "mae": 6.0943,
+            "pct_pixels_any_channel_gt_40": 4.6415,
+            "iou_foreground": 0.5704,
+            "iou_character": 0.5594
+          },
+          {
+            "frame": 48,
+            "timelineFrame": 47,
+            "mae": 5.6869,
+            "pct_pixels_any_channel_gt_40": 4.2785,
+            "iou_foreground": 0.6062,
+            "iou_character": 0.6047
+          },
+          {
+            "frame": 49,
+            "timelineFrame": 48,
+            "mae": 6.8,
+            "pct_pixels_any_channel_gt_40": 4.9606,
+            "iou_foreground": 0.5392,
+            "iou_character": 0.5363
+          },
+          {
+            "frame": 50,
+            "timelineFrame": 49,
+            "mae": 6.9039,
+            "pct_pixels_any_channel_gt_40": 5.2332,
+            "iou_foreground": 0.5251,
+            "iou_character": 0.5189
+          },
+          {
+            "frame": 51,
+            "timelineFrame": 50,
+            "mae": 7.2748,
+            "pct_pixels_any_channel_gt_40": 5.4728,
+            "iou_foreground": 0.472,
+            "iou_character": 0.4603
+          },
+          {
+            "frame": 52,
+            "timelineFrame": 51,
+            "mae": 5.7515,
+            "pct_pixels_any_channel_gt_40": 4.5163,
+            "iou_foreground": 0.5989,
+            "iou_character": 0.5966
+          },
+          {
+            "frame": 53,
+            "timelineFrame": 52,
+            "mae": 4.9812,
+            "pct_pixels_any_channel_gt_40": 3.9526,
+            "iou_foreground": 0.654,
+            "iou_character": 0.656
+          },
+          {
+            "frame": 54,
+            "timelineFrame": 53,
+            "mae": 4.3648,
+            "pct_pixels_any_channel_gt_40": 3.4893,
+            "iou_foreground": 0.7056,
+            "iou_character": 0.7109
+          },
+          {
+            "frame": 55,
+            "timelineFrame": 54,
+            "mae": 4.3114,
+            "pct_pixels_any_channel_gt_40": 3.2617,
+            "iou_foreground": 0.7291,
+            "iou_character": 0.7307
+          },
+          {
+            "frame": 56,
+            "timelineFrame": 55,
+            "mae": 4.5137,
+            "pct_pixels_any_channel_gt_40": 3.3364,
+            "iou_foreground": 0.7169,
+            "iou_character": 0.7156
+          },
+          {
+            "frame": 57,
+            "timelineFrame": 56,
+            "mae": 4.7106,
+            "pct_pixels_any_channel_gt_40": 3.6264,
+            "iou_foreground": 0.6724,
+            "iou_character": 0.6702
+          },
+          {
+            "frame": 58,
+            "timelineFrame": 57,
+            "mae": 4.574,
+            "pct_pixels_any_channel_gt_40": 3.68,
+            "iou_foreground": 0.6531,
+            "iou_character": 0.6536
+          },
+          {
+            "frame": 59,
+            "timelineFrame": 58,
+            "mae": 4.4577,
+            "pct_pixels_any_channel_gt_40": 3.6426,
+            "iou_foreground": 0.6621,
+            "iou_character": 0.6545
+          },
+          {
+            "frame": 60,
+            "timelineFrame": 59,
+            "mae": 5.9603,
+            "pct_pixels_any_channel_gt_40": 4.5877,
+            "iou_foreground": 0.5779,
+            "iou_character": 0.5689
+          },
+          {
+            "frame": 61,
+            "timelineFrame": 60,
+            "mae": 5.3763,
+            "pct_pixels_any_channel_gt_40": 4.1297,
+            "iou_foreground": 0.6448,
+            "iou_character": 0.6446
+          },
+          {
+            "frame": 62,
+            "timelineFrame": 61,
+            "mae": 7.1605,
+            "pct_pixels_any_channel_gt_40": 5.3515,
+            "iou_foreground": 0.5375,
+            "iou_character": 0.5305
+          },
+          {
+            "frame": 63,
+            "timelineFrame": 62,
+            "mae": 6.6532,
+            "pct_pixels_any_channel_gt_40": 5.2042,
+            "iou_foreground": 0.5599,
+            "iou_character": 0.5539
+          },
+          {
+            "frame": 64,
+            "timelineFrame": 63,
+            "mae": 7.5064,
+            "pct_pixels_any_channel_gt_40": 5.7178,
+            "iou_foreground": 0.473,
+            "iou_character": 0.4629
+          },
+          {
+            "frame": 65,
+            "timelineFrame": 64,
+            "mae": 6.0546,
+            "pct_pixels_any_channel_gt_40": 4.9042,
+            "iou_foreground": 0.5935,
+            "iou_character": 0.5913
+          },
+          {
+            "frame": 66,
+            "timelineFrame": 65,
+            "mae": 5.5052,
+            "pct_pixels_any_channel_gt_40": 4.517,
+            "iou_foreground": 0.6333,
+            "iou_character": 0.6361
+          },
+          {
+            "frame": 67,
+            "timelineFrame": 66,
+            "mae": 5.0823,
+            "pct_pixels_any_channel_gt_40": 4.1232,
+            "iou_foreground": 0.6698,
+            "iou_character": 0.6721
+          },
+          {
+            "frame": 68,
+            "timelineFrame": 67,
+            "mae": 4.6834,
+            "pct_pixels_any_channel_gt_40": 3.7547,
+            "iou_foreground": 0.7125,
+            "iou_character": 0.7141
+          },
+          {
+            "frame": 69,
+            "timelineFrame": 68,
+            "mae": 5.0165,
+            "pct_pixels_any_channel_gt_40": 4.0032,
+            "iou_foreground": 0.7071,
+            "iou_character": 0.6992
+          },
+          {
+            "frame": 70,
+            "timelineFrame": 69,
+            "mae": 5.2998,
+            "pct_pixels_any_channel_gt_40": 4.3142,
+            "iou_foreground": 0.6497,
+            "iou_character": 0.6483
+          },
+          {
+            "frame": 71,
+            "timelineFrame": 70,
+            "mae": 5.2045,
+            "pct_pixels_any_channel_gt_40": 4.3152,
+            "iou_foreground": 0.6132,
+            "iou_character": 0.6065
+          },
+          {
+            "frame": 72,
+            "timelineFrame": 71,
+            "mae": 4.6131,
+            "pct_pixels_any_channel_gt_40": 4.0017,
+            "iou_foreground": 0.6396,
+            "iou_character": 0.6383
+          },
+          {
+            "frame": 73,
+            "timelineFrame": 72,
+            "mae": 5.8666,
+            "pct_pixels_any_channel_gt_40": 4.5883,
+            "iou_foreground": 0.5717,
+            "iou_character": 0.5631
+          },
+          {
+            "frame": 74,
+            "timelineFrame": 73,
+            "mae": 5.9169,
+            "pct_pixels_any_channel_gt_40": 4.5354,
+            "iou_foreground": 0.5858,
+            "iou_character": 0.5818
+          },
+          {
+            "frame": 75,
+            "timelineFrame": 74,
+            "mae": 7.0051,
+            "pct_pixels_any_channel_gt_40": 5.0884,
+            "iou_foreground": 0.5242,
+            "iou_character": 0.5189
+          },
+          {
+            "frame": 76,
+            "timelineFrame": 75,
+            "mae": 6.7266,
+            "pct_pixels_any_channel_gt_40": 5.053,
+            "iou_foreground": 0.5387,
+            "iou_character": 0.5326
+          },
+          {
+            "frame": 77,
+            "timelineFrame": 76,
+            "mae": 7.2916,
+            "pct_pixels_any_channel_gt_40": 5.4854,
+            "iou_foreground": 0.4727,
+            "iou_character": 0.4637
+          },
+          {
+            "frame": 78,
+            "timelineFrame": 77,
+            "mae": 5.6177,
+            "pct_pixels_any_channel_gt_40": 4.4363,
+            "iou_foreground": 0.6081,
+            "iou_character": 0.6066
+          },
+          {
+            "frame": 79,
+            "timelineFrame": 78,
+            "mae": 4.7916,
+            "pct_pixels_any_channel_gt_40": 3.8712,
+            "iou_foreground": 0.6662,
+            "iou_character": 0.67
+          },
+          {
+            "frame": 80,
+            "timelineFrame": 79,
+            "mae": 4.4309,
+            "pct_pixels_any_channel_gt_40": 3.5658,
+            "iou_foreground": 0.698,
+            "iou_character": 0.7046
+          },
+          {
+            "frame": 81,
+            "timelineFrame": 80,
+            "mae": 4.6272,
+            "pct_pixels_any_channel_gt_40": 3.5048,
+            "iou_foreground": 0.7065,
+            "iou_character": 0.7049
+          },
+          {
+            "frame": 82,
+            "timelineFrame": 81,
+            "mae": 4.5585,
+            "pct_pixels_any_channel_gt_40": 3.4196,
+            "iou_foreground": 0.7082,
+            "iou_character": 0.7067
+          },
+          {
+            "frame": 83,
+            "timelineFrame": 82,
+            "mae": 4.9365,
+            "pct_pixels_any_channel_gt_40": 3.8387,
+            "iou_foreground": 0.655,
+            "iou_character": 0.6521
+          },
+          {
+            "frame": 84,
+            "timelineFrame": 83,
+            "mae": 4.5461,
+            "pct_pixels_any_channel_gt_40": 3.7228,
+            "iou_foreground": 0.6499,
+            "iou_character": 0.6459
+          },
+          {
+            "frame": 85,
+            "timelineFrame": 84,
+            "mae": 5.2633,
+            "pct_pixels_any_channel_gt_40": 4.1412,
+            "iou_foreground": 0.6132,
+            "iou_character": 0.5993
+          },
+          {
+            "frame": 86,
+            "timelineFrame": 85,
+            "mae": 5.888,
+            "pct_pixels_any_channel_gt_40": 4.5256,
+            "iou_foreground": 0.5926,
+            "iou_character": 0.5814
+          },
+          {
+            "frame": 87,
+            "timelineFrame": 86,
+            "mae": 5.1944,
+            "pct_pixels_any_channel_gt_40": 4.0394,
+            "iou_foreground": 0.6595,
+            "iou_character": 0.6596
+          },
+          {
+            "frame": 88,
+            "timelineFrame": 87,
+            "mae": 6.7369,
+            "pct_pixels_any_channel_gt_40": 5.0973,
+            "iou_foreground": 0.5675,
+            "iou_character": 0.5591
+          },
+          {
+            "frame": 89,
+            "timelineFrame": 88,
+            "mae": 6.308,
+            "pct_pixels_any_channel_gt_40": 4.9875,
+            "iou_foreground": 0.5868,
+            "iou_character": 0.5812
+          },
+          {
+            "frame": 90,
+            "timelineFrame": 89,
+            "mae": 7.5798,
+            "pct_pixels_any_channel_gt_40": 5.7475,
+            "iou_foreground": 0.4735,
+            "iou_character": 0.4603
+          },
+          {
+            "frame": 91,
+            "timelineFrame": 90,
+            "mae": 5.6327,
+            "pct_pixels_any_channel_gt_40": 4.6332,
+            "iou_foreground": 0.6151,
+            "iou_character": 0.6145
+          },
+          {
+            "frame": 92,
+            "timelineFrame": 91,
+            "mae": 5.3309,
+            "pct_pixels_any_channel_gt_40": 4.3215,
+            "iou_foreground": 0.642,
+            "iou_character": 0.643
+          },
+          {
+            "frame": 93,
+            "timelineFrame": 92,
+            "mae": 5.8179,
+            "pct_pixels_any_channel_gt_40": 4.5642,
+            "iou_foreground": 0.6336,
+            "iou_character": 0.6283
+          },
+          {
+            "frame": 94,
+            "timelineFrame": 93,
+            "mae": 5.9702,
+            "pct_pixels_any_channel_gt_40": 4.5229,
+            "iou_foreground": 0.6449,
+            "iou_character": 0.6297
+          }
+        ]
+      },
+      "note": "see reports/baseline/fidelity-all-frames.json for the full structure"
+    }
+  },
+  "measuredNow": {
+    "note": "Recomputed read-only from keys.ts joint math at all 94 frames; must agree with the committed Test I segment stats.",
+    "segments": [
+      {
+        "segment": "near hip->knee",
+        "min": 117.1,
+        "max": 238.19,
+        "mean": 162.95,
+        "maxOverMin": 2.034,
+        "perFrame": [
+          238.19,
+          215.37,
+          192.48,
+          184.11,
+          173.01,
+          142.01,
+          121.66,
+          119.47,
+          145.91,
+          182.18,
+          189.76,
+          117.1,
+          138.29,
+          140.58,
+          146.74,
+          155.42,
+          165.92,
+          175,
+          184.35,
+          185.69,
+          145.53,
+          136.49,
+          150.11,
+          139.32,
+          129.99,
+          223.73,
+          238.19,
+          215.37,
+          192.48,
+          184.11,
+          173.01,
+          142.01,
+          121.66,
+          119.47,
+          145.91,
+          182.18,
+          189.76,
+          117.1,
+          138.29,
+          140.58,
+          146.74,
+          155.42,
+          165.92,
+          175,
+          184.35,
+          185.69,
+          145.53,
+          136.49,
+          150.11,
+          139.32,
+          129.99,
+          223.73,
+          238.19,
+          215.37,
+          192.48,
+          184.11,
+          173.01,
+          142.01,
+          121.66,
+          119.47,
+          145.91,
+          182.18,
+          189.76,
+          117.1,
+          138.29,
+          140.58,
+          146.74,
+          155.42,
+          165.92,
+          175,
+          184.35,
+          185.69,
+          145.53,
+          136.49,
+          150.11,
+          139.32,
+          129.99,
+          223.73,
+          238.19,
+          215.37,
+          192.48,
+          184.11,
+          173.01,
+          142.01,
+          121.66,
+          119.47,
+          145.91,
+          182.18,
+          189.76,
+          117.1,
+          138.29,
+          140.58,
+          146.74,
+          155.42
+        ]
+      },
+      {
+        "segment": "near knee->ankle",
+        "min": 73.47,
+        "max": 212.43,
+        "mean": 161.42,
+        "maxOverMin": 2.891,
+        "perFrame": [
+          111.14,
+          131.34,
+          152.32,
+          159.17,
+          155.08,
+          142.67,
+          140.8,
+          166.06,
+          198.31,
+          178.37,
+          146.03,
+          136.48,
+          206.16,
+          210.09,
+          212.43,
+          208.93,
+          191.69,
+          175,
+          160.24,
+          152.32,
+          156.2,
+          159.26,
+          167.08,
+          170.29,
+          73.47,
+          111.8,
+          111.14,
+          131.34,
+          152.32,
+          159.17,
+          155.08,
+          142.67,
+          140.8,
+          166.06,
+          198.31,
+          178.37,
+          146.03,
+          136.48,
+          206.16,
+          210.09,
+          212.43,
+          208.93,
+          191.69,
+          175,
+          160.24,
+          152.32,
+          156.2,
+          159.26,
+          167.08,
+          170.29,
+          73.47,
+          111.8,
+          111.14,
+          131.34,
+          152.32,
+          159.17,
+          155.08,
+          142.67,
+          140.8,
+          166.06,
+          198.31,
+          178.37,
+          146.03,
+          136.48,
+          206.16,
+          210.09,
+          212.43,
+          208.93,
+          191.69,
+          175,
+          160.24,
+          152.32,
+          156.2,
+          159.26,
+          167.08,
+          170.29,
+          73.47,
+          111.8,
+          111.14,
+          131.34,
+          152.32,
+          159.17,
+          155.08,
+          142.67,
+          140.8,
+          166.06,
+          198.31,
+          178.37,
+          146.03,
+          136.48,
+          206.16,
+          210.09,
+          212.43,
+          208.93
+        ]
+      },
+      {
+        "segment": "near ankle->toe",
+        "min": 51.01,
+        "max": 94.29,
+        "mean": 81.53,
+        "maxOverMin": 1.848,
+        "perFrame": [
+          91.55,
+          88.33,
+          83.45,
+          76.14,
+          69.2,
+          69.35,
+          77.62,
+          81.87,
+          87.32,
+          94.29,
+          91.59,
+          53.62,
+          90.35,
+          87.28,
+          88.83,
+          90.14,
+          89.39,
+          85.99,
+          78.84,
+          69.64,
+          69.02,
+          83.82,
+          83.85,
+          90.82,
+          51.01,
+          90.91,
+          91.55,
+          88.33,
+          83.45,
+          76.14,
+          69.2,
+          69.35,
+          77.62,
+          81.87,
+          87.32,
+          94.29,
+          91.59,
+          53.62,
+          90.35,
+          87.28,
+          88.83,
+          90.14,
+          89.39,
+          85.99,
+          78.84,
+          69.64,
+          69.02,
+          83.82,
+          83.85,
+          90.82,
+          51.01,
+          90.91,
+          91.55,
+          88.33,
+          83.45,
+          76.14,
+          69.2,
+          69.35,
+          77.62,
+          81.87,
+          87.32,
+          94.29,
+          91.59,
+          53.62,
+          90.35,
+          87.28,
+          88.83,
+          90.14,
+          89.39,
+          85.99,
+          78.84,
+          69.64,
+          69.02,
+          83.82,
+          83.85,
+          90.82,
+          51.01,
+          90.91,
+          91.55,
+          88.33,
+          83.45,
+          76.14,
+          69.2,
+          69.35,
+          77.62,
+          81.87,
+          87.32,
+          94.29,
+          91.59,
+          53.62,
+          90.35,
+          87.28,
+          88.83,
+          90.14
+        ]
+      },
+      {
+        "segment": "far hip->knee",
+        "min": 117.1,
+        "max": 238.19,
+        "mean": 164.26,
+        "maxOverMin": 2.034,
+        "perFrame": [
+          140.58,
+          146.74,
+          155.42,
+          165.92,
+          175,
+          184.35,
+          185.69,
+          145.53,
+          136.49,
+          150.11,
+          139.32,
+          129.99,
+          223.73,
+          238.19,
+          215.37,
+          192.48,
+          184.11,
+          173.01,
+          142.01,
+          121.66,
+          119.47,
+          145.91,
+          182.18,
+          189.76,
+          117.1,
+          138.29,
+          140.58,
+          146.74,
+          155.42,
+          165.92,
+          175,
+          184.35,
+          185.69,
+          145.53,
+          136.49,
+          150.11,
+          139.32,
+          129.99,
+          223.73,
+          238.19,
+          215.37,
+          192.48,
+          184.11,
+          173.01,
+          142.01,
+          121.66,
+          119.47,
+          145.91,
+          182.18,
+          189.76,
+          117.1,
+          138.29,
+          140.58,
+          146.74,
+          155.42,
+          165.92,
+          175,
+          184.35,
+          185.69,
+          145.53,
+          136.49,
+          150.11,
+          139.32,
+          129.99,
+          223.73,
+          238.19,
+          215.37,
+          192.48,
+          184.11,
+          173.01,
+          142.01,
+          121.66,
+          119.47,
+          145.91,
+          182.18,
+          189.76,
+          117.1,
+          138.29,
+          140.58,
+          146.74,
+          155.42,
+          165.92,
+          175,
+          184.35,
+          185.69,
+          145.53,
+          136.49,
+          150.11,
+          139.32,
+          129.99,
+          223.73,
+          238.19,
+          215.37,
+          192.48
+        ]
+      },
+      {
+        "segment": "far knee->ankle",
+        "min": 73.47,
+        "max": 212.43,
+        "mean": 160.23,
+        "maxOverMin": 2.891,
+        "perFrame": [
+          210.09,
+          212.43,
+          208.93,
+          191.69,
+          175,
+          160.24,
+          152.32,
+          156.2,
+          159.26,
+          167.08,
+          170.29,
+          73.47,
+          111.8,
+          111.14,
+          131.34,
+          152.32,
+          159.17,
+          155.08,
+          142.67,
+          140.8,
+          166.06,
+          198.31,
+          178.37,
+          146.03,
+          136.48,
+          206.16,
+          210.09,
+          212.43,
+          208.93,
+          191.69,
+          175,
+          160.24,
+          152.32,
+          156.2,
+          159.26,
+          167.08,
+          170.29,
+          73.47,
+          111.8,
+          111.14,
+          131.34,
+          152.32,
+          159.17,
+          155.08,
+          142.67,
+          140.8,
+          166.06,
+          198.31,
+          178.37,
+          146.03,
+          136.48,
+          206.16,
+          210.09,
+          212.43,
+          208.93,
+          191.69,
+          175,
+          160.24,
+          152.32,
+          156.2,
+          159.26,
+          167.08,
+          170.29,
+          73.47,
+          111.8,
+          111.14,
+          131.34,
+          152.32,
+          159.17,
+          155.08,
+          142.67,
+          140.8,
+          166.06,
+          198.31,
+          178.37,
+          146.03,
+          136.48,
+          206.16,
+          210.09,
+          212.43,
+          208.93,
+          191.69,
+          175,
+          160.24,
+          152.32,
+          156.2,
+          159.26,
+          167.08,
+          170.29,
+          73.47,
+          111.8,
+          111.14,
+          131.34,
+          152.32
+        ]
+      },
+      {
+        "segment": "far ankle->toe",
+        "min": 51.01,
+        "max": 94.29,
+        "mean": 81.55,
+        "maxOverMin": 1.848,
+        "perFrame": [
+          87.28,
+          88.83,
+          90.14,
+          89.39,
+          85.99,
+          78.84,
+          69.64,
+          69.02,
+          83.82,
+          83.85,
+          90.82,
+          51.01,
+          90.91,
+          91.55,
+          88.33,
+          83.45,
+          76.14,
+          69.2,
+          69.35,
+          77.62,
+          81.87,
+          87.32,
+          94.29,
+          91.59,
+          53.62,
+          90.35,
+          87.28,
+          88.83,
+          90.14,
+          89.39,
+          85.99,
+          78.84,
+          69.64,
+          69.02,
+          83.82,
+          83.85,
+          90.82,
+          51.01,
+          90.91,
+          91.55,
+          88.33,
+          83.45,
+          76.14,
+          69.2,
+          69.35,
+          77.62,
+          81.87,
+          87.32,
+          94.29,
+          91.59,
+          53.62,
+          90.35,
+          87.28,
+          88.83,
+          90.14,
+          89.39,
+          85.99,
+          78.84,
+          69.64,
+          69.02,
+          83.82,
+          83.85,
+          90.82,
+          51.01,
+          90.91,
+          91.55,
+          88.33,
+          83.45,
+          76.14,
+          69.2,
+          69.35,
+          77.62,
+          81.87,
+          87.32,
+          94.29,
+          91.59,
+          53.62,
+          90.35,
+          87.28,
+          88.83,
+          90.14,
+          89.39,
+          85.99,
+          78.84,
+          69.64,
+          69.02,
+          83.82,
+          83.85,
+          90.82,
+          51.01,
+          90.91,
+          91.55,
+          88.33,
+          83.45
+        ]
+      },
+      {
+        "segment": "near shoulder->elbow",
+        "min": 114.62,
+        "max": 139.71,
+        "mean": 126.99,
+        "maxOverMin": 1.219,
+        "perFrame": [
+          117.2,
+          118.4,
+          121.85,
+          126.96,
+          132.61,
+          137.32,
+          139.71,
+          139.01,
+          135.36,
+          129.79,
+          123.81,
+          118.82,
+          115.67,
+          114.62,
+          115.67,
+          118.82,
+          123.81,
+          129.79,
+          135.36,
+          139.01,
+          139.71,
+          137.32,
+          132.61,
+          126.96,
+          121.85,
+          118.4,
+          117.2,
+          118.4,
+          121.85,
+          126.96,
+          132.61,
+          137.32,
+          139.71,
+          139.01,
+          135.36,
+          129.79,
+          123.81,
+          118.82,
+          115.67,
+          114.62,
+          115.67,
+          118.82,
+          123.81,
+          129.79,
+          135.36,
+          139.01,
+          139.71,
+          137.32,
+          132.61,
+          126.96,
+          121.85,
+          118.4,
+          117.2,
+          118.4,
+          121.85,
+          126.96,
+          132.61,
+          137.32,
+          139.71,
+          139.01,
+          135.36,
+          129.79,
+          123.81,
+          118.82,
+          115.67,
+          114.62,
+          115.67,
+          118.82,
+          123.81,
+          129.79,
+          135.36,
+          139.01,
+          139.71,
+          137.32,
+          132.61,
+          126.96,
+          121.85,
+          118.4,
+          117.2,
+          118.4,
+          121.85,
+          126.96,
+          132.61,
+          137.32,
+          139.71,
+          139.01,
+          135.36,
+          129.79,
+          123.81,
+          118.82,
+          115.67,
+          114.62,
+          115.67,
+          118.82
+        ]
+      },
+      {
+        "segment": "near elbow->fist",
+        "min": 48.45,
+        "max": 131.06,
+        "mean": 82.45,
+        "maxOverMin": 2.705,
+        "perFrame": [
+          131.06,
+          126.83,
+          114.82,
+          97.06,
+          76.81,
+          58.64,
+          48.45,
+          49.75,
+          58.5,
+          69.02,
+          78.48,
+          85.79,
+          90.39,
+          91.97,
+          90.39,
+          85.79,
+          78.48,
+          69.02,
+          58.5,
+          49.75,
+          48.45,
+          58.64,
+          76.81,
+          97.06,
+          114.82,
+          126.83,
+          131.06,
+          126.83,
+          114.82,
+          97.06,
+          76.81,
+          58.64,
+          48.45,
+          49.75,
+          58.5,
+          69.02,
+          78.48,
+          85.79,
+          90.39,
+          91.97,
+          90.39,
+          85.79,
+          78.48,
+          69.02,
+          58.5,
+          49.75,
+          48.45,
+          58.64,
+          76.81,
+          97.06,
+          114.82,
+          126.83,
+          131.06,
+          126.83,
+          114.82,
+          97.06,
+          76.81,
+          58.64,
+          48.45,
+          49.75,
+          58.5,
+          69.02,
+          78.48,
+          85.79,
+          90.39,
+          91.97,
+          90.39,
+          85.79,
+          78.48,
+          69.02,
+          58.5,
+          49.75,
+          48.45,
+          58.64,
+          76.81,
+          97.06,
+          114.82,
+          126.83,
+          131.06,
+          126.83,
+          114.82,
+          97.06,
+          76.81,
+          58.64,
+          48.45,
+          49.75,
+          58.5,
+          69.02,
+          78.48,
+          85.79,
+          90.39,
+          91.97,
+          90.39,
+          85.79
+        ]
+      },
+      {
+        "segment": "far shoulder->elbow",
+        "min": 114.62,
+        "max": 139.71,
+        "mean": 127.05,
+        "maxOverMin": 1.219,
+        "perFrame": [
+          114.62,
+          115.67,
+          118.82,
+          123.81,
+          129.79,
+          135.36,
+          139.01,
+          139.71,
+          137.32,
+          132.61,
+          126.96,
+          121.85,
+          118.4,
+          117.2,
+          118.4,
+          121.85,
+          126.96,
+          132.61,
+          137.32,
+          139.71,
+          139.01,
+          135.36,
+          129.79,
+          123.81,
+          118.82,
+          115.67,
+          114.62,
+          115.67,
+          118.82,
+          123.81,
+          129.79,
+          135.36,
+          139.01,
+          139.71,
+          137.32,
+          132.61,
+          126.96,
+          121.85,
+          118.4,
+          117.2,
+          118.4,
+          121.85,
+          126.96,
+          132.61,
+          137.32,
+          139.71,
+          139.01,
+          135.36,
+          129.79,
+          123.81,
+          118.82,
+          115.67,
+          114.62,
+          115.67,
+          118.82,
+          123.81,
+          129.79,
+          135.36,
+          139.01,
+          139.71,
+          137.32,
+          132.61,
+          126.96,
+          121.85,
+          118.4,
+          117.2,
+          118.4,
+          121.85,
+          126.96,
+          132.61,
+          137.32,
+          139.71,
+          139.01,
+          135.36,
+          129.79,
+          123.81,
+          118.82,
+          115.67,
+          114.62,
+          115.67,
+          118.82,
+          123.81,
+          129.79,
+          135.36,
+          139.01,
+          139.71,
+          137.32,
+          132.61,
+          126.96,
+          121.85,
+          118.4,
+          117.2,
+          118.4,
+          121.85
+        ]
+      },
+      {
+        "segment": "far elbow->fist",
+        "min": 48.45,
+        "max": 131.06,
+        "mean": 83.14,
+        "maxOverMin": 2.705,
+        "perFrame": [
+          91.97,
+          90.39,
+          85.79,
+          78.48,
+          69.02,
+          58.5,
+          49.75,
+          48.45,
+          58.64,
+          76.81,
+          97.06,
+          114.82,
+          126.83,
+          131.06,
+          126.83,
+          114.82,
+          97.06,
+          76.81,
+          58.64,
+          48.45,
+          49.75,
+          58.5,
+          69.02,
+          78.48,
+          85.79,
+          90.39,
+          91.97,
+          90.39,
+          85.79,
+          78.48,
+          69.02,
+          58.5,
+          49.75,
+          48.45,
+          58.64,
+          76.81,
+          97.06,
+          114.82,
+          126.83,
+          131.06,
+          126.83,
+          114.82,
+          97.06,
+          76.81,
+          58.64,
+          48.45,
+          49.75,
+          58.5,
+          69.02,
+          78.48,
+          85.79,
+          90.39,
+          91.97,
+          90.39,
+          85.79,
+          78.48,
+          69.02,
+          58.5,
+          49.75,
+          48.45,
+          58.64,
+          76.81,
+          97.06,
+          114.82,
+          126.83,
+          131.06,
+          126.83,
+          114.82,
+          97.06,
+          76.81,
+          58.64,
+          48.45,
+          49.75,
+          58.5,
+          69.02,
+          78.48,
+          85.79,
+          90.39,
+          91.97,
+          90.39,
+          85.79,
+          78.48,
+          69.02,
+          58.5,
+          49.75,
+          48.45,
+          58.64,
+          76.81,
+          97.06,
+          114.82,
+          126.83,
+          131.06,
+          126.83,
+          114.82
+        ]
+      }
+    ],
+    "feet": {
+      "near": {
+        "lowestPointY": [
+          762,
+          760.48,
+          758.82,
+          755.8,
+          763.19,
+          799.63,
+          846.85,
+          911.93,
+          959.36,
+          925.41,
+          880.38,
+          873.62,
+          883.04,
+          893,
+          910.67,
+          935.82,
+          956.3,
+          969.19,
+          973.19,
+          961.85,
+          927.06,
+          894.36,
+          890.09,
+          882.38,
+          820.31,
+          758.04,
+          762,
+          760.48,
+          758.82,
+          755.8,
+          763.19,
+          799.63,
+          846.85,
+          911.93,
+          959.36,
+          925.41,
+          880.38,
+          873.62,
+          883.04,
+          893,
+          910.67,
+          935.82,
+          956.3,
+          969.19,
+          973.19,
+          961.85,
+          927.06,
+          894.36,
+          890.09,
+          882.38,
+          820.31,
+          758.04,
+          762,
+          760.48,
+          758.82,
+          755.8,
+          763.19,
+          799.63,
+          846.85,
+          911.93,
+          959.36,
+          925.41,
+          880.38,
+          873.62,
+          883.04,
+          893,
+          910.67,
+          935.82,
+          956.3,
+          969.19,
+          973.19,
+          961.85,
+          927.06,
+          894.36,
+          890.09,
+          882.38,
+          820.31,
+          758.04,
+          762,
+          760.48,
+          758.82,
+          755.8,
+          763.19,
+          799.63,
+          846.85,
+          911.93,
+          959.36,
+          925.41,
+          880.38,
+          873.62,
+          883.04,
+          893,
+          910.67,
+          935.82
+        ],
+        "maxLowestY": 973.19,
+        "ankleVelocity": [
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          {
+            "vx": 18.31,
+            "vy": 7.79
+          },
+          {
+            "vx": 25.69,
+            "vy": 12.58
+          },
+          {
+            "vx": 51.63,
+            "vy": 21.57
+          },
+          {
+            "vx": 36.38,
+            "vy": 29.1
+          },
+          {
+            "vx": -29.19,
+            "vy": 58.33
+          },
+          {
+            "vx": -48.81,
+            "vy": 44.18
+          },
+          {
+            "vx": -66.38,
+            "vy": -43.2
+          },
+          {
+            "vx": -2.63,
+            "vy": -40.78
+          },
+          {
+            "vx": 211.69,
+            "vy": 41.93
+          },
+          {
+            "vx": 220.31,
+            "vy": 50.73
+          },
+          {
+            "vx": 3,
+            "vy": 9.96
+          },
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          {
+            "vx": -45,
+            "vy": 16.48
+          },
+          {
+            "vx": -58,
+            "vy": 8.89
+          },
+          {
+            "vx": -74.06,
+            "vy": 0.94
+          },
+          {
+            "vx": -50.94,
+            "vy": -20.28
+          },
+          {
+            "vx": 26.88,
+            "vy": -66.04
+          },
+          {
+            "vx": 55.13,
+            "vy": -56.45
+          },
+          {
+            "vx": 78.94,
+            "vy": 18.67
+          },
+          {
+            "vx": 22.06,
+            "vy": 17.34
+          },
+          {
+            "vx": -180.19,
+            "vy": -78.07
+          },
+          {
+            "vx": -192.81,
+            "vy": -84.27
+          },
+          {
+            "vx": -10,
+            "vy": 3.96
+          },
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          {
+            "vx": 18.31,
+            "vy": 7.79
+          },
+          {
+            "vx": 25.69,
+            "vy": 12.58
+          },
+          {
+            "vx": 51.63,
+            "vy": 21.57
+          },
+          {
+            "vx": 36.38,
+            "vy": 29.1
+          },
+          {
+            "vx": -29.19,
+            "vy": 58.33
+          },
+          {
+            "vx": -48.81,
+            "vy": 44.18
+          },
+          {
+            "vx": -66.38,
+            "vy": -43.2
+          },
+          {
+            "vx": -2.63,
+            "vy": -40.78
+          },
+          {
+            "vx": 211.69,
+            "vy": 41.93
+          },
+          {
+            "vx": 220.31,
+            "vy": 50.73
+          },
+          {
+            "vx": 3,
+            "vy": 9.96
+          },
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          {
+            "vx": -45,
+            "vy": 16.48
+          },
+          {
+            "vx": -58,
+            "vy": 8.89
+          },
+          {
+            "vx": -74.06,
+            "vy": 0.94
+          },
+          {
+            "vx": -50.94,
+            "vy": -20.28
+          },
+          {
+            "vx": 26.88,
+            "vy": -66.04
+          },
+          {
+            "vx": 55.13,
+            "vy": -56.45
+          },
+          {
+            "vx": 78.94,
+            "vy": 18.67
+          },
+          {
+            "vx": 22.06,
+            "vy": 17.34
+          },
+          {
+            "vx": -180.19,
+            "vy": -78.07
+          },
+          {
+            "vx": -192.81,
+            "vy": -84.27
+          },
+          {
+            "vx": -10,
+            "vy": 3.96
+          },
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          {
+            "vx": 18.31,
+            "vy": 7.79
+          },
+          {
+            "vx": 25.69,
+            "vy": 12.58
+          },
+          {
+            "vx": 51.63,
+            "vy": 21.57
+          },
+          {
+            "vx": 36.38,
+            "vy": 29.1
+          },
+          {
+            "vx": -29.19,
+            "vy": 58.33
+          },
+          {
+            "vx": -48.81,
+            "vy": 44.18
+          },
+          {
+            "vx": -66.38,
+            "vy": -43.2
+          },
+          {
+            "vx": -2.63,
+            "vy": -40.78
+          },
+          {
+            "vx": 211.69,
+            "vy": 41.93
+          },
+          {
+            "vx": 220.31,
+            "vy": 50.73
+          },
+          {
+            "vx": 3,
+            "vy": 9.96
+          },
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          {
+            "vx": -45,
+            "vy": 16.48
+          },
+          {
+            "vx": -58,
+            "vy": 8.89
+          },
+          {
+            "vx": -74.06,
+            "vy": 0.94
+          },
+          {
+            "vx": -50.94,
+            "vy": -20.28
+          },
+          {
+            "vx": 26.88,
+            "vy": -66.04
+          },
+          {
+            "vx": 55.13,
+            "vy": -56.45
+          },
+          {
+            "vx": 78.94,
+            "vy": 18.67
+          },
+          {
+            "vx": 22.06,
+            "vy": 17.34
+          },
+          {
+            "vx": -180.19,
+            "vy": -78.07
+          },
+          {
+            "vx": -192.81,
+            "vy": -84.27
+          },
+          {
+            "vx": -10,
+            "vy": 3.96
+          },
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          {
+            "vx": 18.31,
+            "vy": 7.79
+          },
+          {
+            "vx": 25.69,
+            "vy": 12.58
+          },
+          {
+            "vx": 51.63,
+            "vy": 21.57
+          },
+          {
+            "vx": 36.38,
+            "vy": 29.1
+          },
+          {
+            "vx": -29.19,
+            "vy": 58.33
+          },
+          {
+            "vx": -48.81,
+            "vy": 44.18
+          },
+          {
+            "vx": -66.38,
+            "vy": -43.2
+          },
+          {
+            "vx": -2.63,
+            "vy": -40.78
+          },
+          {
+            "vx": 211.69,
+            "vy": 41.93
+          },
+          {
+            "vx": 220.31,
+            "vy": 50.73
+          },
+          {
+            "vx": 3,
+            "vy": 9.96
+          },
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          null
+        ],
+        "toeVelocity": [
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          {
+            "vx": 18.56,
+            "vy": -3.02
+          },
+          {
+            "vx": 30.44,
+            "vy": 7.39
+          },
+          {
+            "vx": 66.94,
+            "vy": 36.44
+          },
+          {
+            "vx": 56.06,
+            "vy": 47.22
+          },
+          {
+            "vx": -4.69,
+            "vy": 65.08
+          },
+          {
+            "vx": -33.31,
+            "vy": 47.43
+          },
+          {
+            "vx": -89.06,
+            "vy": -33.95
+          },
+          {
+            "vx": -16.94,
+            "vy": -45.03
+          },
+          {
+            "vx": 262.88,
+            "vy": -6.76
+          },
+          {
+            "vx": 276.13,
+            "vy": 1.42
+          },
+          {
+            "vx": 0,
+            "vy": 10.96
+          },
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          {
+            "vx": -46.06,
+            "vy": 20.48
+          },
+          {
+            "vx": -61.94,
+            "vy": 12.89
+          },
+          {
+            "vx": -81.88,
+            "vy": 4.01
+          },
+          {
+            "vx": -63.13,
+            "vy": -11.34
+          },
+          {
+            "vx": 1.88,
+            "vy": -34.79
+          },
+          {
+            "vx": 40.13,
+            "vy": -32.7
+          },
+          {
+            "vx": 115.38,
+            "vy": -4.27
+          },
+          {
+            "vx": 45.63,
+            "vy": -7.72
+          },
+          {
+            "vx": -247.94,
+            "vy": -62.07
+          },
+          {
+            "vx": -268.06,
+            "vy": -62.27
+          },
+          {
+            "vx": -11,
+            "vy": 3.96
+          },
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          {
+            "vx": 18.56,
+            "vy": -3.02
+          },
+          {
+            "vx": 30.44,
+            "vy": 7.39
+          },
+          {
+            "vx": 66.94,
+            "vy": 36.44
+          },
+          {
+            "vx": 56.06,
+            "vy": 47.22
+          },
+          {
+            "vx": -4.69,
+            "vy": 65.08
+          },
+          {
+            "vx": -33.31,
+            "vy": 47.43
+          },
+          {
+            "vx": -89.06,
+            "vy": -33.95
+          },
+          {
+            "vx": -16.94,
+            "vy": -45.03
+          },
+          {
+            "vx": 262.88,
+            "vy": -6.76
+          },
+          {
+            "vx": 276.13,
+            "vy": 1.42
+          },
+          {
+            "vx": 0,
+            "vy": 10.96
+          },
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          {
+            "vx": -46.06,
+            "vy": 20.48
+          },
+          {
+            "vx": -61.94,
+            "vy": 12.89
+          },
+          {
+            "vx": -81.88,
+            "vy": 4.01
+          },
+          {
+            "vx": -63.13,
+            "vy": -11.34
+          },
+          {
+            "vx": 1.88,
+            "vy": -34.79
+          },
+          {
+            "vx": 40.13,
+            "vy": -32.7
+          },
+          {
+            "vx": 115.38,
+            "vy": -4.27
+          },
+          {
+            "vx": 45.63,
+            "vy": -7.72
+          },
+          {
+            "vx": -247.94,
+            "vy": -62.07
+          },
+          {
+            "vx": -268.06,
+            "vy": -62.27
+          },
+          {
+            "vx": -11,
+            "vy": 3.96
+          },
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          {
+            "vx": 18.56,
+            "vy": -3.02
+          },
+          {
+            "vx": 30.44,
+            "vy": 7.39
+          },
+          {
+            "vx": 66.94,
+            "vy": 36.44
+          },
+          {
+            "vx": 56.06,
+            "vy": 47.22
+          },
+          {
+            "vx": -4.69,
+            "vy": 65.08
+          },
+          {
+            "vx": -33.31,
+            "vy": 47.43
+          },
+          {
+            "vx": -89.06,
+            "vy": -33.95
+          },
+          {
+            "vx": -16.94,
+            "vy": -45.03
+          },
+          {
+            "vx": 262.88,
+            "vy": -6.76
+          },
+          {
+            "vx": 276.13,
+            "vy": 1.42
+          },
+          {
+            "vx": 0,
+            "vy": 10.96
+          },
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          {
+            "vx": -46.06,
+            "vy": 20.48
+          },
+          {
+            "vx": -61.94,
+            "vy": 12.89
+          },
+          {
+            "vx": -81.88,
+            "vy": 4.01
+          },
+          {
+            "vx": -63.13,
+            "vy": -11.34
+          },
+          {
+            "vx": 1.88,
+            "vy": -34.79
+          },
+          {
+            "vx": 40.13,
+            "vy": -32.7
+          },
+          {
+            "vx": 115.38,
+            "vy": -4.27
+          },
+          {
+            "vx": 45.63,
+            "vy": -7.72
+          },
+          {
+            "vx": -247.94,
+            "vy": -62.07
+          },
+          {
+            "vx": -268.06,
+            "vy": -62.27
+          },
+          {
+            "vx": -11,
+            "vy": 3.96
+          },
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          {
+            "vx": 18.56,
+            "vy": -3.02
+          },
+          {
+            "vx": 30.44,
+            "vy": 7.39
+          },
+          {
+            "vx": 66.94,
+            "vy": 36.44
+          },
+          {
+            "vx": 56.06,
+            "vy": 47.22
+          },
+          {
+            "vx": -4.69,
+            "vy": 65.08
+          },
+          {
+            "vx": -33.31,
+            "vy": 47.43
+          },
+          {
+            "vx": -89.06,
+            "vy": -33.95
+          },
+          {
+            "vx": -16.94,
+            "vy": -45.03
+          },
+          {
+            "vx": 262.88,
+            "vy": -6.76
+          },
+          {
+            "vx": 276.13,
+            "vy": 1.42
+          },
+          {
+            "vx": 0,
+            "vy": 10.96
+          },
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          null
+        ],
+        "contactCandidateFrames": [],
+        "candidateRule": "lowest point within 12px of foot max reach AND |ankle vx| <= 25 px/frame — UNVERIFIED candidates for Phase 2 review",
+        "proximityCandidates": [
+          {
+            "frame": 17,
+            "lowestY": 969.19,
+            "ankleVx": -74.06,
+            "ankleVy": 0.94
+          },
+          {
+            "frame": 18,
+            "lowestY": 973.19,
+            "ankleVx": -50.94,
+            "ankleVy": -20.28
+          },
+          {
+            "frame": 19,
+            "lowestY": 961.85,
+            "ankleVx": 26.88,
+            "ankleVy": -66.04
+          },
+          {
+            "frame": 43,
+            "lowestY": 969.19,
+            "ankleVx": -74.06,
+            "ankleVy": 0.94
+          },
+          {
+            "frame": 44,
+            "lowestY": 973.19,
+            "ankleVx": -50.94,
+            "ankleVy": -20.28
+          },
+          {
+            "frame": 45,
+            "lowestY": 961.85,
+            "ankleVx": 26.88,
+            "ankleVy": -66.04
+          },
+          {
+            "frame": 69,
+            "lowestY": 969.19,
+            "ankleVx": -74.06,
+            "ankleVy": 0.94
+          },
+          {
+            "frame": 70,
+            "lowestY": 973.19,
+            "ankleVx": -50.94,
+            "ankleVy": -20.28
+          },
+          {
+            "frame": 71,
+            "lowestY": 961.85,
+            "ankleVx": 26.88,
+            "ankleVy": -66.04
+          }
+        ],
+        "proximityRule": "lowest point within 12px of foot max reach (velocity NOT constrained) — label `uncertain` until Phase 2 review"
+      },
+      "far": {
+        "lowestPointY": [
+          893,
+          910.67,
+          935.82,
+          956.3,
+          969.19,
+          973.19,
+          961.85,
+          927.06,
+          894.36,
+          890.09,
+          882.38,
+          820.31,
+          758.04,
+          762,
+          760.48,
+          758.82,
+          755.8,
+          763.19,
+          799.63,
+          846.85,
+          911.93,
+          959.36,
+          925.41,
+          880.38,
+          873.62,
+          883.04,
+          893,
+          910.67,
+          935.82,
+          956.3,
+          969.19,
+          973.19,
+          961.85,
+          927.06,
+          894.36,
+          890.09,
+          882.38,
+          820.31,
+          758.04,
+          762,
+          760.48,
+          758.82,
+          755.8,
+          763.19,
+          799.63,
+          846.85,
+          911.93,
+          959.36,
+          925.41,
+          880.38,
+          873.62,
+          883.04,
+          893,
+          910.67,
+          935.82,
+          956.3,
+          969.19,
+          973.19,
+          961.85,
+          927.06,
+          894.36,
+          890.09,
+          882.38,
+          820.31,
+          758.04,
+          762,
+          760.48,
+          758.82,
+          755.8,
+          763.19,
+          799.63,
+          846.85,
+          911.93,
+          959.36,
+          925.41,
+          880.38,
+          873.62,
+          883.04,
+          893,
+          910.67,
+          935.82,
+          956.3,
+          969.19,
+          973.19,
+          961.85,
+          927.06,
+          894.36,
+          890.09,
+          882.38,
+          820.31,
+          758.04,
+          762,
+          760.48,
+          758.82
+        ],
+        "maxLowestY": 973.19,
+        "ankleVelocity": [
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          {
+            "vx": -45,
+            "vy": 16.48
+          },
+          {
+            "vx": -58,
+            "vy": 8.89
+          },
+          {
+            "vx": -74.06,
+            "vy": 0.94
+          },
+          {
+            "vx": -50.94,
+            "vy": -20.28
+          },
+          {
+            "vx": 26.88,
+            "vy": -66.04
+          },
+          {
+            "vx": 55.13,
+            "vy": -56.45
+          },
+          {
+            "vx": 78.94,
+            "vy": 18.67
+          },
+          {
+            "vx": 22.06,
+            "vy": 17.34
+          },
+          {
+            "vx": -180.19,
+            "vy": -78.07
+          },
+          {
+            "vx": -192.81,
+            "vy": -84.27
+          },
+          {
+            "vx": -10,
+            "vy": 3.96
+          },
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          {
+            "vx": 18.31,
+            "vy": 7.79
+          },
+          {
+            "vx": 25.69,
+            "vy": 12.58
+          },
+          {
+            "vx": 51.63,
+            "vy": 21.57
+          },
+          {
+            "vx": 36.38,
+            "vy": 29.1
+          },
+          {
+            "vx": -29.19,
+            "vy": 58.33
+          },
+          {
+            "vx": -48.81,
+            "vy": 44.18
+          },
+          {
+            "vx": -66.38,
+            "vy": -43.2
+          },
+          {
+            "vx": -2.63,
+            "vy": -40.78
+          },
+          {
+            "vx": 211.69,
+            "vy": 41.93
+          },
+          {
+            "vx": 220.31,
+            "vy": 50.73
+          },
+          {
+            "vx": 3,
+            "vy": 9.96
+          },
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          {
+            "vx": -45,
+            "vy": 16.48
+          },
+          {
+            "vx": -58,
+            "vy": 8.89
+          },
+          {
+            "vx": -74.06,
+            "vy": 0.94
+          },
+          {
+            "vx": -50.94,
+            "vy": -20.28
+          },
+          {
+            "vx": 26.88,
+            "vy": -66.04
+          },
+          {
+            "vx": 55.13,
+            "vy": -56.45
+          },
+          {
+            "vx": 78.94,
+            "vy": 18.67
+          },
+          {
+            "vx": 22.06,
+            "vy": 17.34
+          },
+          {
+            "vx": -180.19,
+            "vy": -78.07
+          },
+          {
+            "vx": -192.81,
+            "vy": -84.27
+          },
+          {
+            "vx": -10,
+            "vy": 3.96
+          },
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          {
+            "vx": 18.31,
+            "vy": 7.79
+          },
+          {
+            "vx": 25.69,
+            "vy": 12.58
+          },
+          {
+            "vx": 51.63,
+            "vy": 21.57
+          },
+          {
+            "vx": 36.38,
+            "vy": 29.1
+          },
+          {
+            "vx": -29.19,
+            "vy": 58.33
+          },
+          {
+            "vx": -48.81,
+            "vy": 44.18
+          },
+          {
+            "vx": -66.38,
+            "vy": -43.2
+          },
+          {
+            "vx": -2.63,
+            "vy": -40.78
+          },
+          {
+            "vx": 211.69,
+            "vy": 41.93
+          },
+          {
+            "vx": 220.31,
+            "vy": 50.73
+          },
+          {
+            "vx": 3,
+            "vy": 9.96
+          },
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          {
+            "vx": -45,
+            "vy": 16.48
+          },
+          {
+            "vx": -58,
+            "vy": 8.89
+          },
+          {
+            "vx": -74.06,
+            "vy": 0.94
+          },
+          {
+            "vx": -50.94,
+            "vy": -20.28
+          },
+          {
+            "vx": 26.88,
+            "vy": -66.04
+          },
+          {
+            "vx": 55.13,
+            "vy": -56.45
+          },
+          {
+            "vx": 78.94,
+            "vy": 18.67
+          },
+          {
+            "vx": 22.06,
+            "vy": 17.34
+          },
+          {
+            "vx": -180.19,
+            "vy": -78.07
+          },
+          {
+            "vx": -192.81,
+            "vy": -84.27
+          },
+          {
+            "vx": -10,
+            "vy": 3.96
+          },
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          {
+            "vx": 18.31,
+            "vy": 7.79
+          },
+          {
+            "vx": 25.69,
+            "vy": 12.58
+          },
+          {
+            "vx": 51.63,
+            "vy": 21.57
+          },
+          {
+            "vx": 36.38,
+            "vy": 29.1
+          },
+          {
+            "vx": -29.19,
+            "vy": 58.33
+          },
+          {
+            "vx": -48.81,
+            "vy": 44.18
+          },
+          {
+            "vx": -66.38,
+            "vy": -43.2
+          },
+          {
+            "vx": -2.63,
+            "vy": -40.78
+          },
+          {
+            "vx": 211.69,
+            "vy": 41.93
+          },
+          {
+            "vx": 220.31,
+            "vy": 50.73
+          },
+          {
+            "vx": 3,
+            "vy": 9.96
+          },
+          {
+            "vx": -4.06,
+            "vy": 17.67
+          },
+          {
+            "vx": -16.94,
+            "vy": 20.15
+          },
+          {
+            "vx": -45,
+            "vy": 16.48
+          },
+          {
+            "vx": -58,
+            "vy": 8.89
+          },
+          {
+            "vx": -74.06,
+            "vy": 0.94
+          },
+          {
+            "vx": -50.94,
+            "vy": -20.28
+          },
+          {
+            "vx": 26.88,
+            "vy": -66.04
+          },
+          {
+            "vx": 55.13,
+            "vy": -56.45
+          },
+          {
+            "vx": 78.94,
+            "vy": 18.67
+          },
+          {
+            "vx": 22.06,
+            "vy": 17.34
+          },
+          {
+            "vx": -180.19,
+            "vy": -78.07
+          },
+          {
+            "vx": -192.81,
+            "vy": -84.27
+          },
+          {
+            "vx": -10,
+            "vy": 3.96
+          },
+          {
+            "vx": 11.75,
+            "vy": 3.48
+          },
+          {
+            "vx": 17.25,
+            "vy": 5.33
+          },
+          null
+        ],
+        "toeVelocity": [
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          {
+            "vx": -46.06,
+            "vy": 20.48
+          },
+          {
+            "vx": -61.94,
+            "vy": 12.89
+          },
+          {
+            "vx": -81.88,
+            "vy": 4.01
+          },
+          {
+            "vx": -63.13,
+            "vy": -11.34
+          },
+          {
+            "vx": 1.88,
+            "vy": -34.79
+          },
+          {
+            "vx": 40.13,
+            "vy": -32.7
+          },
+          {
+            "vx": 115.38,
+            "vy": -4.27
+          },
+          {
+            "vx": 45.63,
+            "vy": -7.72
+          },
+          {
+            "vx": -247.94,
+            "vy": -62.07
+          },
+          {
+            "vx": -268.06,
+            "vy": -62.27
+          },
+          {
+            "vx": -11,
+            "vy": 3.96
+          },
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          {
+            "vx": 18.56,
+            "vy": -3.02
+          },
+          {
+            "vx": 30.44,
+            "vy": 7.39
+          },
+          {
+            "vx": 66.94,
+            "vy": 36.44
+          },
+          {
+            "vx": 56.06,
+            "vy": 47.22
+          },
+          {
+            "vx": -4.69,
+            "vy": 65.08
+          },
+          {
+            "vx": -33.31,
+            "vy": 47.43
+          },
+          {
+            "vx": -89.06,
+            "vy": -33.95
+          },
+          {
+            "vx": -16.94,
+            "vy": -45.03
+          },
+          {
+            "vx": 262.88,
+            "vy": -6.76
+          },
+          {
+            "vx": 276.13,
+            "vy": 1.42
+          },
+          {
+            "vx": 0,
+            "vy": 10.96
+          },
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          {
+            "vx": -46.06,
+            "vy": 20.48
+          },
+          {
+            "vx": -61.94,
+            "vy": 12.89
+          },
+          {
+            "vx": -81.88,
+            "vy": 4.01
+          },
+          {
+            "vx": -63.13,
+            "vy": -11.34
+          },
+          {
+            "vx": 1.88,
+            "vy": -34.79
+          },
+          {
+            "vx": 40.13,
+            "vy": -32.7
+          },
+          {
+            "vx": 115.38,
+            "vy": -4.27
+          },
+          {
+            "vx": 45.63,
+            "vy": -7.72
+          },
+          {
+            "vx": -247.94,
+            "vy": -62.07
+          },
+          {
+            "vx": -268.06,
+            "vy": -62.27
+          },
+          {
+            "vx": -11,
+            "vy": 3.96
+          },
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          {
+            "vx": 18.56,
+            "vy": -3.02
+          },
+          {
+            "vx": 30.44,
+            "vy": 7.39
+          },
+          {
+            "vx": 66.94,
+            "vy": 36.44
+          },
+          {
+            "vx": 56.06,
+            "vy": 47.22
+          },
+          {
+            "vx": -4.69,
+            "vy": 65.08
+          },
+          {
+            "vx": -33.31,
+            "vy": 47.43
+          },
+          {
+            "vx": -89.06,
+            "vy": -33.95
+          },
+          {
+            "vx": -16.94,
+            "vy": -45.03
+          },
+          {
+            "vx": 262.88,
+            "vy": -6.76
+          },
+          {
+            "vx": 276.13,
+            "vy": 1.42
+          },
+          {
+            "vx": 0,
+            "vy": 10.96
+          },
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          {
+            "vx": -46.06,
+            "vy": 20.48
+          },
+          {
+            "vx": -61.94,
+            "vy": 12.89
+          },
+          {
+            "vx": -81.88,
+            "vy": 4.01
+          },
+          {
+            "vx": -63.13,
+            "vy": -11.34
+          },
+          {
+            "vx": 1.88,
+            "vy": -34.79
+          },
+          {
+            "vx": 40.13,
+            "vy": -32.7
+          },
+          {
+            "vx": 115.38,
+            "vy": -4.27
+          },
+          {
+            "vx": 45.63,
+            "vy": -7.72
+          },
+          {
+            "vx": -247.94,
+            "vy": -62.07
+          },
+          {
+            "vx": -268.06,
+            "vy": -62.27
+          },
+          {
+            "vx": -11,
+            "vy": 3.96
+          },
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          {
+            "vx": 18.56,
+            "vy": -3.02
+          },
+          {
+            "vx": 30.44,
+            "vy": 7.39
+          },
+          {
+            "vx": 66.94,
+            "vy": 36.44
+          },
+          {
+            "vx": 56.06,
+            "vy": 47.22
+          },
+          {
+            "vx": -4.69,
+            "vy": 65.08
+          },
+          {
+            "vx": -33.31,
+            "vy": 47.43
+          },
+          {
+            "vx": -89.06,
+            "vy": -33.95
+          },
+          {
+            "vx": -16.94,
+            "vy": -45.03
+          },
+          {
+            "vx": 262.88,
+            "vy": -6.76
+          },
+          {
+            "vx": 276.13,
+            "vy": 1.42
+          },
+          {
+            "vx": 0,
+            "vy": 10.96
+          },
+          {
+            "vx": -2.25,
+            "vy": 23.17
+          },
+          {
+            "vx": -15.75,
+            "vy": 26.65
+          },
+          {
+            "vx": -46.06,
+            "vy": 20.48
+          },
+          {
+            "vx": -61.94,
+            "vy": 12.89
+          },
+          {
+            "vx": -81.88,
+            "vy": 4.01
+          },
+          {
+            "vx": -63.13,
+            "vy": -11.34
+          },
+          {
+            "vx": 1.88,
+            "vy": -34.79
+          },
+          {
+            "vx": 40.13,
+            "vy": -32.7
+          },
+          {
+            "vx": 115.38,
+            "vy": -4.27
+          },
+          {
+            "vx": 45.63,
+            "vy": -7.72
+          },
+          {
+            "vx": -247.94,
+            "vy": -62.07
+          },
+          {
+            "vx": -268.06,
+            "vy": -62.27
+          },
+          {
+            "vx": -11,
+            "vy": 3.96
+          },
+          {
+            "vx": 10.94,
+            "vy": -1.52
+          },
+          {
+            "vx": 17.06,
+            "vy": -1.67
+          },
+          null
+        ],
+        "contactCandidateFrames": [],
+        "candidateRule": "lowest point within 12px of foot max reach AND |ankle vx| <= 25 px/frame — UNVERIFIED candidates for Phase 2 review",
+        "proximityCandidates": [
+          {
+            "frame": 4,
+            "lowestY": 969.19,
+            "ankleVx": -74.06,
+            "ankleVy": 0.94
+          },
+          {
+            "frame": 5,
+            "lowestY": 973.19,
+            "ankleVx": -50.94,
+            "ankleVy": -20.28
+          },
+          {
+            "frame": 6,
+            "lowestY": 961.85,
+            "ankleVx": 26.88,
+            "ankleVy": -66.04
+          },
+          {
+            "frame": 30,
+            "lowestY": 969.19,
+            "ankleVx": -74.06,
+            "ankleVy": 0.94
+          },
+          {
+            "frame": 31,
+            "lowestY": 973.19,
+            "ankleVx": -50.94,
+            "ankleVy": -20.28
+          },
+          {
+            "frame": 32,
+            "lowestY": 961.85,
+            "ankleVx": 26.88,
+            "ankleVy": -66.04
+          },
+          {
+            "frame": 56,
+            "lowestY": 969.19,
+            "ankleVx": -74.06,
+            "ankleVy": 0.94
+          },
+          {
+            "frame": 57,
+            "lowestY": 973.19,
+            "ankleVx": -50.94,
+            "ankleVy": -20.28
+          },
+          {
+            "frame": 58,
+            "lowestY": 961.85,
+            "ankleVx": 26.88,
+            "ankleVy": -66.04
+          },
+          {
+            "frame": 82,
+            "lowestY": 969.19,
+            "ankleVx": -74.06,
+            "ankleVy": 0.94
+          },
+          {
+            "frame": 83,
+            "lowestY": 973.19,
+            "ankleVx": -50.94,
+            "ankleVy": -20.28
+          },
+          {
+            "frame": 84,
+            "lowestY": 961.85,
+            "ankleVx": 26.88,
+            "ankleVy": -66.04
+          }
+        ],
+        "proximityRule": "lowest point within 12px of foot max reach (velocity NOT constrained) — label `uncertain` until Phase 2 review"
+      }
+    },
+    "groundReferenceY": 972
+  },
+  "visualCharacteristics": {
+    "palette": {
+      "bg": "#FFFFFF",
+      "body": "#686D75",
+      "bodyLt": "#767B84",
+      "far": "#4E5561",
+      "line": "#30303A",
+      "scarf": "#F3E9D3",
+      "scarfSh": "#E3D9C6",
+      "pack": "#C6BAB0",
+      "packLt": "#D9CEC4",
+      "packDk": "#36374C",
+      "eye": "#272A3E",
+      "shadow": "#DCDBDE"
+    },
+    "geometry": {
+      "headRadius": 86,
+      "hipX": 864,
+      "headX": 978,
+      "limbStrokeWidths": {
+        "thigh": 50,
+        "calf": 38,
+        "upperArm": 34,
+        "forearm": 28,
+        "outlineExtra": 9
+      },
+      "foot": "filled wedge along ankle->toe, half-width 15, heel extension 24 (stretchy: ankle->toe length varies 1.849x)",
+      "scarf": "6-point sinusoidal ribbon, amp [8,14,19,24,30], period 13",
+      "backpack": "flat rounded rect 140x185 at (818, headY+222), rotate -12, single strap line",
+      "torso": "single bezier quad between shoulder and hip anchors",
+      "drawOrder": "shadow -> far leg -> far arm -> scarf tail -> backpack+strap -> torso+neck -> near leg -> scarf knot -> head -> near arm"
+    },
+    "referenceSheets": [
+      "verify/contact-sheet.png",
+      "verify/comparison-contact-sheet.png",
+      "reports/puppet-upgrade-baseline-contact-sheet.png"
+    ],
+    "ssrSvgSha256AtReferenceFrames": [
+      {
+        "frame": 0,
+        "sha256": "d9f28916956c5cc5fcda06a5d154e9b9057278e5c940261db50c3afc50245c2f"
+      },
+      {
+        "frame": 12,
+        "sha256": "78c85dce9385b3f512ea3b1ddbb959f360d085ddf7322f653e313646ce99daa7"
+      },
+      {
+        "frame": 25,
+        "sha256": "c682ea304222425d2647491cd4028182eaf8fab9fba3b8efb6148463d18d65cc"
+      },
+      {
+        "frame": 26,
+        "sha256": "d9f28916956c5cc5fcda06a5d154e9b9057278e5c940261db50c3afc50245c2f"
+      },
+      {
+        "frame": 34,
+        "sha256": "f52a42ef2bc2133f7dec4be17e79a22e6fc8b74ef23830411d7b9eef877c5534"
+      },
+      {
+        "frame": 72,
+        "sha256": "89686c4e4453235a99751526e6e710a43b4a7c41e811f6a1a98a2ca41bba59a7"
+      },
+      {
+        "frame": 93,
+        "sha256": "662b90d268e6e38ea282767da31b17125bbbd135a344b552eb1e26b58e03d4d0"
+      }
+    ]
+  },
+  "knownPreExistingDefect": {
+    "check": "Test I limb segment length max/min <= 2.0",
+    "worst": "2.891x near/far knee->ankle",
+    "classification": "PRE-EXISTING (raw keys 1.958x -> Catmull-Rom stored track 2.891x -> interpolation overshoot <=1.192x). Phase 1 replaces this ratio gate with per-bone configured-length error."
+  },
+  "contactCharacterization": {
+    "finding": "The strict candidate rule (near-ground AND |ankle vx| <= 25 px/frame) matches ZERO frames for both feet: the unconstrained track has no unambiguous stance. At the deepest ground-proximity frames the ankle still moves 27-74 px/frame horizontally — measured foot slip, the defect Phase 2 must fix.",
+    "proximityWindows": "near foot ~frames 17-19/43-45/69-71; far foot ~frames 4-6/30-32/56-58/82-84 (13-frame alternation). All labelled UNCERTAIN candidates for Phase 2 manual review, not verified stance."
+  }
+}

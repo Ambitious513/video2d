@@ -51,7 +51,10 @@ export const JOBS = [
 
 function run(cmd, args, cwd) {
   console.log(`\n$ (cwd=${cwd}) ${cmd} ${args.join(' ')}`);
-  const r = spawnSync(cmd, args, {cwd, stdio: 'inherit'});
+  // Windows: `.cmd` shims (npx/npm) must be spawned through a shell; absolute
+  // exe paths (ffmpeg-static/ffprobe) must NOT (paths may contain spaces).
+  const shell = process.platform === 'win32' && !path.isAbsolute(cmd);
+  const r = spawnSync(cmd, args, {cwd, stdio: 'inherit', shell});
   if (r.error) throw new Error(`${cmd} failed to start: ${r.error.message}`);
   if (r.status !== 0) throw new Error(`${cmd} exited ${r.status}`);
 }
