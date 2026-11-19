@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-11-19T11:09:37.090Z",
+  "schema": "variant-render-validation/1",
+  "purpose": "Phase 4 regression: variant stills render the CURRENT timeline frame (not a hardcoded frame) and both variants are distinct + deterministic.",
+  "frames": [
+    0,
+    12,
+    25,
+    26,
+    34,
+    72,
+    93
+  ],
+  "checks": [
+    {
+      "name": "runner frame 0 vs 12 differs",
+      "pass": true,
+      "detail": "fracDiff=0.03777"
+    },
+    {
+      "name": "runner frame 0 vs 25 differs",
+      "pass": true,
+      "detail": "fracDiff=0.01795"
+    },
+    {
+      "name": "runner frame 0 vs 34 differs",
+      "pass": true,
+      "detail": "fracDiff=0.04838"
+    },
+    {
+      "name": "runner frame 0 vs 72 differs",
+      "pass": true,
+      "detail": "fracDiff=0.05365"
+    },
+    {
+      "name": "runner frame 0 vs 93 differs",
+      "pass": true,
+      "detail": "fracDiff=0.05154"
+    },
+    {
+      "name": "runner frame 0 == 26 (period-26 gait, not a static frame)",
+      "pass": true,
+      "detail": "fracDiff=0.00000"
+    },
+    {
+      "name": "teal frame 0 vs 12 differs",
+      "pass": true,
+      "detail": "fracDiff=0.02941"
+    },
+    {
+      "name": "teal frame 0 vs 25 differs",
+      "pass": true,
+      "detail": "fracDiff=0.01877"
+    },
+    {
+      "name": "teal frame 0 vs 34 differs",
+      "pass": true,
+      "detail": "fracDiff=0.04909"
+    },
+    {
+      "name": "teal frame 0 vs 72 differs",
+      "pass": true,
+      "detail": "fracDiff=0.05441"
+    },
+    {
+      "name": "teal frame 0 vs 93 differs",
+      "pass": true,
+      "detail": "fracDiff=0.05086"
+    },
+    {
+      "name": "teal frame 0 == 26 (period-26 gait, not a static frame)",
+      "pass": true,
+      "detail": "fracDiff=0.00000"
+    },
+    {
+      "name": "runner vs teal at frame 34 differ (identity)",
+      "pass": true,
+      "detail": "fracDiff=0.05003"
+    },
+    {
+      "name": "both variants share the same motion (raw ankle target)",
+      "pass": true,
+      "detail": "raw ankle identical"
+    },
+    {
+      "name": "variant rig proportions differ (knee positions)",
+      "pass": true,
+      "detail": "knees differ > 1px"
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,20 @@
+$ C:\Program Files\nodejs\node.exe --import tsx scripts\verify-variants.mjs
+(cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover\remotion)
+
+[PASS] runner frame 0 vs 12 differs — fracDiff=0.03777
+[PASS] runner frame 0 vs 25 differs — fracDiff=0.01795
+[PASS] runner frame 0 vs 34 differs — fracDiff=0.04838
+[PASS] runner frame 0 vs 72 differs — fracDiff=0.05365
+[PASS] runner frame 0 vs 93 differs — fracDiff=0.05154
+[PASS] runner frame 0 == 26 (period-26 gait, not a static frame) — fracDiff=0.00000
+[PASS] teal frame 0 vs 12 differs — fracDiff=0.02941
+[PASS] teal frame 0 vs 25 differs — fracDiff=0.01877
+[PASS] teal frame 0 vs 34 differs — fracDiff=0.04909
+[PASS] teal frame 0 vs 72 differs — fracDiff=0.05441
+[PASS] teal frame 0 vs 93 differs — fracDiff=0.05086
+[PASS] teal frame 0 == 26 (period-26 gait, not a static frame) — fracDiff=0.00000
+[PASS] runner vs teal at frame 34 differ (identity) — fracDiff=0.05003
+[PASS] both variants share the same motion (raw ankle target) — raw ankle identical
+[PASS] variant rig proportions differ (knee positions) — knees differ > 1px
+
+variant-render: PASS (15/15)

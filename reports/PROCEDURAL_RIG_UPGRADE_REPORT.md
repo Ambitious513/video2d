@@ -388,6 +388,10 @@ Owner visual sign-off of `reports/phase3-final-polish-sheet.png` + the final `Ru
 
 Confirm the gate, then commit + push Phase 4 and await owner review of `reports/phase4-variant-comparison.png` before Phase 5.
 
+### Phase 4 fix (2026-11-19) — variant stills rendered the wrong frame
+
+The temp entry in `render-variants.mjs` passed a hardcoded `frame={0}` to both variants, so every requested still rendered the same pose. Fixed to `frame={useCurrentFrame()}` so each still renders its requested timeline frame. Added `remotion/scripts/verify-variants.mjs` (regression: renders both variants at distinct frames, asserts real pixel differences, shared motion, distinct proportions/identity, 1920×1080) wired into `verify.mjs` as a required step (A19) so the suite fails if the variant sheet is static. `reports/phase4-variant-comparison.png` regenerated from the fixed renders. Verified 15/15.
+
 ## Phase 5 — Final Verification + Documentation (COMPLETE)
 
 **Date:** 2026-11-18T22:00Z  **Status:** COMPLETE — all phases (0–5) done; ready for owner merge/PR review (not merged to main).

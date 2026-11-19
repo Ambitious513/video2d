@@ -39,10 +39,10 @@ const entryDir = fs.mkdtempSync(path.join(os.tmpdir(), 'p4-variants-'));
 const entry = path.join(entryDir, 'entry.tsx');
 fs.writeFileSync(entry, `
 import React from 'react';
-import {Composition, registerRoot} from 'remotion';
+import {Composition, registerRoot, useCurrentFrame} from 'remotion';
 import {PuppetVariant} from '${path.join(REMOTION, 'src', 'puppet', 'Runner').replace(/\\/g, '/')}';
-const Runner: React.FC = () => <PuppetVariant frame={0} variant="runner" />;
-const Teal: React.FC = () => <PuppetVariant frame={0} variant="teal" />;
+const Runner: React.FC = () => <PuppetVariant frame={useCurrentFrame()} variant="runner" />;
+const Teal: React.FC = () => <PuppetVariant frame={useCurrentFrame()} variant="teal" />;
 const Root: React.FC = () => (
   <>
     <Composition id="VariantRunner" component={Runner} durationInFrames={94} fps={24} width={1920} height={1080} />

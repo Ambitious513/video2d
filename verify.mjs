@@ -133,6 +133,11 @@ step('fidelity', process.execPath, [
 step('motion', NPM, ['run', 'verify:motion'], REMOTION);
 step('ik', NPM, ['run', 'verify:ik'], REMOTION);
 
+// 12c. Phase 4 variant-render verification (regression for the hardcoded-frame
+// bug): renders BOTH variants at distinct frames and asserts real pixel
+// differences (not React element identity). Fails if the variant sheet is static.
+step('variants', process.execPath, ['--import', 'tsx', path.join('scripts', 'verify-variants.mjs')], REMOTION);
+
 // 12b. Documentation-vs-implementation consistency (A15, A16). Pure file/git
 // checks, no browser needed: every documented path resolves (or is a gitignored
 // regenerable location), every documented npm script exists, every mentioned
@@ -220,11 +225,14 @@ step('docs', process.execPath, [path.join(TOOLS, 'verify-docs.js')], ROOT);
     // (npx/npm.cmd spawn via shell) needed to run this suite on Windows.
     /^render-lowram\.mjs$/,
     /^tools\/package\.json$/,
-    // Phase 3 dev tools: puppet-only fast fidelity scorer + comparison sheets.
+    // Doc validator extended (Phase 4 fix: contradictory current-state detection).
+    /^tools\/verify-docs\.js$/,
+    // Phase 3/4 dev tools: fast fidelity scorer, comparison sheets, variant render+verify.
     /^tools\/score-puppet-fast\.js$/,
     /^tools\/compare-phase3\.mjs$/,
     /^tools\/compare-final-polish\.mjs$/,
     /^tools\/compare-variants\.mjs$/,
+    /^remotion\/scripts\/(render-variants|verify-variants)\.mjs$/,
     // Ignored regenerable dirs (Phase 3c/3f comparison stills).
     /^\.gitignore$/,
     // Build cache (gitignored; Remotion/webpack).
@@ -305,6 +313,7 @@ const matrix = {
   A16: {criterion: 'STATUS.md has no contradictory historical/current status', status: s('docs'), evidence: 'reports/doc-validation.json (required handoff sections; stale claims confined to History) + reports/REPRODUCIBILITY_REPORT.md'},
   A17: {criterion: 'Clean install + typecheck succeed', status: all('typecheck', 'unit-tools', ...installSteps), evidence: 'reports/logs/typecheck.log + reports/logs/install-*.log (with --install)'},
   A18: {criterion: 'No MP4s/node_modules/temp sequences committed', status: s('tracked-audit'), evidence: 'reports/test-matrix.json (tracked-audit)'},
+  A19: {criterion: 'Phase 4 variants render the current frame (not a static pose) and are distinct', status: s('variants'), evidence: 'reports/variant-render-validation.json (pixel diff across frames, both variants)'},
 };
 // Test I is a required test. Since Phase 1 of the puppet upgrade it gates the
 // constrained rig (fixed bone lengths, IK residual, bend stability) plus the

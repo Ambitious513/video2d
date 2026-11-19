@@ -26,6 +26,7 @@ verify/stills/
 reports/p3c-new/
 reports/p3f-new/
 reports/p4-new/
+reports/variant-render-check/
 
 # Webpack/remotion build cache
 .cache/

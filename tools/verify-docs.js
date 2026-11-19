@@ -173,6 +173,38 @@ const staleOutside = stalePatterns.filter((re) => re.test(outsideHistory)).map(S
 checks.push(check('no stale unfinished-work claims outside the labelled History section', staleOutside.length === 0,
   staleOutside.length ? `stale claims in current sections: ${staleOutside.join(', ')}` : 'historical claims are confined to the History section'));
 
+// ROADMAP.md consistency: the top current-state block must agree with the
+// phase table. Detect contradictory "current state" statements (e.g. the header
+// says COMPLETE while the phase table says IN PROGRESS, or a phase is marked
+// both NOT STARTED and COMPLETE). History rows are ignored.
+const roadmap = texts['ROADMAP.md'] || '';
+const headerMatch = roadmap.match(/^\*\*Current status:\*\*\s*(.+)$/im);
+const headerStatus = headerMatch ? headerMatch[1].trim() : '';
+const topBlock = roadmap.split(/\n##\s/)[0] || '';
+const phaseTableRows = roadmap.split('\n').filter((l) => /^\|\s*\d\.\s/.test(l));
+const phaseStates = {};
+for (const row of phaseTableRows) {
+  const cells = row.split('|').map((c) => c.trim());
+  const ph = cells[1] || '';
+  const st = (cells[3] || '').toUpperCase();
+  if (/^\d\./.test(ph)) phaseStates[ph.replace(/\..*$/, '')] = st;
+}
+const contradictions = [];
+const hdr = headerStatus.toUpperCase();
+if (/COMPLETE/.test(hdr) && !/IN PROGRESS|PARTIAL|BLOCKED/.test(hdr)) {
+  const notComplete = Object.entries(phaseStates).filter(([, st]) => st && !/COMPLETE/.test(st));
+  if (notComplete.length) contradictions.push(`header says COMPLETE but phase(s) not COMPLETE: ${notComplete.map(([p]) => p).join(', ')}`);
+}
+if (/NOT STARTED/.test(hdr) && Object.values(phaseStates).some((st) => /COMPLETE/.test(st))) {
+  contradictions.push('header says NOT STARTED but a phase is COMPLETE');
+}
+for (const [ph, st] of Object.entries(phaseStates)) {
+  if (/NOT STARTED/.test(st) && /COMPLETE/.test(st)) contradictions.push(`phase ${ph} marked both NOT STARTED and COMPLETE`);
+  if (/IN PROGRESS/.test(st) && /COMPLETE/.test(st) && !/IN PROGRESS \(.*COMPLETE/.test(st)) contradictions.push(`phase ${ph} marked both IN PROGRESS and COMPLETE`);
+}
+checks.push(check('ROADMAP.md current-state header agrees with the phase table', contradictions.length === 0,
+  contradictions.length ? `contradictions: ${contradictions.join('; ')}` : 'header and phase table are consistent'));
+
 const report = {
   generatedAt: new Date().toISOString(),
   documents: DOCS,

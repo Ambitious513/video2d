@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T21:53:03.509Z",
+  "generatedAt": "2026-11-19T11:09:37.486Z",
   "documents": [
     "METHOD.md",
     "STATUS.md"
@@ -25,12 +25,12 @@
     "remotion/node_modules/",
     ".remotion/"
   ],
-  "pathReferencesChecked": 77,
+  "pathReferencesChecked": 79,
   "checks": [
     {
       "name": "every documented repository path resolves (or is documented regenerable)",
       "status": "PASS",
-      "detail": "77 path references checked across METHOD.md, STATUS.md"
+      "detail": "79 path references checked across METHOD.md, STATUS.md"
     },
     {
       "name": "every documented npm run script exists",
@@ -66,6 +66,11 @@
       "name": "no stale unfinished-work claims outside the labelled History section",
       "status": "PASS",
       "detail": "historical claims are confined to the History section"
+    },
+    {
+      "name": "ROADMAP.md current-state header agrees with the phase table",
+      "status": "PASS",
+      "detail": "header and phase table are consistent"
     }
   ],
   "note": "A15 (paths/commands match the implementation) is fully automated here. A16 (no contradictory status) is checked structurally; the prose itself was rewritten and reviewed by the agent — see reports/REPRODUCIBILITY_REPORT.md.",
