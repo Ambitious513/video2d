@@ -41,10 +41,10 @@ The `feat/constrained-puppet-rig` branch upgrades **only** the procedural puppet
 | 3a | Cohesive geometry | **COMPLETE** — tapered limb silhouettes, fuller torso, designed feet |
 | 3b | Deterministic scarf + backpack | **COMPLETE** — fixed-length scarf chain, backpack bob/lag |
 | 3c | Visual comparison evidence + closeout | **COMPLETE** — `reports/phase3-final-polish-sheet.png`; **owner-approved 2026-11-18** |
-| 4 | Reusable second character variant | **COMPLETE** — teal variant on the shared rig/solver/motion; `reports/phase4-variant-comparison.png` |
-| 5 | Final verification + docs | **COMPLETE** — clean gate A1–A18 PASS, 84/84 unit, METHOD/STATUS/report updated |
+| 4 | Reusable second character variant | **COMPLETE** — teal variant on the shared rig/solver/motion; stills render the current timeline frame (fixed 2026-11-19); `reports/phase4-variant-comparison.png`; variant-render regression (A19) in `verify.mjs` |
+| 5 | Final verification + docs | **COMPLETE** — clean gate A1–A18 + A19 PASS, 84/84 unit, METHOD/STATUS/report updated |
 
-**ALL PHASES (0–5) COMPLETE.** Phases 0–4 done (Phase 3 owner-approved); Phase 5 final verification + docs complete. The branch `feat/constrained-puppet-rig` is ready for owner merge/PR review (not merged to main). The owner reviews visual evidence (contact sheets) — the agent cannot view images.
+**ALL PHASES (0–5) COMPLETE** (Phase 4 render bug fixed 2026-11-19; A19 variant-render gate added). The branch `feat/constrained-puppet-rig` is ready for owner merge/PR review (not merged to main). The owner reviews visual evidence (contact sheets) — the agent cannot view images.
 
 ### 2.2 Reconciled baseline detail (main)
 
