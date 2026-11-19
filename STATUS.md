@@ -94,4 +94,4 @@ node verify.mjs --install --force-trace     # full A1–A18 suite + all reports
 cd remotion && npm run studio               # interactive editing
 ```
 
-Recommended next task: **only after the owner visually approves Phase 3** — Phase 4 (reusable second character variant on the shared rig/solver/motion), then Phase 5 (final verification + docs). Do not start Phase 4 without separate owner authorization.
+Recommended next task: **none for implementation — all phases (0–5) are COMPLETE.** The owner reviews the branch/PR and merges `feat/constrained-puppet-rig` → `main` (the agent does not merge). Phase 4 proved reuse of the SAME solver + motion across two character variants (runner + teal); it does NOT demonstrate arbitrary new actions — that is a separate motion-authoring task.

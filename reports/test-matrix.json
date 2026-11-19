@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-19T11:09:37.910Z",
+  "generatedAt": "2026-11-19T12:11:12.713Z",
   "steps": {
     "install-tools": {
       "status": "PASS",
       "command": "npm.cmd ci --no-audit --no-fund",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools",
-      "seconds": 17.8,
+      "seconds": 19,
       "log": "reports/logs/install-tools.log",
       "exitCode": 0
     },
@@ -13,7 +13,7 @@
       "status": "PASS",
       "command": "npm.cmd ci --no-audit --no-fund",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
-      "seconds": 6.7,
+      "seconds": 7,
       "log": "reports/logs/install-remotion.log",
       "exitCode": 0
     },
@@ -21,7 +21,7 @@
       "status": "PASS",
       "command": "npx remotion browser ensure",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
-      "seconds": 28.3,
+      "seconds": 52,
       "log": "reports/logs/browser.log",
       "exitCode": 0
     },
@@ -50,7 +50,7 @@
       "status": "PASS",
       "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\verify-assets.js",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
-      "seconds": 1.3,
+      "seconds": 1.4,
       "log": "reports/logs/assets.log",
       "exitCode": 0
     },
@@ -58,7 +58,7 @@
       "status": "PASS",
       "command": "npm.cmd test",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
-      "seconds": 1.2,
+      "seconds": 1.3,
       "log": "reports/logs/unit-remotion.log",
       "exitCode": 0
     },
@@ -74,7 +74,7 @@
       "status": "PASS",
       "command": "npm.cmd run typecheck",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
-      "seconds": 2,
+      "seconds": 2.1,
       "log": "reports/logs/typecheck.log",
       "exitCode": 0
     },
@@ -82,7 +82,7 @@
       "status": "PASS",
       "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion\\scripts\\verify-compositions.mjs",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
-      "seconds": 4,
+      "seconds": 4.2,
       "log": "reports/logs/compositions.log",
       "exitCode": 0
     },
@@ -90,7 +90,7 @@
       "status": "PASS",
       "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion\\scripts\\render-stills.mjs",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
-      "seconds": 22.9,
+      "seconds": 19.6,
       "log": "reports/logs/stills.log",
       "exitCode": 0
     },
@@ -98,7 +98,7 @@
       "status": "PASS",
       "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\render-lowram.mjs",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
-      "seconds": 68.3,
+      "seconds": 66,
       "log": "reports/logs/render.log",
       "exitCode": 0
     },
@@ -106,7 +106,7 @@
       "status": "PASS",
       "command": "C:\\Program Files\\nodejs\\node.exe D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\tools\\score-fidelity.js --cel94 remotion/out/celframes --celLoop remotion/out/celloopframes --puppet remotion/out/puppetframes",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover",
-      "seconds": 26.2,
+      "seconds": 26.1,
       "log": "reports/logs/fidelity.log",
       "exitCode": 0
     },
@@ -130,7 +130,7 @@
       "status": "PASS",
       "command": "C:\\Program Files\\nodejs\\node.exe --import tsx scripts\\verify-variants.mjs",
       "cwd": "D:\\downloads\\ONGOING PROGRESS\\video2d-takeover\\remotion",
-      "seconds": 15,
+      "seconds": 14.9,
       "log": "reports/logs/variants.log",
       "exitCode": 0
     },
@@ -144,15 +144,15 @@
     },
     "tracked-audit": {
       "status": "PASS",
-      "detail": "425 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
+      "detail": "429 tracked files; 31 allowed historical binaries; no forbidden tracked files; all 216 required assets tracked",
       "forbiddenTracked": [],
       "missingRequired": [],
-      "trackedCount": 425,
+      "trackedCount": 429,
       "seconds": 0
     },
     "scope-audit": {
       "status": "PASS",
-      "detail": "17 protected reconciliation paths byte-identical to 5d4d13a (committed + worktree); frozen Phase 0 records byte-identical to 1dd5600; 109 changed + 4 new tracked-candidate paths, all inside allowed upgrade scope",
+      "detail": "17 protected reconciliation paths byte-identical to 5d4d13a (committed + worktree); frozen Phase 0 records byte-identical to 1dd5600; 113 changed + 1 new tracked-candidate paths, all inside allowed upgrade scope",
       "baseline": "5d4d13ab92ac38be0397bd2b8feb27e19eefdf98",
       "phase0Freeze": "1dd5600dd2503942aca43fe24ae01fc222fb9f50",
       "protectedPaths": [
@@ -180,8 +180,8 @@
         "reports/puppet-upgrade-baseline-contact-sheet.png"
       ],
       "outOfScope": [],
-      "changedCount": 109,
-      "untrackedCount": 4,
+      "changedCount": 113,
+      "untrackedCount": 1,
       "seconds": 0
     }
   },

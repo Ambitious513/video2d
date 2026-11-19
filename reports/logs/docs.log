@@ -1,7 +1,7 @@
 $ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeover\tools\verify-docs.js
 (cwd=D:\downloads\ONGOING PROGRESS\video2d-takeover)
 
-[PASS] every documented repository path resolves (or is documented regenerable) — 79 path references checked across METHOD.md, STATUS.md
+[PASS] every documented repository path resolves (or is documented regenerable) — 142 path references checked across METHOD.md, STATUS.md, ROADMAP.md
 [PASS] every documented npm run script exists — all documented scripts defined
 [PASS] every mentioned composition ID is registered — registered: CelRun, CelLoop, RunCycle, Comparison
 [PASS] every documented regenerable location is really gitignored — 6 regenerable locations confirmed against .gitignore
@@ -10,4 +10,7 @@ $ C:\Program Files\nodejs\node.exe D:\downloads\ONGOING PROGRESS\video2d-takeove
 [PASS] STATUS.md has the required current-handoff sections — current state / not-in-GitHub / limitations / history / resume all present
 [PASS] no stale unfinished-work claims outside the labelled History section — historical claims are confined to the History section
 [PASS] ROADMAP.md current-state header agrees with the phase table — header and phase table are consistent
+[PASS] ROADMAP next-agent instructions are not stale (no completed phase told to start) — next-agent block is consistent with the phase table
+[PASS] ROADMAP Variant reuse status is a verified result (not NOT RUN) — Variant reuse: **PASS**
+[PASS] STATUS.md does not recommend a completed phase as the next task — STATUS next-task guidance is consistent
 A15/A16 documentation: PASS

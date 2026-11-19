@@ -28,7 +28,7 @@ const {spawnSync} = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
 const REMOTION = path.join(ROOT, 'remotion');
-const DOCS = ['METHOD.md', 'STATUS.md'];
+const DOCS = ['METHOD.md', 'STATUS.md', 'ROADMAP.md'];
 
 // Owner-supplied acceptance contract, referenced for provenance but not part of
 // this repository (it is not a deliverable of the experiment).
@@ -178,6 +178,9 @@ checks.push(check('no stale unfinished-work claims outside the labelled History 
 // says COMPLETE while the phase table says IN PROGRESS, or a phase is marked
 // both NOT STARTED and COMPLETE). History rows are ignored.
 const roadmap = texts['ROADMAP.md'] || '';
+if (!roadmap) {
+  checks.push(check('ROADMAP.md is loaded and non-empty', false, 'ROADMAP.md missing from DOCS collection'));
+}
 const headerMatch = roadmap.match(/^\*\*Current status:\*\*\s*(.+)$/im);
 const headerStatus = headerMatch ? headerMatch[1].trim() : '';
 const topBlock = roadmap.split(/\n##\s/)[0] || '';
@@ -204,6 +207,26 @@ for (const [ph, st] of Object.entries(phaseStates)) {
 }
 checks.push(check('ROADMAP.md current-state header agrees with the phase table', contradictions.length === 0,
   contradictions.length ? `contradictions: ${contradictions.join('; ')}` : 'header and phase table are consistent'));
+
+// ROADMAP must not tell the next agent a completed phase is still in progress,
+// and must record a verified Variant reuse result (not NOT RUN).
+const nextAgentBlock = (roadmap.match(/### NEXT AGENT START HERE[\s\S]*?(?=\n##\s|\s*$)/i) || [''])[0];
+const staleNext = [];
+if (/BEGIN\s+\*{0,2}Phase\s*3/i.test(nextAgentBlock) && /Phase 3[\s\S]{0,40}COMPLETE/i.test(headerStatus)) staleNext.push('next-agent says begin Phase 3 but Phase 3 is COMPLETE');
+if (/BEGIN\s+\*{0,2}Phase\s*4/i.test(nextAgentBlock) && /Phase 4[\s\S]{0,40}COMPLETE/i.test(headerStatus)) staleNext.push('next-agent says begin Phase 4 but Phase 4 is COMPLETE');
+checks.push(check('ROADMAP next-agent instructions are not stale (no completed phase told to start)', staleNext.length === 0,
+  staleNext.length ? staleNext.join('; ') : 'next-agent block is consistent with the phase table'));
+
+const variantReuseRow = (roadmap.match(/Variant reuse\s*\|\s*([^|\n]+)/i) || [])[1] || '';
+const variantReuseBad = /NOT RUN/i.test(variantReuseRow);
+checks.push(check('ROADMAP Variant reuse status is a verified result (not NOT RUN)', !variantReuseBad && variantReuseRow.trim().length > 0,
+  variantReuseBad ? `Variant reuse still says NOT RUN` : `Variant reuse: ${variantReuseRow.trim().slice(0, 80)}`));
+
+// STATUS.md must not recommend a completed phase as the next task.
+const statusNextPhase = (status.match(/next task[^\n]*/i) || [''])[0];
+const staleStatusNext = /Phase [345][^\n]*(next task|recommended)/i.test(statusNextPhase) && /ALL PHASES \(0[–-]5\) COMPLETE/i.test(status);
+checks.push(check('STATUS.md does not recommend a completed phase as the next task', !staleStatusNext,
+  staleStatusNext ? `STATUS recommends a completed phase: ${statusNextPhase.slice(0, 80)}` : 'STATUS next-task guidance is consistent'));
 
 const report = {
   generatedAt: new Date().toISOString(),

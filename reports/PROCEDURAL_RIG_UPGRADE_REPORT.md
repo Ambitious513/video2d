@@ -366,9 +366,9 @@ The contact/stance work is a **data model + diagnostic/anchor contract**. `Runne
 
 Owner visual sign-off of `reports/phase3-final-polish-sheet.png` + the final `RunCycle` MP4. Only after approval: **Phase 4 — reusable second character variant** (separate owner authorization required). Phase 5 (final verification + docs) after that.
 
-## Phase 4 — Reusable Second Character Variant (IN PROGRESS)
+## Phase 4 — Reusable Second Character Variant (COMPLETE — verified)
 
-**Date:** 2026-11-18T20:40Z  **Status:** implementation + tests COMPLETE; gate pending.
+**Date:** 2026-11-18T20:40Z  **Status:** COMPLETE — implementation, tests, render fix (2026-11-19), and A19 regression all verified.
 
 ### What changed
 
