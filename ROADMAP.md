@@ -4,8 +4,8 @@
 **Shared branch:** feat/constrained-puppet-rig
 **Current status:** COMPLETE (Phase 0–5 all COMPLETE; Phase 3 owner-approved; **final documentation closeout COMPLETE** — ready for owner merge/PR review; NOT merged to main)
 **Last updated:** 2026-11-19T01:00Z (UTC)
-**Last verified remote commit:** `9c6a938d666f387d9a733ee76807ff615215202a` (Phase 4 render fix + A19 + doc closeout; this documentation-closeout commit records its own SHA in a follow-up checkpoint per §B4). Prior: `77ba467` (render fix), `6033f76` (Phase 5), `1fb6c13` (Phase 5). Bootstrap HEAD `05295310d493df6d71960b6559cc7339fdd282f6` matched the handoff expectation exactly.
-**Latest pushed roadmap checkpoint:** `9c6a938d666f387d9a733ee76807ff615215202a` (closeout; follow-up SHA checkpoint on top).
+**Last verified remote commit:** `0bf355ca78e97f03b166afdfe27118d70621c700` (final documentation closeout — ROADMAP/STATUS/report reconciled, verify-docs loads ROADMAP + phase/active-phase/next-agent/variant checks; verified via `git ls-remote` 2026-11-19; this SHA-recording update lands in the follow-up checkpoint on top). Prior: `9c6a938` (Phase 4 fix + A19), `77ba467` (render fix), `6033f76` (Phase 5). Bootstrap HEAD `05295310d493df6d71960b6559cc7339fdd282f6` matched the handoff expectation exactly.
+**Latest pushed roadmap checkpoint:** `0bf355ca78e97f03b166afdfe27118d70621c700` (closeout; follow-up SHA checkpoint on top).
 
 ## 1. Mission
 Upgrade only the existing procedural puppet into a constrained, reusable 2D character rig. Preserve the reconciled exact-cel and loop experiments. A new Qwen session must be able to continue from this file without prior chat history. Master requirements: owner-supplied master handoff document (not committed; this file + `reports/` carry the durable state).
